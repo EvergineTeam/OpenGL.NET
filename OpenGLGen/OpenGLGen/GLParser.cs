@@ -178,11 +178,13 @@ namespace OpenGLGen
         public class GLEnum
         {
             public string Name;
+            public string ShortName;
             public string Value;
 
             internal void Initialize(XDocument file, string enumName)
             {
                 this.Name = enumName;
+                this.ShortName = ComputeShortName(enumName);
 
                 foreach (var enumsElements in file.Root.Elements("enums"))
                 {
@@ -201,6 +203,21 @@ namespace OpenGLGen
                         break;
                     }
                 }
+            }
+
+            private string ComputeShortName(string enumName)
+            {
+                string result = string.Empty;
+                string lowername = enumName.ToLower();
+                var strings = lowername.Split('_');
+
+                for (int i = 1; i < strings.Length; i++)
+                {
+                    string temp = strings[i];
+                    result += char.ToUpper(temp[0]) + temp.Substring(1);
+                }
+
+                return result;
             }
         }
 
