@@ -170,7 +170,7 @@ namespace OpenGLGen
                 return new GlGroup
                 {
                     Name = Name,
-                    Enums = (from p in Enums select new GLEnum { Name = p.Name, Value = p.Value }).ToList()
+                    Enums = (from p in Enums select new GLEnum { Name = p.Name, ShortName = p.ShortName, Value = p.Value }).ToList()
                 };
             }
         }

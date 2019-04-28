@@ -33,7 +33,7 @@ namespace OpenGLGen
 
                         foreach (var enumElem in group.Enums)
                         {
-                            writer.WriteLine($"\t\t {enumElem.Name}");
+                            writer.WriteLine($"\t\t{enumElem.ShortName}");
                         }
                     }
 
