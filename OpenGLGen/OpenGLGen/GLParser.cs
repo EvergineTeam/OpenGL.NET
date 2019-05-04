@@ -9,10 +9,7 @@ namespace OpenGLGen
 {
     public class GLParser
     {
-        [XmlElement("Comment")]
         public string HeaderComment;
-
-        [XmlArrayItem("Version")]
         public List<GLVersion> Versions = new List<GLVersion>();
 
         public static GLParser FromFile(string xmlFile)
@@ -143,6 +140,11 @@ namespace OpenGLGen
                 {
                     break;
                 }
+            }
+
+            if(string.IsNullOrEmpty(groupFound))
+            {
+                groupFound = "Extensions";
             }
 
             return groupFound;
