@@ -9,12 +9,6 @@ namespace WaveEngine.Bindings.OpenGL
 		ColorBufferBit = 0x00004000,
 	}
 
-	public enum Boolean : uint
-	{
-		False = 0,
-		True = 1,
-	}
-
 	public enum PrimitiveType : uint
 	{
 		Points = 0x0000,
@@ -168,10 +162,6 @@ namespace WaveEngine.Bindings.OpenGL
 		TextureBinding1d = 0x8068,
 		TextureBinding2d = 0x8069,
 		TextureBinding3d = 0x806A,
-		PackSkipImages = 0x806B,
-		PackImageHeight = 0x806C,
-		UnpackSkipImages = 0x806D,
-		UnpackImageHeight = 0x806E,
 		Max3dTextureSize = 0x8073,
 		MaxElementsVertices = 0x80E8,
 		MaxElementsIndices = 0x80E9,
@@ -187,7 +177,6 @@ namespace WaveEngine.Bindings.OpenGL
 		SampleCoverageInvert = 0x80AB,
 		TextureBindingCubeMap = 0x8514,
 		MaxCubeMapTextureSize = 0x851C,
-		TextureCompressionHint = 0x84EF,
 		NumCompressedTextureFormats = 0x86A2,
 		CompressedTextureFormats = 0x86A3,
 		BlendDstRgb = 0x80C8,
@@ -213,7 +202,6 @@ namespace WaveEngine.Bindings.OpenGL
 		MaxVaryingFloats = 0x8B4B,
 		MaxVertexTextureImageUnits = 0x8B4C,
 		MaxCombinedTextureImageUnits = 0x8B4D,
-		FragmentShaderDerivativeHint = 0x8B8B,
 		CurrentProgram = 0x8B8D,
 		StencilBackRef = 0x8CA3,
 		StencilBackValueMask = 0x8CA4,
@@ -378,11 +366,6 @@ namespace WaveEngine.Bindings.OpenGL
 		TextureMinFilter = 0x2801,
 		TextureWrapS = 0x2802,
 		TextureWrapT = 0x2803,
-		TextureInternalFormat = 0x1003,
-		TextureRedSize = 0x805C,
-		TextureGreenSize = 0x805D,
-		TextureBlueSize = 0x805E,
-		TextureAlphaSize = 0x805F,
 	}
 
 	public enum HintMode : uint
@@ -531,12 +514,109 @@ namespace WaveEngine.Bindings.OpenGL
 		ClipDistance7 = 0x3007,
 	}
 
+	public enum CullFaceMode : uint
+	{
+		Back = 0x0405,
+		Front = 0x0404,
+		FrontAndBack = 0x0408,
+	}
+
+	public enum HintTarget : uint
+	{
+		AllowDrawFrgHintPgi = 0x1A210,
+		AllowDrawMemHintPgi = 0x1A211,
+		AllowDrawObjHintPgi = 0x1A20E,
+		AllowDrawWinHintPgi = 0x1A20F,
+		AlwaysFastHintPgi = 0x1A20C,
+		AlwaysSoftHintPgi = 0x1A20D,
+		BackNormalsHintPgi = 0x1A223,
+		BinningControlHintQcom = 0x8FB0,
+		ClipFarHintPgi = 0x1A221,
+		ClipNearHintPgi = 0x1A220,
+		ClipVolumeClippingHintExt = 0x80F0,
+		ConserveMemoryHintPgi = 0x1A1FD,
+		ConvolutionHintSgix = 0x8316,
+		FragmentShaderDerivativeHint = 0x8B8B,
+		FragmentShaderDerivativeHintArb = 0x8B8B,
+		FragmentShaderDerivativeHintOes = 0x8B8B,
+		FullStippleHintPgi = 0x1A219,
+		GenerateMipmapHintSgis = 0x8192,
+		LineQualityHintSgix = 0x835B,
+		LineSmoothHint = 0x0C52,
+		MaterialSideHintPgi = 0x1A22C,
+		MaxVertexHintPgi = 0x1A22D,
+		MultisampleFilterHintNv = 0x8534,
+		NativeGraphicsBeginHintPgi = 0x1A203,
+		NativeGraphicsEndHintPgi = 0x1A204,
+		PackCmykHintExt = 0x800E,
+		PhongHintWin = 0x80EB,
+		PolygonSmoothHint = 0x0C53,
+		PreferDoublebufferHintPgi = 0x1A1F8,
+		ProgramBinaryRetrievableHint = 0x8257,
+		ReclaimMemoryHintPgi = 0x1A1FE,
+		ScalebiasHintSgix = 0x8322,
+		StrictDepthfuncHintPgi = 0x1A216,
+		StrictLightingHintPgi = 0x1A217,
+		StrictScissorHintPgi = 0x1A218,
+		TextureCompressionHint = 0x84EF,
+		TextureCompressionHintArb = 0x84EF,
+		TextureMultiBufferHintSgix = 0x812E,
+		TextureStorageHintApple = 0x85BC,
+		TransformHintApple = 0x85B1,
+		UnpackCmykHintExt = 0x800F,
+		VertexArrayStorageHintApple = 0x851F,
+		VertexConsistentHintPgi = 0x1A22B,
+		VertexDataHintPgi = 0x1A22A,
+		VertexPreclipHintSgix = 0x83EF,
+		VertexPreclipSgix = 0x83EE,
+		WideLineHintPgi = 0x1A222,
+	}
+
+	public enum MaterialFace : uint
+	{
+		Back = 0x0405,
+		Front = 0x0404,
+		FrontAndBack = 0x0408,
+	}
+
+	public enum PolygonMode : uint
+	{
+		Fill = 0x1B02,
+		Line = 0x1B01,
+		Point = 0x1B00,
+	}
+
 	public enum TextureTarget : uint
 	{
+		DetailTexture2dSgis = 0x8095,
 		ProxyTexture1d = 0x8063,
+		ProxyTexture1dArray = 0x8C19,
+		ProxyTexture1dArrayExt = 0x8C19,
+		ProxyTexture1dExt = 0x8063,
 		ProxyTexture2d = 0x8064,
-		Texture3d = 0x806F,
+		ProxyTexture2dArray = 0x8C1B,
+		ProxyTexture2dArrayExt = 0x8C1B,
+		ProxyTexture2dExt = 0x8064,
+		ProxyTexture2dMultisample = 0x9101,
+		ProxyTexture2dMultisampleArray = 0x9103,
 		ProxyTexture3d = 0x8070,
+		ProxyTexture3dExt = 0x8070,
+		ProxyTexture4dSgis = 0x8135,
+		ProxyTextureCubeMap = 0x851B,
+		ProxyTextureCubeMapArb = 0x851B,
+		ProxyTextureCubeMapExt = 0x851B,
+		ProxyTextureCubeMapArray = 0x900B,
+		ProxyTextureCubeMapArrayArb = 0x900B,
+		ProxyTextureRectangle = 0x84F7,
+		ProxyTextureRectangleArb = 0x84F7,
+		ProxyTextureRectangleNv = 0x84F7,
+		Texture1d = 0x0DE0,
+		Texture2d = 0x0DE1,
+		Texture3d = 0x806F,
+		Texture3dExt = 0x806F,
+		Texture3dOes = 0x806F,
+		Texture4dSgis = 0x8134,
+		TextureRectangle = 0x84F5,
 		TextureCubeMap = 0x8513,
 		TextureCubeMapPositiveX = 0x8515,
 		TextureCubeMapNegativeX = 0x8516,
@@ -544,19 +624,221 @@ namespace WaveEngine.Bindings.OpenGL
 		TextureCubeMapNegativeY = 0x8518,
 		TextureCubeMapPositiveZ = 0x8519,
 		TextureCubeMapNegativeZ = 0x851A,
-		ProxyTextureCubeMap = 0x851B,
-		Texture1dArray = 0x8C18,
-		ProxyTexture1dArray = 0x8C19,
-		Texture2dArray = 0x8C1A,
-		ProxyTexture2dArray = 0x8C1B,
-		TextureRectangle = 0x84F5,
-		ProxyTextureRectangle = 0x84F7,
-		Texture2dMultisample = 0x9100,
-		ProxyTexture2dMultisample = 0x9101,
-		Texture2dMultisampleArray = 0x9102,
-		ProxyTexture2dMultisampleArray = 0x9103,
 		TextureCubeMapArray = 0x9009,
-		ProxyTextureCubeMapArray = 0x900B,
+		TextureCubeMapArrayArb = 0x9009,
+		TextureCubeMapArrayExt = 0x9009,
+		TextureCubeMapArrayOes = 0x9009,
+		Texture1dArray = 0x8C18,
+		Texture2dArray = 0x8C1A,
+		Texture2dMultisample = 0x9100,
+		Texture2dMultisampleArray = 0x9102,
+	}
+
+	public enum TextureParameterName : uint
+	{
+		DetailTextureLevelSgis = 0x809A,
+		DetailTextureModeSgis = 0x809B,
+		DualTextureSelectSgis = 0x8124,
+		GenerateMipmapSgis = 0x8191,
+		PostTextureFilterBiasSgix = 0x8179,
+		PostTextureFilterScaleSgix = 0x817A,
+		QuadTextureSelectSgis = 0x8125,
+		ShadowAmbientSgix = 0x80BF,
+		TextureBorderColor = 0x1004,
+		TextureClipmapCenterSgix = 0x8171,
+		TextureClipmapDepthSgix = 0x8176,
+		TextureClipmapFrameSgix = 0x8172,
+		TextureClipmapLodOffsetSgix = 0x8175,
+		TextureClipmapOffsetSgix = 0x8173,
+		TextureClipmapVirtualDepthSgix = 0x8174,
+		TextureCompareSgix = 0x819A,
+		TextureLodBiasRSgix = 0x8190,
+		TextureLodBiasSSgix = 0x818E,
+		TextureLodBiasTSgix = 0x818F,
+		TextureMagFilter = 0x2800,
+		TextureMaxClampRSgix = 0x836B,
+		TextureMaxClampSSgix = 0x8369,
+		TextureMaxClampTSgix = 0x836A,
+		TextureMinFilter = 0x2801,
+		TexturePriorityExt = 0x8066,
+		TextureWrapQSgis = 0x8137,
+		TextureWrapR = 0x8072,
+		TextureWrapRExt = 0x8072,
+		TextureWrapROes = 0x8072,
+		TextureWrapS = 0x2802,
+		TextureWrapT = 0x2803,
+		TextureBaseLevel = 0x813C,
+		TextureCompareMode = 0x884C,
+		TextureCompareFunc = 0x884D,
+		TextureLodBias = 0x8501,
+		TextureMinLod = 0x813A,
+		TextureMaxLod = 0x813B,
+		TextureMaxLevel = 0x813D,
+		TextureSwizzleR = 0x8E42,
+		TextureSwizzleG = 0x8E43,
+		TextureSwizzleB = 0x8E44,
+		TextureSwizzleA = 0x8E45,
+		TextureSwizzleRgba = 0x8E46,
+		TextureTilingExt = 0x9580,
+		DepthStencilTextureMode = 0x90EA,
+		DetailTextureFuncPointsSgis = 0x809C,
+		SharpenTextureFuncPointsSgis = 0x80B0,
+		Texture4dsizeSgis = 0x8136,
+		TextureAlphaSize = 0x805F,
+		TextureBaseLevelSgis = 0x813C,
+		TextureBlueSize = 0x805E,
+		TextureBorderColorNv = 0x1004,
+		TextureCompareOperatorSgix = 0x819B,
+		TextureDepthExt = 0x8071,
+		TextureFilter4SizeSgis = 0x8147,
+		TextureGequalRSgix = 0x819D,
+		TextureGreenSize = 0x805D,
+		TextureHeight = 0x1001,
+		TextureInternalFormat = 0x1003,
+		TextureLequalRSgix = 0x819C,
+		TextureMaxLevelSgis = 0x813D,
+		TextureMaxLodSgis = 0x813B,
+		TextureMinLodSgis = 0x813A,
+		TextureRedSize = 0x805C,
+		TextureWidth = 0x1000,
+	}
+
+	public enum StencilFunction : uint
+	{
+		Always = 0x0207,
+		Equal = 0x0202,
+		Gequal = 0x0206,
+		Greater = 0x0204,
+		Lequal = 0x0203,
+		Less = 0x0201,
+		Never = 0x0200,
+		Notequal = 0x0205,
+	}
+
+	public enum DepthFunction : uint
+	{
+		Always = 0x0207,
+		Equal = 0x0202,
+		Gequal = 0x0206,
+		Greater = 0x0204,
+		Lequal = 0x0203,
+		Less = 0x0201,
+		Never = 0x0200,
+		Notequal = 0x0205,
+	}
+
+	public enum PixelStoreParameter : uint
+	{
+		PackAlignment = 0x0D05,
+		PackImageDepthSgis = 0x8131,
+		PackImageHeight = 0x806C,
+		PackImageHeightExt = 0x806C,
+		PackLsbFirst = 0x0D01,
+		PackResampleOml = 0x8984,
+		PackResampleSgix = 0x842E,
+		PackRowLength = 0x0D02,
+		PackSkipImages = 0x806B,
+		PackSkipImagesExt = 0x806B,
+		PackSkipPixels = 0x0D04,
+		PackSkipRows = 0x0D03,
+		PackSkipVolumesSgis = 0x8130,
+		PackSubsampleRateSgix = 0x85A0,
+		PackSwapBytes = 0x0D00,
+		PixelTileCacheSizeSgix = 0x8145,
+		PixelTileGridDepthSgix = 0x8144,
+		PixelTileGridHeightSgix = 0x8143,
+		PixelTileGridWidthSgix = 0x8142,
+		PixelTileHeightSgix = 0x8141,
+		PixelTileWidthSgix = 0x8140,
+		UnpackAlignment = 0x0CF5,
+		UnpackImageDepthSgis = 0x8133,
+		UnpackImageHeight = 0x806E,
+		UnpackImageHeightExt = 0x806E,
+		UnpackLsbFirst = 0x0CF1,
+		UnpackResampleOml = 0x8985,
+		UnpackResampleSgix = 0x842F,
+		UnpackRowLength = 0x0CF2,
+		UnpackRowLengthExt = 0x0CF2,
+		UnpackSkipImages = 0x806D,
+		UnpackSkipImagesExt = 0x806D,
+		UnpackSkipPixels = 0x0CF4,
+		UnpackSkipPixelsExt = 0x0CF4,
+		UnpackSkipRows = 0x0CF3,
+		UnpackSkipRowsExt = 0x0CF3,
+		UnpackSkipVolumesSgis = 0x8132,
+		UnpackSubsampleRateSgix = 0x85A1,
+		UnpackSwapBytes = 0x0CF0,
+	}
+
+	public enum ReadBufferMode : uint
+	{
+		Back = 0x0405,
+		BackLeft = 0x0402,
+		BackRight = 0x0403,
+		Front = 0x0404,
+		FrontLeft = 0x0400,
+		FrontRight = 0x0401,
+		Left = 0x0406,
+		Right = 0x0407,
+	}
+
+	public enum LightName : uint
+	{
+		FragmentLight0Sgix = 0x840C,
+		FragmentLight1Sgix = 0x840D,
+		FragmentLight2Sgix = 0x840E,
+		FragmentLight3Sgix = 0x840F,
+		FragmentLight4Sgix = 0x8410,
+		FragmentLight5Sgix = 0x8411,
+		FragmentLight6Sgix = 0x8412,
+		FragmentLight7Sgix = 0x8413,
+	}
+
+	public enum LightModelParameter : uint
+	{
+		LightModelColorControlExt = 0x81F8,
+	}
+
+	public enum MapTarget : uint
+	{
+		GeometryDeformationSgix = 0x8194,
+		TextureDeformationSgix = 0x8195,
+	}
+
+	public enum PixelTransferParameter : uint
+	{
+		PostColorMatrixAlphaBias = 0x80BB,
+		PostColorMatrixAlphaBiasSgi = 0x80BB,
+		PostColorMatrixAlphaScale = 0x80B7,
+		PostColorMatrixAlphaScaleSgi = 0x80B7,
+		PostColorMatrixBlueBias = 0x80BA,
+		PostColorMatrixBlueBiasSgi = 0x80BA,
+		PostColorMatrixBlueScale = 0x80B6,
+		PostColorMatrixBlueScaleSgi = 0x80B6,
+		PostColorMatrixGreenBias = 0x80B9,
+		PostColorMatrixGreenBiasSgi = 0x80B9,
+		PostColorMatrixGreenScale = 0x80B5,
+		PostColorMatrixGreenScaleSgi = 0x80B5,
+		PostColorMatrixRedBias = 0x80B8,
+		PostColorMatrixRedBiasSgi = 0x80B8,
+		PostColorMatrixRedScale = 0x80B4,
+		PostColorMatrixRedScaleSgi = 0x80B4,
+		PostConvolutionAlphaBias = 0x8023,
+		PostConvolutionAlphaBiasExt = 0x8023,
+		PostConvolutionAlphaScale = 0x801F,
+		PostConvolutionAlphaScaleExt = 0x801F,
+		PostConvolutionBlueBias = 0x8022,
+		PostConvolutionBlueBiasExt = 0x8022,
+		PostConvolutionBlueScale = 0x801E,
+		PostConvolutionBlueScaleExt = 0x801E,
+		PostConvolutionGreenBias = 0x8021,
+		PostConvolutionGreenBiasExt = 0x8021,
+		PostConvolutionGreenScale = 0x801D,
+		PostConvolutionGreenScaleExt = 0x801D,
+		PostConvolutionRedBias = 0x8020,
+		PostConvolutionRedBiasExt = 0x8020,
+		PostConvolutionRedScale = 0x801C,
+		PostConvolutionRedScaleExt = 0x801C,
 	}
 
 	public enum InternalFormat : uint
@@ -1017,31 +1299,49 @@ namespace WaveEngine.Bindings.OpenGL
 		TransformFeedbackStreamOverflow = 0x82ED,
 	}
 
-	public enum TextureParameterName : uint
+	public enum DrawElementsType : uint
 	{
-		TextureWrapR = 0x8072,
-		TextureMinLod = 0x813A,
-		TextureMaxLod = 0x813B,
-		TextureBaseLevel = 0x813C,
-		TextureMaxLevel = 0x813D,
-		TextureLodBias = 0x8501,
-		TextureCompareMode = 0x884C,
-		TextureCompareFunc = 0x884D,
-		TextureSwizzleR = 0x8E42,
-		TextureSwizzleG = 0x8E43,
-		TextureSwizzleB = 0x8E44,
-		TextureSwizzleA = 0x8E45,
-		TextureSwizzleRgba = 0x8E46,
-		DepthStencilTextureMode = 0x90EA,
+		UnsignedByte = 0x1401,
+		UnsignedShort = 0x1403,
+		UnsignedInt = 0x1405,
+	}
+
+	public enum IndexPointerType : uint
+	{
+		Double = 0x140A,
+		Float = 0x1406,
+		Int = 0x1404,
+		Short = 0x1402,
+	}
+
+	public enum NormalPointerType : uint
+	{
+		Byte = 0x1400,
+		Double = 0x140A,
+		Float = 0x1406,
+		Int = 0x1404,
+		Short = 0x1402,
+	}
+
+	public enum TexCoordPointerType : uint
+	{
+		Double = 0x140A,
+		Float = 0x1406,
+		Int = 0x1404,
+		Short = 0x1402,
+	}
+
+	public enum VertexPointerType : uint
+	{
+		Double = 0x140A,
+		Float = 0x1406,
+		Int = 0x1404,
+		Short = 0x1402,
 	}
 
 	public enum VertexAttribType : uint
 	{
 		UnsignedInt2101010Rev = 0x8368,
-		UnsignedInt10f11f11fRev = 0x8C3B,
-		HalfFloat = 0x140B,
-		Int2101010Rev = 0x8D9F,
-		Fixed = 0x140C,
 	}
 
 	public enum TextureUnit : uint
@@ -1162,6 +1462,12 @@ namespace WaveEngine.Bindings.OpenGL
 		Max = 0x8008,
 	}
 
+	public enum FogPointerTypeEXT : uint
+	{
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
 	public enum VertexBufferObjectParameter : uint
 	{
 		BufferSize = 0x8764,
@@ -1200,11 +1506,6 @@ namespace WaveEngine.Bindings.OpenGL
 		CopyReadBuffer = 0x8F36,
 		CopyWriteBuffer = 0x8F37,
 		UniformBuffer = 0x8A11,
-		DrawIndirectBuffer = 0x8F3F,
-		AtomicCounterBuffer = 0x92C0,
-		DispatchIndirectBuffer = 0x90EE,
-		ShaderStorageBuffer = 0x90D2,
-		QueryBuffer = 0x9192,
 		ParameterBuffer = 0x80EE,
 	}
 
@@ -1333,6 +1634,30 @@ namespace WaveEngine.Bindings.OpenGL
 	{
 		LowerLeft = 0x8CA1,
 		UpperLeft = 0x8CA2,
+	}
+
+	public enum StencilFaceDirection : uint
+	{
+		Front = 0x0404,
+		Back = 0x0405,
+		FrontAndBack = 0x0408,
+	}
+
+	public enum VertexAttribPointerType : uint
+	{
+		Byte = 0x1400,
+		UnsignedByte = 0x1401,
+		Short = 0x1402,
+		UnsignedShort = 0x1403,
+		Int = 0x1404,
+		UnsignedInt = 0x1405,
+		Float = 0x1406,
+		Double = 0x140A,
+		HalfFloat = 0x140B,
+		Fixed = 0x140C,
+		Int2101010Rev = 0x8D9F,
+		UnsignedInt2101010Rev = 0x8368,
+		UnsignedInt10f11f11fRev = 0x8C3B,
 	}
 
 	public enum ContextFlagMask : uint
@@ -1464,6 +1789,19 @@ namespace WaveEngine.Bindings.OpenGL
 		MapUnsynchronizedBit = 0x0020,
 	}
 
+	public enum Buffer : uint
+	{
+		Color = 0x1800,
+		Depth = 0x1801,
+		Stencil = 0x1802,
+	}
+
+	public enum BlitFramebufferFilter : uint
+	{
+		Nearest = 0x2600,
+		Linear = 0x2601,
+	}
+
 	public enum UniformPName : uint
 	{
 		UniformType = 0x8A37,
@@ -1490,6 +1828,24 @@ namespace WaveEngine.Bindings.OpenGL
 		UniformBlockReferencedByTessControlShader = 0x84F0,
 		UniformBlockReferencedByTessEvaluationShader = 0x84F1,
 		UniformBlockReferencedByComputeShader = 0x90EC,
+	}
+
+	public enum CopyBufferSubDataTarget : uint
+	{
+		ArrayBuffer = 0x8892,
+		AtomicCounterBuffer = 0x92C0,
+		CopyReadBuffer = 0x8F36,
+		CopyWriteBuffer = 0x8F37,
+		DispatchIndirectBuffer = 0x90EE,
+		DrawIndirectBuffer = 0x8F3F,
+		ElementArrayBuffer = 0x8893,
+		PixelPackBuffer = 0x88EB,
+		PixelUnpackBuffer = 0x88EC,
+		QueryBuffer = 0x9192,
+		ShaderStorageBuffer = 0x90D2,
+		TextureBuffer = 0x8C2A,
+		TransformFeedbackBuffer = 0x8C8E,
+		UniformBuffer = 0x8A11,
 	}
 
 	public enum ContextProfileMask : uint
@@ -1530,6 +1886,25 @@ namespace WaveEngine.Bindings.OpenGL
 		SyncFlushCommandsBit = 0x00000001,
 	}
 
+	public enum SamplerParameterName : uint
+	{
+		TextureWrapS = 0x2802,
+		TextureWrapT = 0x2803,
+		TextureWrapR = 0x8072,
+		TextureMinFilter = 0x2801,
+		TextureMagFilter = 0x2800,
+		TextureBorderColor = 0x1004,
+		TextureMinLod = 0x813A,
+		TextureMaxLod = 0x813B,
+		TextureCompareMode = 0x884C,
+		TextureCompareFunc = 0x884D,
+	}
+
+	public enum QueryCounterTarget : uint
+	{
+		Timestamp = 0x8E28,
+	}
+
 	public enum ProgramStagePName : uint
 	{
 		ActiveSubroutines = 0x8DE5,
@@ -1565,11 +1940,6 @@ namespace WaveEngine.Bindings.OpenGL
 		LowInt = 0x8DF3,
 		MediumInt = 0x8DF4,
 		HighInt = 0x8DF5,
-	}
-
-	public enum HintTarget : uint
-	{
-		ProgramBinaryRetrievableHint = 0x8257,
 	}
 
 	public enum UseProgramStageMask : uint
@@ -1720,6 +2090,24 @@ namespace WaveEngine.Bindings.OpenGL
 		MaxNumCompatibleSubroutines = 0x92F8,
 	}
 
+	public enum BufferStorageTarget : uint
+	{
+		ArrayBuffer = 0x8892,
+		AtomicCounterBuffer = 0x92C0,
+		CopyReadBuffer = 0x8F36,
+		CopyWriteBuffer = 0x8F37,
+		DispatchIndirectBuffer = 0x90EE,
+		DrawIndirectBuffer = 0x8F3F,
+		ElementArrayBuffer = 0x8893,
+		PixelPackBuffer = 0x88EB,
+		PixelUnpackBuffer = 0x88EC,
+		QueryBuffer = 0x9192,
+		ShaderStorageBuffer = 0x90D2,
+		TextureBuffer = 0x8C2A,
+		TransformFeedbackBuffer = 0x8C8E,
+		UniformBuffer = 0x8A11,
+	}
+
 	public enum ClipControlDepth : uint
 	{
 		NegativeOneToOne = 0x935E,
@@ -1731,6 +2119,137 @@ namespace WaveEngine.Bindings.OpenGL
 		GuiltyContextReset = 0x8253,
 		InnocentContextReset = 0x8254,
 		UnknownContextReset = 0x8255,
+	}
+
+	public enum VertexBufferObjectUsage : uint
+	{
+		StreamDraw = 0x88E0,
+		StreamRead = 0x88E1,
+		StreamCopy = 0x88E2,
+		StaticDraw = 0x88E4,
+		StaticRead = 0x88E5,
+		StaticCopy = 0x88E6,
+		DynamicDraw = 0x88E8,
+		DynamicRead = 0x88E9,
+		DynamicCopy = 0x88EA,
+	}
+
+	public enum ColorBuffer : uint
+	{
+		None = 0,
+		FrontLeft = 0x0400,
+		FrontRight = 0x0401,
+		BackLeft = 0x0402,
+		BackRight = 0x0403,
+		Front = 0x0404,
+		Back = 0x0405,
+		Left = 0x0406,
+		Right = 0x0407,
+		FrontAndBack = 0x0408,
+		None = 0,
+		ColorAttachment0 = 0x8CE0,
+		ColorAttachment1 = 0x8CE1,
+		ColorAttachment2 = 0x8CE2,
+		ColorAttachment3 = 0x8CE3,
+		ColorAttachment4 = 0x8CE4,
+		ColorAttachment5 = 0x8CE5,
+		ColorAttachment6 = 0x8CE6,
+		ColorAttachment7 = 0x8CE7,
+		ColorAttachment8 = 0x8CE8,
+		ColorAttachment9 = 0x8CE9,
+		ColorAttachment10 = 0x8CEA,
+		ColorAttachment11 = 0x8CEB,
+		ColorAttachment12 = 0x8CEC,
+		ColorAttachment13 = 0x8CED,
+		ColorAttachment14 = 0x8CEE,
+		ColorAttachment15 = 0x8CEF,
+		ColorAttachment16 = 0x8CF0,
+		ColorAttachment17 = 0x8CF1,
+		ColorAttachment18 = 0x8CF2,
+		ColorAttachment19 = 0x8CF3,
+		ColorAttachment20 = 0x8CF4,
+		ColorAttachment21 = 0x8CF5,
+		ColorAttachment22 = 0x8CF6,
+		ColorAttachment23 = 0x8CF7,
+		ColorAttachment24 = 0x8CF8,
+		ColorAttachment25 = 0x8CF9,
+		ColorAttachment26 = 0x8CFA,
+		ColorAttachment27 = 0x8CFB,
+		ColorAttachment28 = 0x8CFC,
+		ColorAttachment29 = 0x8CFD,
+		ColorAttachment30 = 0x8CFE,
+		ColorAttachment31 = 0x8CFF,
+	}
+
+	public enum GetFramebufferParameter : uint
+	{
+		FramebufferDefaultWidth = 0x9310,
+		FramebufferDefaultHeight = 0x9311,
+		FramebufferDefaultLayers = 0x9312,
+		FramebufferDefaultSamples = 0x9313,
+		FramebufferDefaultFixedSampleLocations = 0x9314,
+		Doublebuffer = 0x0C32,
+		ImplementationColorReadFormat = 0x8B9B,
+		ImplementationColorReadType = 0x8B9A,
+		Samples = 0x80A9,
+		SampleBuffers = 0x80A8,
+		Stereo = 0x0C33,
+	}
+
+	public enum MapQuery : uint
+	{
+		Coeff = 0x0A00,
+		Order = 0x0A01,
+		Domain = 0x0A02,
+	}
+
+	public enum PixelMap : uint
+	{
+		PixelMapAToA = 0x0C79,
+		PixelMapBToB = 0x0C78,
+		PixelMapGToG = 0x0C77,
+		PixelMapIToA = 0x0C75,
+		PixelMapIToB = 0x0C74,
+		PixelMapIToG = 0x0C73,
+		PixelMapIToI = 0x0C70,
+		PixelMapIToR = 0x0C72,
+		PixelMapRToR = 0x0C76,
+		PixelMapSToS = 0x0C71,
+	}
+
+	public enum ColorTableTarget : uint
+	{
+		ColorTable = 0x80D0,
+		PostConvolutionColorTable = 0x80D1,
+		PostColorMatrixColorTable = 0x80D2,
+	}
+
+	public enum ConvolutionTarget : uint
+	{
+		Convolution1d = 0x8010,
+		Convolution2d = 0x8011,
+	}
+
+	public enum SeparableTargetEXT : uint
+	{
+		Separable2d = 0x8012,
+		Separable2dExt = 0x8012,
+	}
+
+	public enum HistogramTargetEXT : uint
+	{
+		Histogram = 0x8024,
+		HistogramExt = 0x8024,
+		ProxyHistogram = 0x8025,
+		ProxyHistogramExt = 0x8025,
+		Histogram = 0x8024,
+		ProxyHistogram = 0x8025,
+	}
+
+	public enum MinmaxTargetEXT : uint
+	{
+		Minmax = 0x802E,
+		MinmaxExt = 0x802E,
 	}
 
 }

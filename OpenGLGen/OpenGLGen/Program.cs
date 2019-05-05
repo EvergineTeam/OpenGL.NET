@@ -61,7 +61,7 @@ namespace OpenGLGen
                     // Delegate
                     StringBuilder delegateCommand = new StringBuilder("\t\tprivate delegate ");
                     delegateCommand.Append($"{ConvertGLType(command.ReturnType)} {command.Name}_t(");
-                    BuildParameterList(command, delegateCommand);
+                    BuildParameterList(version, command, delegateCommand);
                     delegateCommand.Append(");");
                     writer.WriteLine(delegateCommand.ToString());
 
@@ -70,7 +70,7 @@ namespace OpenGLGen
 
                     // public function
                     StringBuilder function = new StringBuilder($"\t\tpublic static {ConvertGLType(command.ReturnType)} {command.Name}(");
-                    BuildParameterList(command, function);
+                    BuildParameterList(version, command, function);
                     function.Append($") => p_{command.Name}(");
                     BuildParameterNamesList(command, function);
                     function.Append(");");
@@ -138,7 +138,7 @@ namespace OpenGLGen
             }
         }
 
-        private static void BuildParameterList(GLParser.GLCommand c, StringBuilder builder)
+        private static void BuildParameterList(GLParser.GLVersion version, GLParser.GLCommand c, StringBuilder builder)
         {
             if (c.Parameters.Count > 0)
             {
@@ -152,7 +152,24 @@ namespace OpenGLGen
                         name = "@" + name;
                     }
 
-                    builder.AppendFormat("{0} {1}, ", ConvertGLType(p.Type), name);
+                    if (p.Type == "GLenum")
+                    {
+                        bool groupExists = version.Groups.Exists(g => g.Name == p.Group);
+
+                        var groupName = p.Group;
+
+                        // For GLenums that don't appear in the gl.xml file.
+                        if (!groupExists)
+                        {
+                            groupName = "uint";
+                        }
+
+                        builder.Append($"{groupName} {name}, ");
+                    }
+                    else
+                    {
+                        builder.Append($"{ConvertGLType(p.Type)} {name}, ");
+                    }
                 }
                 builder.Length -= 2;
             }
@@ -172,7 +189,7 @@ namespace OpenGLGen
                         name = "@" + name;
                     }
 
-                    builder.AppendFormat("{0}, ", name);
+                    builder.Append($"{name}, ");
                 }
                 builder.Length -= 2;
             }
@@ -184,7 +201,11 @@ namespace OpenGLGen
             {
                 return "bool";
             }
-            else if (type == "GLuint" || type == "GLenum" || type == "GLbitfield")
+            else if (type == "GLenum")
+            {
+                return "uint";
+            }
+            else if (type == "GLuint" || type == "GLbitfield")
             {
                 return "uint";
             }

@@ -90,6 +90,37 @@ namespace OpenGLGen
                         }
                     }
 
+                    // Add enum from commands
+                    foreach (var commandElem in version.Commands)
+                    {
+                        foreach (var param in commandElem.Parameters)
+                        {
+                            if (param.Type == "GLenum")
+                            {
+                                bool groupExists = version.Groups.Exists(g => g.Name == param.Group);
+                                if (!groupExists)
+                                {
+                                    foreach (var group in file.Root.Element("groups").Elements("group"))
+                                    {
+                                        string groupName = group.Attribute("name").Value;
+                                        if (groupName == param.Group)
+                                        {
+                                            GlGroup glgroup = new GlGroup() { Name = param.Group };
+                                            foreach (var e in group.Elements("enum"))
+                                            {
+                                                GLEnum glEnum = new GLEnum();
+                                                var enumName = e.Attribute("name").Value;
+                                                glEnum.Initialize(file, enumName);
+                                                glgroup.Enums.Add(glEnum);
+                                            }
+                                            version.Groups.Add(glgroup);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     // Remove any anums and commands
                     foreach (var remove in feature.Elements("remove"))
                     {
@@ -114,6 +145,9 @@ namespace OpenGLGen
 
                     // Remove all group with 0 enums
                     version.Groups.RemoveAll(g => g.Enums.Count == 0);
+
+                    // Remove GLBoolean type
+                    version.Groups.RemoveAll(g => g.Name == "Boolean");
 
                     spec.Versions.Add(version);
                 }
@@ -142,7 +176,7 @@ namespace OpenGLGen
                 }
             }
 
-            if(string.IsNullOrEmpty(groupFound))
+            if (string.IsNullOrEmpty(groupFound))
             {
                 groupFound = "Extensions";
             }
