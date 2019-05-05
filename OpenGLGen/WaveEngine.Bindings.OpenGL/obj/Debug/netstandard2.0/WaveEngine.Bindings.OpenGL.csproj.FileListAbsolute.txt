@@ -1,9 +1,0 @@
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\bin\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.deps.json
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\bin\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.dll
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\bin\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.pdb
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\obj\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.csprojAssemblyReference.cache
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\obj\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.csproj.CoreCompileInputs.cache
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\obj\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.AssemblyInfoInputs.cache
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\obj\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.AssemblyInfo.cs
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\obj\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.dll
-C:\VSO\OpenGL\OpenGLGen\WaveEngine.Bindings.OpenGL\obj\Debug\netstandard2.0\WaveEngine.Bindings.OpenGL.pdb
