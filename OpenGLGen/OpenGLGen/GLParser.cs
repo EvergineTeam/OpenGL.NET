@@ -81,7 +81,7 @@ namespace OpenGLGen
                         foreach (var commandElem in require.Elements("command"))
                         {
                             var glCommand = new GLCommand() { Name = commandElem.Attribute("name").Value };
-                            if (version.Commands.Find(c => c.Name == commandElem.Name) == null)
+                            if (version.Commands.Find(c => c.Name == glCommand.Name) == null)
                             {
                                 // Create new command
                                 glCommand.Initialize(commandElem.Document);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-
+using System.Text;
 
 namespace OpenGLGen
 {
@@ -51,15 +51,39 @@ namespace OpenGLGen
                 writer.WriteLine("\tpublic static unsafe class OpenGLNative");
                 writer.WriteLine("\t{");
                 writer.WriteLine("\t\tprivate static Func<string, IntPtr> s_getProcAddress;\n");
-                writer.WriteLine("\t\tprivate const CallingConvention CallConv = CallingConvention.Winapi;\n");
+                writer.WriteLine("\t\tprivate const CallingConvention CallConv = CallingConvention.Winapi;");
 
                 // Prototypes
                 foreach (var command in version.Commands)
                 {
-                    writer.WriteLine($"\t\t//{command.Name}");
+                    writer.WriteLine("\n\t\t[UnmanagedFunctionPointer(CallConv)]");
+
+                    // Delegate
+                    StringBuilder delegateCommand = new StringBuilder("\t\tprivate delegate ");
+                    delegateCommand.Append($"{ConvertGLType(command.ReturnType)} {command.Name}_t(");
+                    BuildParameterList(command, delegateCommand);
+                    delegateCommand.Append(");");
+                    writer.WriteLine(delegateCommand.ToString());
+
+                    // internal function
+                    writer.WriteLine($"\t\tprivate static {command.Name}_t p_{command.Name};");
+
+                    // public function
+                    StringBuilder function = new StringBuilder($"\t\tpublic static {ConvertGLType(command.ReturnType)} {command.Name}(");
+                    BuildParameterList(command, function);
+                    function.Append($") => p_{command.Name}(");
+                    BuildParameterNamesList(command, function);
+                    function.Append(");");
+                    writer.WriteLine(function.ToString());
                 }
-                
+
                 // Helper functions
+                writer.WriteLine("\n\t\tpublic static void LoadGetString(IntPtr glContext, Func<string, IntPtr> getProcAddress)");
+                writer.WriteLine("\t\t{");
+                writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;");
+                writer.WriteLine("\t\t\tLoadFunction(\"glGetString\", out p_glGetString);");
+                writer.WriteLine("\t\t}");
+
                 writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress, bool gles)");
                 writer.WriteLine("\t\t{");
                 writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;\n");
@@ -70,7 +94,6 @@ namespace OpenGLGen
                 }
                 writer.WriteLine("\t\t}\n");
 
-                // Load AllCommands
                 writer.WriteLine("\t\tprivate static void LoadFunction<T>(string name, out T field)");
                 writer.WriteLine("\t\t{");
                 writer.WriteLine("\t\t\tIntPtr funcPtr = s_getProcAddress(name);");
@@ -113,6 +136,96 @@ namespace OpenGLGen
             {
                 return uint.TryParse(value, out result);
             }
+        }
+
+        private static void BuildParameterList(GLParser.GLCommand c, StringBuilder builder)
+        {
+            if (c.Parameters.Count > 0)
+            {
+                foreach (var p in c.Parameters)
+                {
+                    var name = p.Name;
+
+                    // Add @ to start of any names that are C# keywords to avoid conflict
+                    if (name == "params" || name == "string" || name == "ref" || name == "base")
+                    {
+                        name = "@" + name;
+                    }
+
+                    builder.AppendFormat("{0} {1}, ", ConvertGLType(p.Type), name);
+                }
+                builder.Length -= 2;
+            }
+        }
+
+        private static void BuildParameterNamesList(GLParser.GLCommand c, StringBuilder builder)
+        {
+            if (c.Parameters.Count > 0)
+            {
+                foreach (var p in c.Parameters)
+                {
+                    var name = p.Name;
+
+                    // Add @ to start of any names that are C# keywords to avoid conflict
+                    if (name == "params" || name == "string" || name == "ref" || name == "base")
+                    {
+                        name = "@" + name;
+                    }
+
+                    builder.AppendFormat("{0}, ", name);
+                }
+                builder.Length -= 2;
+            }
+        }
+
+        private static string ConvertGLType(string type)
+        {
+            if (type == "GLboolean")
+            {
+                return "bool";
+            }
+            else if (type == "GLuint" || type == "GLenum" || type == "GLbitfield")
+            {
+                return "uint";
+            }
+            else if (type == "GLint" || type == "GLsizei" || type == "GLsizeiptr" || type == "GLfixed" || type == "GLclampx" || type == "GLintptrARB" || type == "GLsizeiptrARB")
+            {
+                return "int";
+            }
+            else if (type.Contains("*") || type == "GLsync" || type == "GLintptr" || type == "GLDEBUGPROC")
+            {
+                return "IntPtr";
+            }
+            else if (type == "GLfloat" || type == "GLclampf")
+            {
+                return "float";
+            }
+            else if (type == "GLdouble")
+            {
+                return "double";
+            }
+            else if (type == "GLubyte")
+            {
+                return "byte";
+            }
+            else if (type == "GLbyte")
+            {
+                return "sbyte";
+            }
+            else if (type == "GLushort")
+            {
+                return "ushort";
+            }
+            else if (type == "GLshort")
+            {
+                return "short";
+            }
+            else if (type == "GLuint64")
+            {
+                return "ulong";
+            }
+
+            return type;
         }
     }
 }
