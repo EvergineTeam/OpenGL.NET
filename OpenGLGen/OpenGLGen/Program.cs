@@ -24,8 +24,15 @@ namespace OpenGLGen
                 writer.WriteLine("namespace WaveEngine.Bindings.OpenGL");
                 writer.WriteLine("{");
 
+                int count = 0;
                 foreach (var groupElem in version.Groups)
                 {
+                    // Separate one line betweens enums
+                    if (count++ > 0)
+                    {
+                        writer.WriteLine();
+                    }
+
                     writer.WriteLine($"\tpublic enum {groupElem.Name} : uint");
                     writer.WriteLine("\t{");
                     foreach (var enumElem in groupElem.Enums)
@@ -36,7 +43,6 @@ namespace OpenGLGen
                         }
                     }
                     writer.WriteLine("\t}");
-                    writer.WriteLine();
                 }
                 writer.WriteLine("}");
             }

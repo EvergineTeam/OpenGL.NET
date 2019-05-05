@@ -2251,5 +2251,4 @@ namespace WaveEngine.Bindings.OpenGL
 		Minmax = 0x802E,
 		MinmaxExt = 0x802E,
 	}
-
 }
