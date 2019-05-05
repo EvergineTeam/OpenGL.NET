@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -9,3 +9,19 @@
 /.vs/OpenGL.NET/v16/.suo
 /.vs
 /OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Release/netstandard2.0
+OpenGLGen/WaveEngine.Bindings.OpenGL/bin/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.deps.json
+OpenGLGen/WaveEngine.Bindings.OpenGL/bin/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.dll
+OpenGLGen/WaveEngine.Bindings.OpenGL/bin/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.pdb
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.AssemblyInfo.cs
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.AssemblyInfoInputs.cache
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.assets.cache
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.csproj.CoreCompileInputs.cache
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.csproj.FileListAbsolute.txt
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.csprojAssemblyReference.cache
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.dll
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Debug/netstandard2.0/WaveEngine.Bindings.OpenGL.pdb
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/project.assets.json
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.cache
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.dgspec.json
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.g.props
+OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.g.targets
