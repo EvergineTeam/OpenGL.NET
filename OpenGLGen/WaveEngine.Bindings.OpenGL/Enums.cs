@@ -2146,7 +2146,6 @@ namespace WaveEngine.Bindings.OpenGL
 		Left = 0x0406,
 		Right = 0x0407,
 		FrontAndBack = 0x0408,
-		None = 0,
 		ColorAttachment0 = 0x8CE0,
 		ColorAttachment1 = 0x8CE1,
 		ColorAttachment2 = 0x8CE2,
@@ -2242,8 +2241,6 @@ namespace WaveEngine.Bindings.OpenGL
 		HistogramExt = 0x8024,
 		ProxyHistogram = 0x8025,
 		ProxyHistogramExt = 0x8025,
-		Histogram = 0x8024,
-		ProxyHistogram = 0x8025,
 	}
 
 	public enum MinmaxTargetEXT : uint
