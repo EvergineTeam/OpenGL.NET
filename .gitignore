@@ -6,3 +6,6 @@
 /OpenGLGen/.vs/OpenGLGen/v16
 /OpenGLGen/OpenGLGen/bin/Debug/netcoreapp3.0
 /OpenGLGen/.vs/OpenGLGen/DesignTimeBuild
+/.vs/OpenGL.NET/v16/.suo
+/.vs
+/OpenGLGen/WaveEngine.Bindings.OpenGL/obj/Release/netstandard2.0
