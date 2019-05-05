@@ -190,9 +190,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glGetDoublev(GetPName pname, IntPtr data) => p_glGetDoublev(pname, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glGetError_t();
+		private delegate ErrorCode glGetError_t();
 		private static glGetError_t p_glGetError;
-		public static uint glGetError() => p_glGetError();
+		public static ErrorCode glGetError() => p_glGetError();
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetFloatv_t(GetPName pname, IntPtr data);
@@ -1355,9 +1355,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glGenFramebuffers(int n, IntPtr framebuffers) => p_glGenFramebuffers(n, framebuffers);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glCheckFramebufferStatus_t(FramebufferTarget target);
+		private delegate FramebufferStatus glCheckFramebufferStatus_t(FramebufferTarget target);
 		private static glCheckFramebufferStatus_t p_glCheckFramebufferStatus;
-		public static uint glCheckFramebufferStatus(FramebufferTarget target) => p_glCheckFramebufferStatus(target);
+		public static FramebufferStatus glCheckFramebufferStatus(FramebufferTarget target) => p_glCheckFramebufferStatus(target);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glFramebufferTexture1D_t(FramebufferTarget target, FramebufferAttachment attachment, TextureTarget textarget, uint texture, int level);
@@ -1535,9 +1535,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glDeleteSync(IntPtr sync) => p_glDeleteSync(sync);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glClientWaitSync_t(IntPtr sync, uint flags, ulong timeout);
+		private delegate SyncStatus glClientWaitSync_t(IntPtr sync, uint flags, ulong timeout);
 		private static glClientWaitSync_t p_glClientWaitSync;
-		public static uint glClientWaitSync(IntPtr sync, uint flags, ulong timeout) => p_glClientWaitSync(sync, flags, timeout);
+		public static SyncStatus glClientWaitSync(IntPtr sync, uint flags, ulong timeout) => p_glClientWaitSync(sync, flags, timeout);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glWaitSync_t(IntPtr sync, uint flags, ulong timeout);
@@ -3060,9 +3060,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glBlitNamedFramebuffer(uint readFramebuffer, uint drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, uint mask, BlitFramebufferFilter filter) => p_glBlitNamedFramebuffer(readFramebuffer, drawFramebuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glCheckNamedFramebufferStatus_t(uint framebuffer, FramebufferTarget target);
+		private delegate FramebufferStatus glCheckNamedFramebufferStatus_t(uint framebuffer, FramebufferTarget target);
 		private static glCheckNamedFramebufferStatus_t p_glCheckNamedFramebufferStatus;
-		public static uint glCheckNamedFramebufferStatus(uint framebuffer, FramebufferTarget target) => p_glCheckNamedFramebufferStatus(framebuffer, target);
+		public static FramebufferStatus glCheckNamedFramebufferStatus(uint framebuffer, FramebufferTarget target) => p_glCheckNamedFramebufferStatus(framebuffer, target);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetNamedFramebufferParameteriv_t(uint framebuffer, GetFramebufferParameter pname, IntPtr param);
@@ -3380,9 +3380,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glGetCompressedTextureSubImage(uint texture, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int bufSize, IntPtr pixels) => p_glGetCompressedTextureSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, bufSize, pixels);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glGetGraphicsResetStatus_t();
+		private delegate GraphicsResetStatus glGetGraphicsResetStatus_t();
 		private static glGetGraphicsResetStatus_t p_glGetGraphicsResetStatus;
-		public static uint glGetGraphicsResetStatus() => p_glGetGraphicsResetStatus();
+		public static GraphicsResetStatus glGetGraphicsResetStatus() => p_glGetGraphicsResetStatus();
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetnCompressedTexImage_t(TextureTarget target, int lod, int bufSize, IntPtr pixels);

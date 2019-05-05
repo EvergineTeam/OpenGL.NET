@@ -93,6 +93,33 @@ namespace OpenGLGen
                     // Add enum from commands
                     foreach (var commandElem in version.Commands)
                     {
+                        // Return Type
+                        if (commandElem.ReturnType.Type == "GLenum")
+                        {
+                            var selectedGroup = commandElem.ReturnType.Group;
+                            bool groupExists = version.Groups.Exists(g => g.Name == selectedGroup);
+                            if (!groupExists)
+                            {
+                                foreach (var group in file.Root.Element("groups").Elements("group"))
+                                {
+                                    string groupName = group.Attribute("name").Value;
+                                    if (groupName == selectedGroup)
+                                    {
+                                        GlGroup glgroup = new GlGroup() { Name = selectedGroup };
+                                        foreach (var e in group.Elements("enum"))
+                                        {
+                                            GLEnum glEnum = new GLEnum();
+                                            var enumName = e.Attribute("name").Value;
+                                            glEnum.Initialize(file, enumName);
+                                            glgroup.Enums.Add(glEnum);
+                                        }
+                                        version.Groups.Add(glgroup);
+                                    }
+                                }
+                            }
+                        }
+
+                        // Parameters
                         foreach (var param in commandElem.Parameters)
                         {
                             if (param.Type == "GLenum")
@@ -261,7 +288,7 @@ namespace OpenGLGen
         {
             public string Name;
 
-            public string ReturnType;
+            public GLReturnType ReturnType;
 
             public List<GLParameter> Parameters = new List<GLParameter>();
 
@@ -270,7 +297,7 @@ namespace OpenGLGen
                 return new GLCommand
                 {
                     Name = Name,
-                    ReturnType = ReturnType,
+                    ReturnType = new GLReturnType() { Type = ReturnType.Type, Group = ReturnType.Group },
                     Parameters = (from p in Parameters select new GLParameter { Name = p.Name, Type = p.Type, Group = p.Group }).ToList()
                 };
             }
@@ -281,7 +308,10 @@ namespace OpenGLGen
                                    where elem.Element("proto").Element("name").Value == Name
                                    select elem).First();
 
-                ReturnType = commandElem.Element("proto").Value.Replace(Name, string.Empty).Trim();
+                var proto = commandElem.Element("proto");
+                ReturnType = new GLReturnType();
+                ReturnType.Type = proto.Value.Replace(Name, string.Empty).Trim();
+                ReturnType.Group = proto.Attribute("group")?.Value;
 
                 foreach (var p in commandElem.Elements("param"))
                 {
@@ -294,6 +324,12 @@ namespace OpenGLGen
                     Parameters.Add(param);
                 }
             }
+        }
+
+        public class GLReturnType
+        {
+            public string Group;
+            public string Type;
         }
 
         public class GLParameter

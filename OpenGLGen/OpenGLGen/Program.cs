@@ -60,7 +60,8 @@ namespace OpenGLGen
 
                     // Delegate
                     StringBuilder delegateCommand = new StringBuilder("\t\tprivate delegate ");
-                    delegateCommand.Append($"{ConvertGLType(command.ReturnType)} {command.Name}_t(");
+                    BuildReturnType(version, command, delegateCommand);
+                    delegateCommand.Append($" {command.Name}_t(");
                     BuildParameterList(version, command, delegateCommand);
                     delegateCommand.Append(");");
                     writer.WriteLine(delegateCommand.ToString());
@@ -69,7 +70,9 @@ namespace OpenGLGen
                     writer.WriteLine($"\t\tprivate static {command.Name}_t p_{command.Name};");
 
                     // public function
-                    StringBuilder function = new StringBuilder($"\t\tpublic static {ConvertGLType(command.ReturnType)} {command.Name}(");
+                    StringBuilder function = new StringBuilder($"\t\tpublic static ");
+                    BuildReturnType(version, command, function);
+                    function.Append($" {command.Name}(");
                     BuildParameterList(version, command, function);
                     function.Append($") => p_{command.Name}(");
                     BuildParameterNamesList(command, function);
@@ -135,6 +138,28 @@ namespace OpenGLGen
             else
             {
                 return uint.TryParse(value, out result);
+            }
+        }
+
+        private static void BuildReturnType(GLParser.GLVersion version, GLParser.GLCommand c, StringBuilder builder)
+        {
+            if (c.ReturnType.Type == "GLenum")
+            {
+                bool groupExists = version.Groups.Exists(g => g.Name == c.ReturnType.Group);
+
+                var groupName = c.ReturnType.Group;
+
+                // For GLenums that don't appear in the gl.xml file.
+                if (!groupExists)
+                {
+                    groupName = "uint";
+                }
+
+                builder.Append($"{groupName}");
+            }
+            else
+            {
+                builder.Append($"{ConvertGLType(c.ReturnType.Type)}");
             }
         }
 
