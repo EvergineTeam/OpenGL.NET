@@ -29,3 +29,4 @@ OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget
 /OpenGLGen/OpenGLTest/obj/Debug
 /OpenGLGen/WaveEngine.Bindings.OpenGLES/bin/Debug/netstandard2.0
 /OpenGLGen/WaveEngine.Bindings.OpenGLES/obj
+/OpenGLGen/OpenGLGen/bin/Debug/netcoreapp2.2
