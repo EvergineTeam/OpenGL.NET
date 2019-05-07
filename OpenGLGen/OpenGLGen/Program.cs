@@ -10,18 +10,34 @@ namespace OpenGLGen
         static void Main(string[] args)
         {
             string glFile = "..\\..\\..\\..\\..\\KhronosRegistry\\gl.xml";
-            var spec = GLParser.FromFile(glFile);
 
-            DirectoryInfo bindingDirectory = new DirectoryInfo("..\\..\\..\\..\\WaveEngine.Bindings.OpenGL");
+            // Generate OpenGL bindings
+            DirectoryInfo workingDirectory = new DirectoryInfo("..\\..\\..\\..\\WaveEngine.Bindings.OpenGL");
+            var api = new[] { "gl" };
+            string namespaceText = "namespace WaveEngine.Bindings.OpenGL";
+            string nativeClassText = "GL";
+            GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
+
+            // Generate OpenGLES bindings
+            workingDirectory = new DirectoryInfo("..\\..\\..\\..\\WaveEngine.Bindings.OpenGLES");
+            api = new[] { "gles1", "gles2"};
+            namespaceText = "namespace WaveEngine.Bindings.OpenGLES";
+            nativeClassText = "GLES";
+            GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
+        }
+
+        private static void GenerateBindings(string glFile, DirectoryInfo workingDirectory, string[] api, string namespaceText, string nativeClassText)
+        {
+            var spec = GLParser.FromFile(glFile, api);
 
             // Select version
             var version = spec.Versions[spec.Versions.Count - 1];
 
             // Write Enums
-            using (var writer = new StreamWriter((Path.Combine(bindingDirectory.FullName, "Enums.cs"))))
+            using (var writer = new StreamWriter((Path.Combine(workingDirectory.FullName, "Enums.cs"))))
             {
                 writer.WriteLine("using System;\n");
-                writer.WriteLine("namespace WaveEngine.Bindings.OpenGL");
+                writer.WriteLine(namespaceText);
                 writer.WriteLine("{");
 
                 int count = 0;
@@ -48,13 +64,13 @@ namespace OpenGLGen
             }
 
             // Write Commands
-            using (var writer = new StreamWriter((Path.Combine(bindingDirectory.FullName, "GL.cs"))))
+            using (var writer = new StreamWriter((Path.Combine(workingDirectory.FullName, $"{nativeClassText}.cs"))))
             {
                 writer.WriteLine("using System;");
                 writer.WriteLine("using System.Runtime.InteropServices;\n");
-                writer.WriteLine("namespace WaveEngine.Bindings.OpenGL");
+                writer.WriteLine(namespaceText);
                 writer.WriteLine("{");
-                writer.WriteLine("\tpublic static unsafe class GL");
+                writer.WriteLine($"\tpublic static unsafe class {nativeClassText}");
                 writer.WriteLine("\t{");
                 writer.WriteLine("\t\tprivate static Func<string, IntPtr> s_getProcAddress;\n");
                 writer.WriteLine("\t\tprivate const CallingConvention CallConv = CallingConvention.Winapi;");

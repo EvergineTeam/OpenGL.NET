@@ -12,7 +12,7 @@ namespace OpenGLGen
         public string HeaderComment;
         public List<GLVersion> Versions = new List<GLVersion>();
 
-        public static GLParser FromFile(string xmlFile)
+        public static GLParser FromFile(string xmlFile, params string[] Api)
         {
             XDocument file = XDocument.Load(xmlFile);
             GLParser spec = new GLParser();
@@ -20,7 +20,8 @@ namespace OpenGLGen
 
             foreach (var feature in file.Root.Elements("feature"))
             {
-                if (feature.Attribute("api").Value == "gl")
+                var apiName = feature.Attribute("api").Value;
+                if (Api.Contains(apiName))
                 {
                     var version = new GLVersion
                     {
