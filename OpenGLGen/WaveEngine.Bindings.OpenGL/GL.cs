@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace WaveEngine.Bindings.OpenGL
 {
-	public static unsafe class OpenGLNative
+	public static unsafe class GL
 	{
 		private static Func<string, IntPtr> s_getProcAddress;
 
@@ -3510,7 +3510,7 @@ namespace WaveEngine.Bindings.OpenGL
 			LoadFunction("glGetString", out p_glGetString);
 		}
 
-		public static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress, bool gles)
+		public static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress)
 		{
 			s_getProcAddress = getProcAddress;
 

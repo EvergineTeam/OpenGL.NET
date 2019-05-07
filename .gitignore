@@ -25,3 +25,5 @@ OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget
 OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.dgspec.json
 OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.g.props
 OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget.g.targets
+/OpenGLGen/OpenGLTest/bin/Debug
+/OpenGLGen/OpenGLTest/obj/Debug

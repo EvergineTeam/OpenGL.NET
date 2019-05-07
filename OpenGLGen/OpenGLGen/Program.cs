@@ -48,13 +48,13 @@ namespace OpenGLGen
             }
 
             // Write Commands
-            using (var writer = new StreamWriter((Path.Combine(bindingDirectory.FullName, "OpenGLNative.cs"))))
+            using (var writer = new StreamWriter((Path.Combine(bindingDirectory.FullName, "GL.cs"))))
             {
                 writer.WriteLine("using System;");
                 writer.WriteLine("using System.Runtime.InteropServices;\n");
                 writer.WriteLine("namespace WaveEngine.Bindings.OpenGL");
                 writer.WriteLine("{");
-                writer.WriteLine("\tpublic static unsafe class OpenGLNative");
+                writer.WriteLine("\tpublic static unsafe class GL");
                 writer.WriteLine("\t{");
                 writer.WriteLine("\t\tprivate static Func<string, IntPtr> s_getProcAddress;\n");
                 writer.WriteLine("\t\tprivate const CallingConvention CallConv = CallingConvention.Winapi;");
@@ -93,7 +93,7 @@ namespace OpenGLGen
                 writer.WriteLine("\t\t\tLoadFunction(\"glGetString\", out p_glGetString);");
                 writer.WriteLine("\t\t}");
 
-                writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress, bool gles)");
+                writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress)");
                 writer.WriteLine("\t\t{");
                 writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;\n");
 
