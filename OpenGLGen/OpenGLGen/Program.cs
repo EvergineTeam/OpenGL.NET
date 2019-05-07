@@ -232,11 +232,7 @@ namespace OpenGLGen
             {
                 return "bool";
             }
-            else if (type == "GLenum")
-            {
-                return "uint";
-            }
-            else if (type == "GLuint" || type == "GLbitfield")
+            else if (type == "GLenum" || type == "GLuint" || type == "GLbitfield")
             {
                 return "uint";
             }
@@ -244,7 +240,59 @@ namespace OpenGLGen
             {
                 return "int";
             }
-            else if (type.Contains("*") || type == "GLsync" || type == "GLintptr" || type == "GLDEBUGPROC")
+            else if (type == "GLuint *" || type == "const GLuint *")
+            {
+                return "uint*";
+            }
+            else if (type == "GLdouble *" || type == "const GLdouble *")
+            {
+                return "double*";
+            }
+            else if (type == "GLfloat *" | type == "const GLfloat *")
+            {
+                return "float*";
+            }
+            else if (type == "GLint *" || type == "const GLint *" || type == "GLsizei *" || type == "const GLsizei *" || type == "GLsizeiptr *" || type == "const GLsizeiptr *")
+            {
+                return "int*";
+            }
+            else if (type == "GLushort *" || type == "const GLushort *" || type == "GLshort *" || type == "const GLshort *")
+            {
+                return "short*";
+            }
+            else if (type == "GLboolean *" || type == "const GLboolean *")
+            {
+                return "bool*";
+            }
+            else if (type == "GLchar *" || type == "const GLchar *")
+            {
+                return "char*";
+            }
+            else if (type == "GLint64 *" || type == "const GLint64 *")
+            {
+                return "long*";
+            }
+            else if (type == "GLuint64 *" || type == "const GLuint64 *")
+            {
+                return "ulong*";
+            }
+            else if (type == "GLubyte *" || type == "const GLubyte *" || type == "GLbyte *" || type == "const GLbyte *")
+            {
+                return "byte*";
+            }
+            else if (type == "void *" || type == "const void *")
+            {
+                return "void*";
+            }
+            else if (type == "void **" || type == "const void **")
+            {
+                return "void**";
+            }
+            else if (type.Contains("*"))
+            {
+                return "IntPtr";
+            }
+            else if (type == "GLsync" || type == "GLintptr" || type == "GLDEBUGPROC")
             {
                 return "IntPtr";
             }
