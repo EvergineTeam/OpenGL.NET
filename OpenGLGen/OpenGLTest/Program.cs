@@ -11,18 +11,29 @@ namespace OpenGLTest
 {
     unsafe class Program
     {
-        const string vertexShaderSource = @"#version 330 core
-                layout (location = 0) in vec3 aPos;
+        const string vertexShaderSource = @"#version 300 es
+                precision highp float;
+
+                layout (location = 0) in vec4 Position0;
+                layout (location = 1) in vec4 Color0;
+
+                out vec4 color;
+
                 void main()
-                {
-                   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+                {    
+                    gl_Position = Position0;	
+	                color = Color0;
                 }";
 
-        const string fragmentShaderSource = @"#version 330 core\
-                out vec4 FragColor;
-                void main()
-                {
-                   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+        const string fragmentShaderSource = @"#version 300 es
+                precision highp float;
+
+                in vec4 color;
+                out vec4 fragColor;
+
+                void main() 
+                {    	 	 	
+	                fragColor = color;	 	
                 }";
 
         static void Main(string[] args)
@@ -48,17 +59,17 @@ namespace OpenGLTest
             // Now load the rest of the functions in one go
             GL.LoadAllFunctions(context, SDL.SDL_GL_GetProcAddress);
 
+            GL.glViewport(0, 0, 960, 540);
+
             uint vertexShader = GL.glCreateShader(ShaderType.VertexShader);
 
-            int nShaders = 1;
-
-            IntPtr* textPtr = stackalloc IntPtr[nShaders];
-            var lengthArray = stackalloc int[nShaders];
+            IntPtr* textPtr = stackalloc IntPtr[1];
+            var lengthArray = stackalloc int[1];
 
             lengthArray[0] = vertexShaderSource.Length;
             textPtr[0] = Marshal.StringToHGlobalAnsi(vertexShaderSource);
 
-            GL.glShaderSource(vertexShader, nShaders, (IntPtr)textPtr, new IntPtr(lengthArray));
+            GL.glShaderSource(vertexShader, 1, (IntPtr)textPtr, new IntPtr(lengthArray));
             GL.glCompileShader(vertexShader);
             // checkErrors
             int success = 0;
@@ -102,23 +113,32 @@ namespace OpenGLTest
             GL.glDeleteShader(vertexShader);
             GL.glDeleteShader(fragmentShader);
 
-
             float[] vertices = {
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                0.0f,  0.5f, 0.0f,
+                0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+                0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f
             };
 
             uint VBO = 0;
             uint VAO = 0;
-            GL.glGenVertexArrays(1, new IntPtr(VAO));
-            GL.glGenBuffers(1, new IntPtr(VBO));
+            GL.glGenVertexArrays(1, new IntPtr(&VAO));
+            GL.glGenBuffers(1, new IntPtr(&VBO));
 
             GL.glBindVertexArray(VAO);
             GL.glBindBuffer(BufferTargetARB.ArrayBuffer, VBO);
-            GL.glBufferData(BufferTargetARB.ArrayBuffer, vertices.Length, IntPtr.Zero, BufferUsageARB.StaticDraw);
 
-            GL.glVertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float), IntPtr.Zero);
+            fixed (float* verticesPtr = &vertices[0])
+            {
+                GL.glBufferData(BufferTargetARB.ArrayBuffer, vertices.Length * 4, new IntPtr(verticesPtr), BufferUsageARB.StaticDraw);
+            }
+
+            int stride = 8 * sizeof(float);
+            GL.glVertexAttribPointer(0, 4, VertexAttribPointerType.Float, false, stride, IntPtr.Zero);
+            GL.glEnableVertexAttribArray(0);
+
+            GL.glVertexAttribPointer(1, 4, VertexAttribPointerType.Float, false, stride, new IntPtr(16));
+            GL.glEnableVertexAttribArray(1);
+
             GL.glBindBuffer(BufferTargetARB.ArrayBuffer, 0);
 
             GL.glBindVertexArray(0);
@@ -142,13 +162,11 @@ namespace OpenGLTest
                 GL.glBindVertexArray(VAO);
                 GL.glDrawArrays(PrimitiveType.Triangles, 0, 3);
 
-                ///GL.glFlush();
-
                 SDL.SDL_GL_SwapWindow(window);
             }
 
-            ////GL.glDeleteVertexArrays(1, new IntPtr(VAO));
-            ////GL.glDeleteBuffers(1, new IntPtr(VBO));
+            GL.glDeleteVertexArrays(1, new IntPtr(&VAO));
+            GL.glDeleteBuffers(1, new IntPtr(&VBO));
 
             SDL.SDL_DestroyWindow(window);
         }
