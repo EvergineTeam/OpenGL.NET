@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;OPENGL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -67,6 +67,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WaveEngine.Bindings.OpenGLES\WaveEngine.Bindings.OpenGLES.csproj">
+      <Project>{07c426bb-3c2c-4e65-a587-e20a65de91e3}</Project>
+      <Name>WaveEngine.Bindings.OpenGLES</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WaveEngine.Bindings.OpenGL\WaveEngine.Bindings.OpenGL.csproj">
       <Project>{2bcdd0ad-f5cc-4694-893c-7e7c95221b99}</Project>
       <Name>WaveEngine.Bindings.OpenGL</Name>

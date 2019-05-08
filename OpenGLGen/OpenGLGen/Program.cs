@@ -22,7 +22,7 @@ namespace OpenGLGen
             workingDirectory = new DirectoryInfo("..\\..\\..\\..\\WaveEngine.Bindings.OpenGLES");
             api = new[] { "gles1", "gles2"};
             namespaceText = "namespace WaveEngine.Bindings.OpenGLES";
-            nativeClassText = "GLES";
+            nativeClassText = "GL";
             GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
         }
 

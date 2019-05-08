@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace WaveEngine.Bindings.OpenGLES
 {
-	public static unsafe class GLES
+	public static unsafe class GL
 	{
 		private static Func<string, IntPtr> s_getProcAddress;
 
