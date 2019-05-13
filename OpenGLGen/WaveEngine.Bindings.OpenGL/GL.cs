@@ -3504,13 +3504,13 @@ namespace WaveEngine.Bindings.OpenGL
 		private static glPolygonOffsetClamp_t p_glPolygonOffsetClamp;
 		public static void glPolygonOffsetClamp(float factor, float units, float clamp) => p_glPolygonOffsetClamp(factor, units, clamp);
 
-		public static void LoadGetString(IntPtr glContext, Func<string, IntPtr> getProcAddress)
+		public static void LoadGetString(Func<string, IntPtr> getProcAddress)
 		{
 			s_getProcAddress = getProcAddress;
 			LoadFunction("glGetString", out p_glGetString);
 		}
 
-		public static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress)
+		public static void LoadAllFunctions(Func<string, IntPtr> getProcAddress)
 		{
 			s_getProcAddress = getProcAddress;
 

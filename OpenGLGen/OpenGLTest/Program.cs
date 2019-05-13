@@ -45,8 +45,8 @@ namespace OpenGLTest
 
         static void Main(string[] args)
         {
-            SDL.SDL_GL_SetAttribute(SDL.SDL_GLattr.SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-            SDL.SDL_GL_SetAttribute(SDL.SDL_GLattr.SDL_GL_CONTEXT_MINOR_VERSION, 1);
+            SDL.SDL_GL_SetAttribute(SDL.SDL_GLattr.SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+            SDL.SDL_GL_SetAttribute(SDL.SDL_GLattr.SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
             IntPtr window = SDL.SDL_CreateWindow(
                 "OpenGL.NET Test",
@@ -59,12 +59,12 @@ namespace OpenGLTest
             IntPtr context = SDL.SDL_GL_CreateContext(window);
             SDL.SDL_GL_MakeCurrent(window, context);
 
-            GL.LoadGetString(context, SDL.SDL_GL_GetProcAddress);
+            GL.LoadGetString(SDL.SDL_GL_GetProcAddress);
 
             Console.WriteLine("OpenGL Version: {0}", Marshal.PtrToStringAnsi((IntPtr)GL.glGetString(StringName.Version)));
 
             // Now load the rest of the functions in one go
-            GL.LoadAllFunctions(context, SDL.SDL_GL_GetProcAddress);
+            GL.LoadAllFunctions(SDL.SDL_GL_GetProcAddress);
 
             uint vertexShader = GL.glCreateShader(ShaderType.VertexShader);
 

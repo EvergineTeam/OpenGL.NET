@@ -2224,13 +2224,13 @@ namespace WaveEngine.Bindings.OpenGLES
 		private static glTexStorage3DMultisample_t p_glTexStorage3DMultisample;
 		public static void glTexStorage3DMultisample(TextureTarget target, int samples, InternalFormat internalformat, int width, int height, int depth, bool fixedsamplelocations) => p_glTexStorage3DMultisample(target, samples, internalformat, width, height, depth, fixedsamplelocations);
 
-		public static void LoadGetString(IntPtr glContext, Func<string, IntPtr> getProcAddress)
+		public static void LoadGetString(Func<string, IntPtr> getProcAddress)
 		{
 			s_getProcAddress = getProcAddress;
 			LoadFunction("glGetString", out p_glGetString);
 		}
 
-		public static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress)
+		public static void LoadAllFunctions(Func<string, IntPtr> getProcAddress)
 		{
 			s_getProcAddress = getProcAddress;
 

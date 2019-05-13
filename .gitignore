@@ -30,3 +30,7 @@ OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget
 /OpenGLGen/WaveEngine.Bindings.OpenGLES/bin/Debug/netstandard2.0
 /OpenGLGen/WaveEngine.Bindings.OpenGLES/obj
 /OpenGLGen/OpenGLGen/bin/Debug/netcoreapp2.2
+/OpenGLGen/OpenGLTest/obj/Release
+/OpenGLGen/WaveEngine.Bindings.OpenGL/bin/Release/netstandard2.0
+/OpenGLGen/WindowsForm/bin/Debug
+/OpenGLGen/WindowsForm/obj

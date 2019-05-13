@@ -103,13 +103,13 @@ namespace OpenGLGen
                 }
 
                 // Helper functions
-                writer.WriteLine("\n\t\tpublic static void LoadGetString(IntPtr glContext, Func<string, IntPtr> getProcAddress)");
+                writer.WriteLine("\n\t\tpublic static void LoadGetString(Func<string, IntPtr> getProcAddress)");
                 writer.WriteLine("\t\t{");
                 writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;");
                 writer.WriteLine("\t\t\tLoadFunction(\"glGetString\", out p_glGetString);");
                 writer.WriteLine("\t\t}");
 
-                writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(IntPtr glContext, Func<string, IntPtr> getProcAddress)");
+                writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(Func<string, IntPtr> getProcAddress)");
                 writer.WriteLine("\t\t{");
                 writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;\n");
 
