@@ -2,7 +2,7 @@
 .SYNOPSIS
 	Wave Engine bindings NuGet Packages generator script, (c) 2019 Javier Cantón Ferrero
 .DESCRIPTION
-	This script generates NuGet packages for Wave Engine OpenGL binding.
+	This script generates NuGet packages for Wave Engine OpenGL (and OpenGL ES) bindings.
 	It's meant to have the same behavior when executed locally as when it's executed in a CI pipeline.
 .EXAMPLE
 	<script> -version 3.1.6.288-local
@@ -15,7 +15,8 @@ param (
 	[string]$outputFolderBase = "nupkgs",
 	[string]$buildVerbosity = "minimal",
 	[string]$buildConfiguration = "Release",
-	[string]$projectToPackPath = "OpenGLGen\WaveEngine.Bindings.OpenGL\WaveEngine.Bindings.OpenGL.csproj"
+	[string]$openGLcsprojPath = "OpenGLGen\WaveEngine.Bindings.OpenGL\WaveEngine.Bindings.OpenGL.csproj",
+	[string]$openGLEScsprojPath = "OpenGLGen\WaveEngine.Bindings.OpenGLES\WaveEngine.Bindings.OpenGLES.csproj"
 )
 
 # Utility functions
@@ -40,11 +41,14 @@ $outputFolder = Join-Path $outputFolderBase $versionWithSuffix
 New-Item -ItemType Directory -Force -Path $outputFolder
 $absoluteOutputFolder = Resolve-Path $outputFolder
 
-# Create temmporal solution
+# Create temporal solution
 $tempSolutionName = "tempsolution_deleteme"
 Remove-Item "$tempSolutionName.sln" -ErrorAction Ignore
 dotnet new sln -n "$tempSolutionName"
-dotnet sln "$tempSolutionName.sln" add $projectToPackPath
+
+# Add projects to the solution
+dotnet sln "$tempSolutionName.sln" add $openGLcsprojPath
+dotnet sln "$tempSolutionName.sln" add $openGLEScsprojPath
 
 # Generate packages
 LogDebug "START packaging process"
