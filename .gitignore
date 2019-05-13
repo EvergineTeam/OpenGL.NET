@@ -34,3 +34,4 @@ OpenGLGen/WaveEngine.Bindings.OpenGL/obj/WaveEngine.Bindings.OpenGL.csproj.nuget
 /OpenGLGen/WaveEngine.Bindings.OpenGL/bin/Release/netstandard2.0
 /OpenGLGen/WindowsForm/bin/Debug
 /OpenGLGen/WindowsForm/obj
+/OpenGLGen/packages/SDL2-CS.dll.2.0.0.0
