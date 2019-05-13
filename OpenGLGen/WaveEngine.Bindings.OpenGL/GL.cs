@@ -525,9 +525,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glBlendEquationSeparate(BlendEquationModeEXT modeRGB, BlendEquationModeEXT modeAlpha) => p_glBlendEquationSeparate(modeRGB, modeAlpha);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDrawBuffers_t(int n, IntPtr bufs);
+		private delegate void glDrawBuffers_t(int n, uint* bufs);
 		private static glDrawBuffers_t p_glDrawBuffers;
-		public static void glDrawBuffers(int n, IntPtr bufs) => p_glDrawBuffers(n, bufs);
+		public static void glDrawBuffers(int n, uint* bufs) => p_glDrawBuffers(n, bufs);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glStencilOpSeparate_t(StencilFaceDirection face, StencilOp sfail, StencilOp dpfail, StencilOp dppass);
@@ -595,14 +595,14 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glEnableVertexAttribArray(uint index) => p_glEnableVertexAttribArray(index);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetActiveAttrib_t(uint program, uint index, int bufSize, int* length, int* size, IntPtr type, char* name);
+		private delegate void glGetActiveAttrib_t(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name);
 		private static glGetActiveAttrib_t p_glGetActiveAttrib;
-		public static void glGetActiveAttrib(uint program, uint index, int bufSize, int* length, int* size, IntPtr type, char* name) => p_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
+		public static void glGetActiveAttrib(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name) => p_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetActiveUniform_t(uint program, uint index, int bufSize, int* length, int* size, IntPtr type, char* name);
+		private delegate void glGetActiveUniform_t(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name);
 		private static glGetActiveUniform_t p_glGetActiveUniform;
-		public static void glGetActiveUniform(uint program, uint index, int bufSize, int* length, int* size, IntPtr type, char* name) => p_glGetActiveUniform(program, index, bufSize, length, size, type, name);
+		public static void glGetActiveUniform(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name) => p_glGetActiveUniform(program, index, bufSize, length, size, type, name);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetAttachedShaders_t(uint program, int maxCount, int* count, uint* shaders);
@@ -1070,9 +1070,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glTransformFeedbackVaryings(uint program, int count, IntPtr varyings, uint bufferMode) => p_glTransformFeedbackVaryings(program, count, varyings, bufferMode);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetTransformFeedbackVarying_t(uint program, uint index, int bufSize, int* length, int* size, IntPtr type, char* name);
+		private delegate void glGetTransformFeedbackVarying_t(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name);
 		private static glGetTransformFeedbackVarying_t p_glGetTransformFeedbackVarying;
-		public static void glGetTransformFeedbackVarying(uint program, uint index, int bufSize, int* length, int* size, IntPtr type, char* name) => p_glGetTransformFeedbackVarying(program, index, bufSize, length, size, type, name);
+		public static void glGetTransformFeedbackVarying(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name) => p_glGetTransformFeedbackVarying(program, index, bufSize, length, size, type, name);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glClampColor_t(uint target, uint clamp);
@@ -2135,9 +2135,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glClearDepthf(float d) => p_glClearDepthf(d);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetProgramBinary_t(uint program, int bufSize, int* length, IntPtr binaryFormat, void* binary);
+		private delegate void glGetProgramBinary_t(uint program, int bufSize, int* length, uint* binaryFormat, void* binary);
 		private static glGetProgramBinary_t p_glGetProgramBinary;
-		public static void glGetProgramBinary(uint program, int bufSize, int* length, IntPtr binaryFormat, void* binary) => p_glGetProgramBinary(program, bufSize, length, binaryFormat, binary);
+		public static void glGetProgramBinary(uint program, int bufSize, int* length, uint* binaryFormat, void* binary) => p_glGetProgramBinary(program, bufSize, length, binaryFormat, binary);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glProgramBinary_t(uint program, uint binaryFormat, void* binary, int length);
@@ -2670,14 +2670,14 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glInvalidateBufferData(uint buffer) => p_glInvalidateBufferData(buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glInvalidateFramebuffer_t(FramebufferTarget target, int numAttachments, IntPtr attachments);
+		private delegate void glInvalidateFramebuffer_t(FramebufferTarget target, int numAttachments, uint* attachments);
 		private static glInvalidateFramebuffer_t p_glInvalidateFramebuffer;
-		public static void glInvalidateFramebuffer(FramebufferTarget target, int numAttachments, IntPtr attachments) => p_glInvalidateFramebuffer(target, numAttachments, attachments);
+		public static void glInvalidateFramebuffer(FramebufferTarget target, int numAttachments, uint* attachments) => p_glInvalidateFramebuffer(target, numAttachments, attachments);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glInvalidateSubFramebuffer_t(uint target, int numAttachments, IntPtr attachments, int x, int y, int width, int height);
+		private delegate void glInvalidateSubFramebuffer_t(uint target, int numAttachments, uint* attachments, int x, int y, int width, int height);
 		private static glInvalidateSubFramebuffer_t p_glInvalidateSubFramebuffer;
-		public static void glInvalidateSubFramebuffer(uint target, int numAttachments, IntPtr attachments, int x, int y, int width, int height) => p_glInvalidateSubFramebuffer(target, numAttachments, attachments, x, y, width, height);
+		public static void glInvalidateSubFramebuffer(uint target, int numAttachments, uint* attachments, int x, int y, int width, int height) => p_glInvalidateSubFramebuffer(target, numAttachments, attachments, x, y, width, height);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glMultiDrawArraysIndirect_t(PrimitiveType mode, void* indirect, int drawcount, int stride);
@@ -2705,9 +2705,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glGetProgramResourceName(uint program, ProgramInterface programInterface, uint index, int bufSize, int* length, char* name) => p_glGetProgramResourceName(program, programInterface, index, bufSize, length, name);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetProgramResourceiv_t(uint program, ProgramInterface programInterface, uint index, int propCount, IntPtr props, int bufSize, int* length, int* @params);
+		private delegate void glGetProgramResourceiv_t(uint program, ProgramInterface programInterface, uint index, int propCount, uint* props, int bufSize, int* length, int* @params);
 		private static glGetProgramResourceiv_t p_glGetProgramResourceiv;
-		public static void glGetProgramResourceiv(uint program, ProgramInterface programInterface, uint index, int propCount, IntPtr props, int bufSize, int* length, int* @params) => p_glGetProgramResourceiv(program, programInterface, index, propCount, props, bufSize, length, @params);
+		public static void glGetProgramResourceiv(uint program, ProgramInterface programInterface, uint index, int propCount, uint* props, int bufSize, int* length, int* @params) => p_glGetProgramResourceiv(program, programInterface, index, propCount, props, bufSize, length, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate int glGetProgramResourceLocation_t(uint program, ProgramInterface programInterface, char* name);
@@ -2790,9 +2790,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glDebugMessageCallback(IntPtr callback, void* userParam) => p_glDebugMessageCallback(callback, userParam);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glGetDebugMessageLog_t(uint count, int bufSize, IntPtr sources, IntPtr types, uint* ids, IntPtr severities, int* lengths, char* messageLog);
+		private delegate uint glGetDebugMessageLog_t(uint count, int bufSize, uint* sources, uint* types, uint* ids, uint* severities, int* lengths, char* messageLog);
 		private static glGetDebugMessageLog_t p_glGetDebugMessageLog;
-		public static uint glGetDebugMessageLog(uint count, int bufSize, IntPtr sources, IntPtr types, uint* ids, IntPtr severities, int* lengths, char* messageLog) => p_glGetDebugMessageLog(count, bufSize, sources, types, ids, severities, lengths, messageLog);
+		public static uint glGetDebugMessageLog(uint count, int bufSize, uint* sources, uint* types, uint* ids, uint* severities, int* lengths, char* messageLog) => p_glGetDebugMessageLog(count, bufSize, sources, types, ids, severities, lengths, messageLog);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glPushDebugGroup_t(DebugSource source, uint id, int length, char* message);
@@ -3015,9 +3015,9 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glNamedFramebufferDrawBuffer(uint framebuffer, ColorBuffer buf) => p_glNamedFramebufferDrawBuffer(framebuffer, buf);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedFramebufferDrawBuffers_t(uint framebuffer, int n, IntPtr bufs);
+		private delegate void glNamedFramebufferDrawBuffers_t(uint framebuffer, int n, uint* bufs);
 		private static glNamedFramebufferDrawBuffers_t p_glNamedFramebufferDrawBuffers;
-		public static void glNamedFramebufferDrawBuffers(uint framebuffer, int n, IntPtr bufs) => p_glNamedFramebufferDrawBuffers(framebuffer, n, bufs);
+		public static void glNamedFramebufferDrawBuffers(uint framebuffer, int n, uint* bufs) => p_glNamedFramebufferDrawBuffers(framebuffer, n, bufs);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glNamedFramebufferReadBuffer_t(uint framebuffer, ColorBuffer src);
@@ -3025,14 +3025,14 @@ namespace WaveEngine.Bindings.OpenGL
 		public static void glNamedFramebufferReadBuffer(uint framebuffer, ColorBuffer src) => p_glNamedFramebufferReadBuffer(framebuffer, src);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glInvalidateNamedFramebufferData_t(uint framebuffer, int numAttachments, IntPtr attachments);
+		private delegate void glInvalidateNamedFramebufferData_t(uint framebuffer, int numAttachments, uint* attachments);
 		private static glInvalidateNamedFramebufferData_t p_glInvalidateNamedFramebufferData;
-		public static void glInvalidateNamedFramebufferData(uint framebuffer, int numAttachments, IntPtr attachments) => p_glInvalidateNamedFramebufferData(framebuffer, numAttachments, attachments);
+		public static void glInvalidateNamedFramebufferData(uint framebuffer, int numAttachments, uint* attachments) => p_glInvalidateNamedFramebufferData(framebuffer, numAttachments, attachments);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glInvalidateNamedFramebufferSubData_t(uint framebuffer, int numAttachments, IntPtr attachments, int x, int y, int width, int height);
+		private delegate void glInvalidateNamedFramebufferSubData_t(uint framebuffer, int numAttachments, uint* attachments, int x, int y, int width, int height);
 		private static glInvalidateNamedFramebufferSubData_t p_glInvalidateNamedFramebufferSubData;
-		public static void glInvalidateNamedFramebufferSubData(uint framebuffer, int numAttachments, IntPtr attachments, int x, int y, int width, int height) => p_glInvalidateNamedFramebufferSubData(framebuffer, numAttachments, attachments, x, y, width, height);
+		public static void glInvalidateNamedFramebufferSubData(uint framebuffer, int numAttachments, uint* attachments, int x, int y, int width, int height) => p_glInvalidateNamedFramebufferSubData(framebuffer, numAttachments, attachments, x, y, width, height);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glClearNamedFramebufferiv_t(uint framebuffer, Buffer buffer, int drawbuffer, int* value);

@@ -256,7 +256,7 @@ namespace OpenGLGen
             {
                 return "int";
             }
-            else if (type == "GLuint *" || type == "const GLuint *")
+            else if (type == "GLuint *" || type == "const GLuint *" || type == "GLenum *" || type == "const GLenum *")
             {
                 return "uint*";
             }
