@@ -4,5 +4,5 @@ This repository contains low-level bindings for OpenGL and OpenGLES used in Wave
 ## Features
 
 - OpenGL 4.6 & OpenGLES 3.2
-- API C#-ified to make .NET Developers feel at home
+- C#-ified API to make .NET Developers feel at home
 
