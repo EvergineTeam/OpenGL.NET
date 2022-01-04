@@ -5,14 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using SDL2;
-
-#if OPENGL
-using WaveEngine.Bindings.OpenGL;
-#endif
-
-#if OPENGLES
-using WaveEngine.Bindings.OpenGLES;
-#endif
+using Evergine.Bindings.OpenGL;
 
 namespace OpenGLTest
 {

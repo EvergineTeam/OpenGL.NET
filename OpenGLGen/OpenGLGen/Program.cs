@@ -12,18 +12,18 @@ namespace OpenGLGen
             string glFile = "..\\..\\..\\..\\..\\KhronosRegistry\\gl.xml";
 
             // Generate OpenGL bindings
-            DirectoryInfo workingDirectory = new DirectoryInfo("..\\..\\..\\..\\WaveEngine.Bindings.OpenGL");
+            DirectoryInfo workingDirectory = new DirectoryInfo("..\\..\\..\\..\\Evergine.Bindings.OpenGL");
             var api = new[] { "gl" };
-            string namespaceText = "namespace WaveEngine.Bindings.OpenGL";
+            string namespaceText = "namespace Evergine.Bindings.OpenGL";
             string nativeClassText = "GL";
             GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
 
-            // Generate OpenGLES bindings
-            workingDirectory = new DirectoryInfo("..\\..\\..\\..\\WaveEngine.Bindings.OpenGLES");
-            api = new[] { "gles1", "gles2"};
-            namespaceText = "namespace WaveEngine.Bindings.OpenGLES";
-            nativeClassText = "GL";
-            GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
+            ////// Generate OpenGLES bindings
+            ////workingDirectory = new DirectoryInfo("..\\..\\..\\..\\Evergine.Bindings.OpenGLES");
+            ////api = new[] { "gles1", "gles2"};
+            ////namespaceText = "namespace Evergine.Bindings.OpenGLES";
+            ////nativeClassText = "GL";
+            ////GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
         }
 
         private static void GenerateBindings(string glFile, DirectoryInfo workingDirectory, string[] api, string namespaceText, string nativeClassText)

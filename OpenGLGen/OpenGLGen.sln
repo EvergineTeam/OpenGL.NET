@@ -5,11 +5,9 @@ VisualStudioVersion = 16.0.28809.33
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenGLGen", "OpenGLGen\OpenGLGen.csproj", "{1A997641-F876-4127-B531-19EEB08AD3E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaveEngine.Bindings.OpenGL", "WaveEngine.Bindings.OpenGL\WaveEngine.Bindings.OpenGL.csproj", "{2BCDD0AD-F5CC-4694-893C-7E7C95221B99}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLTest", "OpenGLTest\OpenGLTest.csproj", "{3AC662AB-25FC-485F-ABED-691E9189C710}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaveEngine.Bindings.OpenGLES", "WaveEngine.Bindings.OpenGLES\WaveEngine.Bindings.OpenGLES.csproj", "{07C426BB-3C2C-4E65-A587-E20A65DE91E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evergine.Bindings.OpenGL", "Evergine.Bindings.OpenGL\Evergine.Bindings.OpenGL.csproj", "{EEF14B3E-E970-4792-9D78-0F3A95873210}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +19,14 @@ Global
 		{1A997641-F876-4127-B531-19EEB08AD3E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A997641-F876-4127-B531-19EEB08AD3E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A997641-F876-4127-B531-19EEB08AD3E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BCDD0AD-F5CC-4694-893C-7E7C95221B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BCDD0AD-F5CC-4694-893C-7E7C95221B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BCDD0AD-F5CC-4694-893C-7E7C95221B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BCDD0AD-F5CC-4694-893C-7E7C95221B99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AC662AB-25FC-485F-ABED-691E9189C710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3AC662AB-25FC-485F-ABED-691E9189C710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AC662AB-25FC-485F-ABED-691E9189C710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AC662AB-25FC-485F-ABED-691E9189C710}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07C426BB-3C2C-4E65-A587-E20A65DE91E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07C426BB-3C2C-4E65-A587-E20A65DE91E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07C426BB-3C2C-4E65-A587-E20A65DE91E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07C426BB-3C2C-4E65-A587-E20A65DE91E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEF14B3E-E970-4792-9D78-0F3A95873210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEF14B3E-E970-4792-9D78-0F3A95873210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEF14B3E-E970-4792-9D78-0F3A95873210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEF14B3E-E970-4792-9D78-0F3A95873210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
