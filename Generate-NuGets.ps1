@@ -1,32 +1,38 @@
 <#
 .SYNOPSIS
-	Wave Engine bindings NuGet Packages generator script, (c) 2019 Javier Cantón Ferrero
+	Evergine bindings NuGet Packages generator script, (c) 2022 Javier Cantón Ferrero
 .DESCRIPTION
-	This script generates NuGet packages for Wave Engine OpenGL (and OpenGL ES) bindings.
+	This script generates NuGet packages for Evergine OpenGL (and OpenGL ES) bindings.
 	It's meant to have the same behavior when executed locally as when it's executed in a CI pipeline.
 .EXAMPLE
-	<script> -version 3.1.6.288-local
+	<script> -version 2021.11.17.1-local
 .LINK
-	https://waveengine.net
+	https://evergine.com/
 #>
 
 param (
-    [Parameter(mandatory=$true)][string]$version,	
+	[Parameter(mandatory=$true)][string]$version,
 	[string]$outputFolderBase = "nupkgs",
 	[string]$buildVerbosity = "minimal",
 	[string]$buildConfiguration = "Release",
-	[string]$openGLcsprojPath = "OpenGLGen\WaveEngine.Bindings.OpenGL\WaveEngine.Bindings.OpenGL.csproj",
-	[string]$openGLEScsprojPath = "OpenGLGen\WaveEngine.Bindings.OpenGLES\WaveEngine.Bindings.OpenGLES.csproj"
+	[string]$openGLcsprojPath = "OpenGLGen\Evergine.Bindings.OpenGL\Evergine.Bindings.OpenGL.csproj",
+	[string]$openGLEScsprojPath = "OpenGLGen\Evergine.Bindings.OpenGLES\Evergine.Bindings.OpenGLES.csproj"
 )
 
 # Utility functions
-function LogDebug($line) { Write-Host "##[debug] $line" -Foreground Blue -Background Black }
+function LogDebug($line)
+{ Write-Host "##[debug] $line" -Foreground Blue -Background Black
+}
 
 # Locate build tools
 $msbuildPath = tools\vswhere.exe -latest -prerelease -products * -requires Microsoft.Component.MSBuild -property installationPath
-if(-Not $?) { exit $lastexitcode }
+if(-Not $?)
+{ exit $lastexitcode
+}
 $msbuildPath = Resolve-Path (Join-Path $msbuildPath 'MSBuild\*\Bin\MSBuild.exe')
-if (-Not (Test-Path $msbuildPath)) { throw "MSBuild not found." }
+if (-Not (Test-Path $msbuildPath))
+{ throw "MSBuild not found."
+}
 
 # Show variables
 LogDebug "############## VARIABLES ##############"

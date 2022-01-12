@@ -1,7 +1,7 @@
 # OpenGL and OpenGLES bindings for .NETStandard
-This repository contains low-level bindings for OpenGL and OpenGLES used in WaveEngine.
+This repository contains low-level bindings for OpenGL and OpenGLES used in Evergine.
 
-[![Build Status](https://waveengineteam.visualstudio.com/Wave.Engine/_apis/build/status/Releases/WaveEngine.Bindings.OpenGL?branchName=master)](https://waveengineteam.visualstudio.com/Wave.Engine/_build/latest?definitionId=26&branchName=master)
+[![Build Status](https://waveengineteam.visualstudio.com/Evergine/_apis/build/status/Releases/Evergine.Bindings.OpenGL?branchName=master)](https://waveengineteam.visualstudio.com/Evergine/_build/latest?definitionId=26&branchName=master)
 
 ## Features
 
@@ -10,5 +10,5 @@ This repository contains low-level bindings for OpenGL and OpenGLES used in Wave
 
 ## Nuget Packages
 
-- OpenGL: https://www.nuget.org/packages/WaveEngine.Bindings.OpenGL
-- OpenGLES: https://www.nuget.org/packages/WaveEngine.Bindings.OpenGLES
+- OpenGL: https://www.nuget.org/packages/Evergine.Bindings.OpenGL
+- OpenGLES: https://www.nuget.org/packages/Evergine.Bindings.OpenGLES
