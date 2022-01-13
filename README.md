@@ -1,4 +1,4 @@
-# OpenGL binding for .NETStandard
+# OpenGL.NET
 
 This repository contains the low-level binding for OpenGL used in Evergine for .NET Core and .NET 6.0. This binding is generated from gl.xml file included in the KhronosRegistry folder.
 
