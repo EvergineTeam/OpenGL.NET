@@ -238,101 +238,106 @@ namespace OpenGLGen
 
         private static string ConvertGLType(string type)
         {
-            if (type == "GLboolean")
+            switch (type)
             {
-                return "bool";
+                case "GLboolean":
+                    return "bool";
+                case "GLenum":
+                case "GLuint":
+                case "GLbitfield":
+                case "GLhandleARB":
+                    return "uint";
+                case "GLint":
+                case "GLsizei":
+                case "GLsizeiptr":
+                case "GLfixed":
+                case "GLclampx":
+                case "GLintptrARB":
+                case "GLsizeiptrARB":
+                    return "int";
+                case "GLuint *":
+                case "const GLuint *":
+                case "GLenum *":
+                case "const GLenum *":
+                    return "uint*";
+                case "GLdouble *":
+                case "const GLdouble *":
+                    return "double*";
+                case "GLfloat *":
+                case "const GLfloat *":
+                    return "float*";
+                case "GLint *":
+                case "const GLint *":
+                case "GLsizei *":
+                case "const GLsizei *":
+                case "GLsizeiptr *":
+                case "const GLsizeiptr *":
+                    return "int*";
+                case "GLushort *":
+                case "const GLushort *":
+                case "GLshort *":
+                case "const GLshort *":
+                    return "short*";
+                case "GLboolean *":
+                case "const GLboolean *":
+                    return "bool*";
+                case "GLchar *":
+                case "const GLchar *":
+                    return "char*";
+                case "GLint64 *":
+                case "const GLint64 *":
+                    return "long*";
+                case "GLuint64 *":
+                case "const GLuint64 *":
+                    return "ulong*";
+                case "GLubyte *":
+                case "const GLubyte *":
+                case "GLbyte *":
+                case "const GLbyte *":
+                    return "byte*";
+                case "void *":
+                case "const void *":
+                    return "void*";
+                case "void **":
+                case "const void **":
+                    return "void**";
+                case "GLfloat":
+                case "GLclampf":
+                    return "float";
+                case "GLclampd":
+                case "GLdouble":
+                    return "double";
+                case "GLubyte":
+                    return "byte";
+                case "GLbyte":
+                    return "sbyte";
+                case "GLhalfNV": 
+                case "GLushort":
+                    return "ushort";
+                case "GLshort":
+                    return "short";
+                case "GLint64":
+                case "GLint64EXT":
+                    return "long";
+                case "GLuint64":
+                case "GLuint64EXT":
+                    return "ulong";
+                case "GLsync":
+                case "GLintptr":
+                case "GLDEBUGPROC":
+                case "GLeglImageOES":
+                case "GLvdpauSurfaceNV":
+                case "GLVULKANPROCNV":
+                case "GLeglClientBufferEXT":
+                case "GLDEBUGPROCKHR":
+                case "GLDEBUGPROCAMD":
+                case "GLDEBUGPROCARB":
+                    return "IntPtr";
             }
-            else if (type == "GLenum" || type == "GLuint" || type == "GLbitfield")
-            {
-                return "uint";
-            }
-            else if (type == "GLint" || type == "GLsizei" || type == "GLsizeiptr" || type == "GLfixed" || type == "GLclampx" || type == "GLintptrARB" || type == "GLsizeiptrARB")
-            {
-                return "int";
-            }
-            else if (type == "GLuint *" || type == "const GLuint *" || type == "GLenum *" || type == "const GLenum *")
-            {
-                return "uint*";
-            }
-            else if (type == "GLdouble *" || type == "const GLdouble *")
-            {
-                return "double*";
-            }
-            else if (type == "GLfloat *" | type == "const GLfloat *")
-            {
-                return "float*";
-            }
-            else if (type == "GLint *" || type == "const GLint *" || type == "GLsizei *" || type == "const GLsizei *" || type == "GLsizeiptr *" || type == "const GLsizeiptr *")
-            {
-                return "int*";
-            }
-            else if (type == "GLushort *" || type == "const GLushort *" || type == "GLshort *" || type == "const GLshort *")
-            {
-                return "short*";
-            }
-            else if (type == "GLboolean *" || type == "const GLboolean *")
-            {
-                return "bool*";
-            }
-            else if (type == "GLchar *" || type == "const GLchar *")
-            {
-                return "char*";
-            }
-            else if (type == "GLint64 *" || type == "const GLint64 *")
-            {
-                return "long*";
-            }
-            else if (type == "GLuint64 *" || type == "const GLuint64 *")
-            {
-                return "ulong*";
-            }
-            else if (type == "GLubyte *" || type == "const GLubyte *" || type == "GLbyte *" || type == "const GLbyte *")
-            {
-                return "byte*";
-            }
-            else if (type == "void *" || type == "const void *")
-            {
-                return "void*";
-            }
-            else if (type == "void **" || type == "const void **")
-            {
-                return "void**";
-            }
-            else if (type.Contains("*"))
+    
+            if (type.Contains("*"))
             {
                 return "IntPtr";
-            }
-            else if (type == "GLsync" || type == "GLintptr" || type == "GLDEBUGPROC")
-            {
-                return "IntPtr";
-            }
-            else if (type == "GLfloat" || type == "GLclampf")
-            {
-                return "float";
-            }
-            else if (type == "GLdouble")
-            {
-                return "double";
-            }
-            else if (type == "GLubyte")
-            {
-                return "byte";
-            }
-            else if (type == "GLbyte")
-            {
-                return "sbyte";
-            }
-            else if (type == "GLushort")
-            {
-                return "ushort";
-            }
-            else if (type == "GLshort")
-            {
-                return "short";
-            }
-            else if (type == "GLuint64")
-            {
-                return "ulong";
             }
 
             return type;

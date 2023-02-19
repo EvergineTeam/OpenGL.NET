@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -333,13 +334,27 @@ namespace OpenGLGen
 
                 foreach (var p in commandElem.Elements("param"))
                 {
-                    var param = new GLParameter { Name = p.Element("name").Value };
-                    param.Type = p.Value.Substring(0, p.Value.LastIndexOf(param.Name)).Trim();
+                    var pname = ValidParamName(p.Element("name").Value);
+                    var param = new GLParameter { Name =  pname};
+                    param.Type = p.Value.Substring(0, p.Value.LastIndexOf(p.Element("name").Value)).Trim();
                     if (p.Attribute("group") != null)
                     {
                         param.Group = p.Attribute("group").Value;
                     }
                     Parameters.Add(param);
+                }
+            }
+
+            private string ValidParamName(string value)
+            {
+                switch (value)
+                {
+                    case "object":
+                    case "event":
+                    case "in":
+                        return "_" + value;
+                    default:
+                        return value;
                 }
             }
         }
