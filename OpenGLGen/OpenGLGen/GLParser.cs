@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using static OpenGLGen.GLParser;
 
 namespace OpenGLGen
 {
@@ -49,47 +50,7 @@ namespace OpenGLGen
                     }
 
                     // Include all new enums and commands
-                    foreach (var require in feature.Elements("require"))
-                    {
-                        foreach (var enumElem in require.Elements("enum"))
-                        {
-                            var enumName = enumElem.Attribute("name").Value;
-
-                            // if enum doesn't exists
-                            bool exists = version.Groups.Exists(g => g.Enums.Exists(e => e.Name == enumName));
-
-                            if (!exists)
-                            {
-                                // Find group
-                                string groupFound = FindGroupInXML(file, enumName);
-
-                                // The group already exists
-                                GlGroup glgroup = version.Groups.Find(g => g.Name == groupFound);
-
-                                if (glgroup == null)
-                                {
-                                    glgroup = new GlGroup() { Name = groupFound };
-                                    version.Groups.Add(glgroup);
-                                }
-
-                                // Create new Enum
-                                var glEnum = new GLEnum();
-                                glEnum.Initialize(file, enumName);
-                                glgroup.Enums.Add(glEnum);
-                            }
-                        }
-
-                        foreach (var commandElem in require.Elements("command"))
-                        {
-                            var glCommand = new GLCommand() { Name = commandElem.Attribute("name").Value };
-                            if (version.Commands.Find(c => c.Name == glCommand.Name) == null)
-                            {
-                                // Create new command
-                                glCommand.Initialize(commandElem.Document);
-                                version.Commands.Add(glCommand);
-                            }
-                        }
-                    }
+                    AddNewEnumsAndCommands(file, feature, version);
 
                     // Add enum from commands
                     foreach (var commandElem in version.Commands)
@@ -149,7 +110,7 @@ namespace OpenGLGen
                         }
                     }
 
-                    // Remove any anums and commands
+                    // Remove any enums and commands
                     foreach (var remove in feature.Elements("remove"))
                     {
                         foreach (var e in remove.Elements("enum"))
@@ -181,7 +142,59 @@ namespace OpenGLGen
                 }
             }
 
+            var extensions = file.Root.Element("extensions").Elements("extension");
+            foreach (var extension in extensions)
+            {
+                var version = spec.Versions[spec.Versions.Count - 1];
+                AddNewEnumsAndCommands(file, extension, version);
+            }
+
             return spec;
+        }
+
+        private static void AddNewEnumsAndCommands(XDocument file, XElement root, GLVersion version)
+        {
+            foreach (var require in root.Elements("require"))
+            {
+                foreach (var enumElem in require.Elements("enum"))
+                {
+                    var enumName = enumElem.Attribute("name").Value;
+
+                    // if enum doesn't exists
+                    bool exists = version.Groups.Exists(g => g.Enums.Exists(e => e.Name == enumName));
+
+                    if (!exists)
+                    {
+                        // Find group
+                        string groupFound = FindGroupInXML(file, enumName);
+
+                        // The group already exists
+                        GlGroup glgroup = version.Groups.Find(g => g.Name == groupFound);
+
+                        if (glgroup == null)
+                        {
+                            glgroup = new GlGroup() { Name = groupFound };
+                            version.Groups.Add(glgroup);
+                        }
+
+                        // Create new Enum
+                        var glEnum = new GLEnum();
+                        glEnum.Initialize(file, enumName);
+                        glgroup.Enums.Add(glEnum);
+                    }
+                }
+
+                foreach (var commandElem in require.Elements("command"))
+                {
+                    var glCommand = new GLCommand() { Name = commandElem.Attribute("name").Value };
+                    if (version.Commands.Find(c => c.Name == glCommand.Name) == null)
+                    {
+                        // Create new command
+                        glCommand.Initialize(commandElem.Document);
+                        version.Commands.Add(glCommand);
+                    }
+                }
+            }
         }
 
         private static string FindGroupInXML(XDocument file, string enumName)
@@ -254,8 +267,7 @@ namespace OpenGLGen
                 {
                     foreach (var enumElem in enumsElements.Elements("enum"))
                     {
-                        if (enumElem.Attribute("name").Value == enumName &&
-                            (enumElem.Attribute("api") == null)) // || enumElem.Attribute("api").Value == api))
+                        if (enumElem.Attribute("name").Value == enumName)
                         {
                             this.Value = enumElem.Attribute("value").Value;
                             break;
@@ -279,6 +291,11 @@ namespace OpenGLGen
                 {
                     string temp = strings[i];
                     result += char.ToUpper(temp[0]) + temp.Substring(1);
+                }
+
+                if (char.IsDigit(result[0]))
+                {
+                    result = "_" + result;
                 }
 
                 return result;
