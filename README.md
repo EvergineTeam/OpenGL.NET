@@ -7,7 +7,7 @@ This repository contains the low-level binding for OpenGL used in Evergine for .
 
 ## Features
 
-- OpenGL 4.6 && all extensions
+- OpenGL 4.6 & all extensions
 - C#-ified API to make .NET Developers feel at home
 
 ## Nuget Package
