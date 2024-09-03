@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="ppy.SDL2-CS" Version="1.0.82" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Evergine.Bindings.OpenGL\Evergine.Bindings.OpenGL.csproj" />
+	</ItemGroup>
+
+</Project>
