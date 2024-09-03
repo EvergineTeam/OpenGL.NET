@@ -42,8 +42,8 @@ else
 
 # Run generator
 LogDebug "START binding generator process"
-pushd .\VulkanGen\VulkanGen\bin\Release\net8.0\
-.\publish\VulkanGen.exe
+pushd .\OpenGLGen\OpenGLGen\bin\Release\net8.0\
+.\publish\OpenGLGen.exe
 if($?)
 {
    LogDebug "END binding generator process"

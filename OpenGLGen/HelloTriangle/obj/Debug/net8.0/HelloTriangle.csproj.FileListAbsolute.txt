@@ -1,6 +1,0 @@
-C:\repositories\OpenGL.NET\OpenGLGen\HelloTriangle\obj\Debug\net8.0\HelloTriangle.csproj.AssemblyReference.cache
-C:\repositories\OpenGL.NET\OpenGLGen\HelloTriangle\obj\Debug\net8.0\HelloTriangle.GeneratedMSBuildEditorConfig.editorconfig
-C:\repositories\OpenGL.NET\OpenGLGen\HelloTriangle\obj\Debug\net8.0\HelloTriangle.AssemblyInfoInputs.cache
-C:\repositories\OpenGL.NET\OpenGLGen\HelloTriangle\obj\Debug\net8.0\HelloTriangle.AssemblyInfo.cs
-C:\repositories\OpenGL.NET\OpenGLGen\HelloTriangle\obj\Debug\net8.0\HelloTriangle.csproj.CoreCompileInputs.cache
-C:\repositories\OpenGL.NET\OpenGLGen\HelloTriangle\obj\Debug\net8.0\HelloTriangle.sourcelink.json
