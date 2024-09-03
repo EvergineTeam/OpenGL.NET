@@ -2,7 +2,8 @@
 
 This repository contains the low-level binding for OpenGL used in Evergine for .NET Core and .NET 8.0. This binding is generated from gl.xml file included in the KhronosRegistry folder.
 
-[![Build Status](https://waveengineteam.visualstudio.com/Evergine/_apis/build/status/Bindings/OpenGL.NET/OpenGL.NET%20CI?branchName=master)](https://waveengineteam.visualstudio.com/Evergine/_build/latest?definitionId=119&branchName=master)
+[![CI](https://github.com/EvergineTeam/OpenGL.NET/actions/workflows/CI.yml/badge.svg)](https://github.com/EvergineTeam/OpenGL.NET/actions/workflows/CI.yml)
+[![CD](https://github.com/EvergineTeam/OpenGL.NET/actions/workflows/CD.yml/badge.svg)](https://github.com/EvergineTeam/OpenGL.NET/actions/workflows/CD.yml)
 [![Nuget](https://img.shields.io/nuget/v/Evergine.Bindings.OpenGL?logo=nuget)](https://www.nuget.org/packages/Evergine.Bindings.OpenGL)
 
 ## Features
