@@ -11,7 +11,7 @@
 #>
 
 param (
-	[Parameter(mandatory=$true)][string]$version,
+	[Parameter(mandatory=$true)][string]$revision,
 	[string]$outputFolderBase = "nupkgs",
 	[string]$buildVerbosity = "normal",
 	[string]$buildConfiguration = "Release",
@@ -22,6 +22,9 @@ param (
 function LogDebug($line)
 { Write-Host "##[debug] $line" -Foreground Blue -Background Black
 }
+
+# calculate version
+$version = "$(Get-Date -Format "yyyy.M.d").$revision"
 
 # Show variables
 LogDebug "############## VARIABLES ##############"
