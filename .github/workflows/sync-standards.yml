@@ -17,7 +17,7 @@ on:
         required: false
       target_branch:
         description: "Target branch to apply changes"
-        default: "main"
+        default: "master"
         required: false
       script_path:
         description: "Path where to download the sync script"
