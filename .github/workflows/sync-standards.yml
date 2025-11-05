@@ -13,7 +13,7 @@ on:
         required: false
       ref:
         description: "Branch/tag/commit of standards"
-        default: "main"
+        default: "v2"
         required: false
       target_branch:
         description: "Target branch to apply changes"
@@ -37,7 +37,7 @@ on:
         required: false
 
   schedule:
-    - cron: "0 2 1 * *"  # 02:00 UTC on the 1st of every month
+    - cron: "0 1 1 * *"  # 01:00 UTC on the 1st of every month
   
 jobs:
   sync:

@@ -7,6 +7,12 @@ name: CD
 
 on:
   workflow_dispatch:
+    inputs:
+      skip-assets-publishing:
+        description: 'Skip assets publishing'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   publish:
@@ -22,8 +28,8 @@ jobs:
       runtime-identifier: ""                # Runtime identifier (win-x64, linux-x64, etc.)
       build-configuration: "Release"               # Build configuration (Release, Debug, etc.)
       revision: ${{ github.run_number }}           # Revision for date-based version (bindings style). Use with bindings.
-      publish-enabled: false
-      enable-email-notifications: false
+      publish-enabled: ${{ !inputs.skip-assets-publishing }}
+      enable-email-notifications: true
     secrets:
       NUGET_UPLOAD_TOKEN: ${{ secrets.EVERGINE_NUGETORG_TOKEN }}
       WAVE_SENDGRID_TOKEN: ${{ secrets.WAVE_SENDGRID_TOKEN }}
