@@ -9,10 +9,10 @@ namespace OpenGLGen
     {
         static void Main(string[] args)
         {
-            string glFile = "..\\..\\..\\..\\..\\KhronosRegistry\\gl.xml";
+            string glFile = Path.Combine("..", "..", "..", "..", "..", "KhronosRegistry", "gl.xml");
 
             // Generate OpenGL bindings
-            DirectoryInfo workingDirectory = new DirectoryInfo("..\\..\\..\\..\\Evergine.Bindings.OpenGL");
+            DirectoryInfo workingDirectory = new DirectoryInfo(Path.Combine("..", "..", "..", "..", "Evergine.Bindings.OpenGL"));
             var api = new[] { "gl" };
             string namespaceText = "namespace Evergine.Bindings.OpenGL";
             string nativeClassText = "GL";
@@ -311,7 +311,7 @@ namespace OpenGLGen
                     return "byte";
                 case "GLbyte":
                     return "sbyte";
-                case "GLhalfNV": 
+                case "GLhalfNV":
                 case "GLushort":
                     return "ushort";
                 case "GLshort":
@@ -334,7 +334,7 @@ namespace OpenGLGen
                 case "GLDEBUGPROCARB":
                     return "IntPtr";
             }
-    
+
             if (type.Contains("*"))
             {
                 return "IntPtr";
