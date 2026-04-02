@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace OpenGLGen
@@ -22,6 +23,9 @@ namespace OpenGLGen
         private static void GenerateBindings(string glFile, DirectoryInfo workingDirectory, string[] api, string namespaceText, string nativeClassText)
         {
             var spec = GLParser.FromFile(glFile, api);
+
+            Console.WriteLine($"Parsed {spec.Versions.Count} API versions");
+            Console.WriteLine($"Parsed {spec.Extensions.Count} extensions ({spec.Extensions.Count(e => e.Supported != "disabled" && e.Supported.Split('|').Any(s => api.Contains(s)))} matching API filter)");
 
             // Select version
             var version = spec.Versions[spec.Versions.Count - 1];

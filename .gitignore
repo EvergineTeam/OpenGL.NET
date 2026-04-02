@@ -41,3 +41,6 @@ OpenGLGen/OpenGLGen/bin
 OpenGLGen/Evergine.Bindings.OpenGL/obj
 OpenGLGen/.vs
 OpenGLGen/HelloTriangle/obj
+*bin
+*obj
+OpenGLGen/HelloTriangle/bin

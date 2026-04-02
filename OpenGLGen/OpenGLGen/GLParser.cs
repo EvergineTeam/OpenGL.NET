@@ -13,6 +13,7 @@ namespace OpenGLGen
     {
         public string HeaderComment;
         public List<GLVersion> Versions = new List<GLVersion>();
+        public List<GLExtension> Extensions = new List<GLExtension>();
 
         public static GLParser FromFile(string xmlFile, params string[] Api)
         {
@@ -143,11 +144,36 @@ namespace OpenGLGen
                 }
             }
 
-            var extensions = file.Root.Element("extensions").Elements("extension");
-            foreach (var extension in extensions)
+            // Parse all extensions
+            var extensions = file.Root.Element("extensions")?.Elements("extension");
+            if (extensions != null)
             {
-                var version = spec.Versions[spec.Versions.Count - 1];
-                AddNewEnumsAndCommands(file, extension, version);
+                foreach (var extElem in extensions)
+                {
+                    var ext = GLExtension.FromXML(extElem);
+                    spec.Extensions.Add(ext);
+                }
+            }
+
+            // Apply only extensions whose supported APIs intersect with the requested APIs
+            var version2 = spec.Versions[spec.Versions.Count - 1];
+            foreach (var ext in spec.Extensions)
+            {
+                if (ext.Supported == "disabled")
+                    continue;
+
+                // Check if any of the requested APIs are in the extension's supported set
+                var supportedApis = ext.Supported.Split('|');
+                bool isSupported = Api.Any(a => supportedApis.Contains(a));
+
+                if (!isSupported)
+                    continue;
+
+                // Find the extension element again to add enums and commands
+                var extElem = file.Root.Element("extensions").Elements("extension")
+                    .First(e => e.Attribute("name").Value == ext.Name);
+
+                AddNewEnumsAndCommands(file, extElem, version2);
             }
 
             return spec;
@@ -370,6 +396,36 @@ namespace OpenGLGen
             public string Group;
             public string Type;
             public string Name;
+        }
+
+        public class GLExtension
+        {
+            public string Name;
+            public string Supported;
+            public List<string> EnumNames = new List<string>();
+            public List<string> CommandNames = new List<string>();
+
+            public static GLExtension FromXML(XElement elem)
+            {
+                var ext = new GLExtension();
+                ext.Name = elem.Attribute("name").Value;
+                ext.Supported = elem.Attribute("supported")?.Value ?? string.Empty;
+
+                foreach (var require in elem.Elements("require"))
+                {
+                    foreach (var e in require.Elements("enum"))
+                    {
+                        ext.EnumNames.Add(e.Attribute("name").Value);
+                    }
+
+                    foreach (var c in require.Elements("command"))
+                    {
+                        ext.CommandNames.Add(c.Attribute("name").Value);
+                    }
+                }
+
+                return ext;
+            }
         }
     }
 }
