@@ -22,8 +22,8 @@ jobs:
       generator-project: "OpenGLGen/OpenGLGen/OpenGLGen.csproj"  # Path to your generator .csproj
       generator-name: "OpenGL"                # Name of your generator executable
       binding-project: "OpenGLGen/Evergine.Bindings.OpenGL/Evergine.Bindings.OpenGL.csproj" # Path to your binding .csproj
-      target-framework: "net8.0"                   # Target framework for generator/binding
-      dotnet-version: "8.x"                        # .NET SDK version
+      target-framework: "net10.0"                  # Target framework for generator/binding
+      dotnet-version: "10.x"                       # .NET SDK version
       nuget-version: "6.x"                         # NuGet CLI version
       runtime-identifier: ""                # Runtime identifier (win-x64, linux-x64, etc.)
       build-configuration: "Release"               # Build configuration (Release, Debug, etc.)

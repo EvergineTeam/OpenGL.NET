@@ -3,11 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace Evergine.Bindings.OpenGL
 {
-	public static unsafe class GL
+	public static unsafe partial class GL
 	{
-		private static Func<string, IntPtr> s_getProcAddress;
-
-		private const CallingConvention CallConv = CallingConvention.Winapi;
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glCullFace_t(CullFaceMode mode);
@@ -485,19 +482,19 @@ namespace Evergine.Bindings.OpenGL
 		public static bool glIsBuffer(uint buffer) => p_glIsBuffer(buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferData_t(BufferTargetARB target, int size, void* data, BufferUsageARB usage);
+		private delegate void glBufferData_t(BufferTargetARB target, nint size, void* data, BufferUsageARB usage);
 		private static glBufferData_t p_glBufferData;
-		public static void glBufferData(BufferTargetARB target, int size, void* data, BufferUsageARB usage) => p_glBufferData(target, size, data, usage);
+		public static void glBufferData(BufferTargetARB target, nint size, void* data, BufferUsageARB usage) => p_glBufferData(target, size, data, usage);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferSubData_t(BufferTargetARB target, IntPtr offset, int size, void* data);
+		private delegate void glBufferSubData_t(BufferTargetARB target, nint offset, nint size, void* data);
 		private static glBufferSubData_t p_glBufferSubData;
-		public static void glBufferSubData(BufferTargetARB target, IntPtr offset, int size, void* data) => p_glBufferSubData(target, offset, size, data);
+		public static void glBufferSubData(BufferTargetARB target, nint offset, nint size, void* data) => p_glBufferSubData(target, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetBufferSubData_t(BufferTargetARB target, IntPtr offset, int size, void* data);
+		private delegate void glGetBufferSubData_t(BufferTargetARB target, nint offset, nint size, void* data);
 		private static glGetBufferSubData_t p_glGetBufferSubData;
-		public static void glGetBufferSubData(BufferTargetARB target, IntPtr offset, int size, void* data) => p_glGetBufferSubData(target, offset, size, data);
+		public static void glGetBufferSubData(BufferTargetARB target, nint offset, nint size, void* data) => p_glGetBufferSubData(target, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void* glMapBuffer_t(BufferTargetARB target, BufferAccessARB access);
@@ -1055,9 +1052,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glEndTransformFeedback() => p_glEndTransformFeedback();
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindBufferRange_t(BufferTargetARB target, uint index, uint buffer, IntPtr offset, int size);
+		private delegate void glBindBufferRange_t(BufferTargetARB target, uint index, uint buffer, nint offset, nint size);
 		private static glBindBufferRange_t p_glBindBufferRange;
-		public static void glBindBufferRange(BufferTargetARB target, uint index, uint buffer, IntPtr offset, int size) => p_glBindBufferRange(target, index, buffer, offset, size);
+		public static void glBindBufferRange(BufferTargetARB target, uint index, uint buffer, nint offset, nint size) => p_glBindBufferRange(target, index, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBindBufferBase_t(BufferTargetARB target, uint index, uint buffer);
@@ -1405,14 +1402,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glFramebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, uint texture, int level, int layer) => p_glFramebufferTextureLayer(target, attachment, texture, level, layer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void* glMapBufferRange_t(BufferTargetARB target, IntPtr offset, int length, uint access);
+		private delegate void* glMapBufferRange_t(BufferTargetARB target, nint offset, nint length, uint access);
 		private static glMapBufferRange_t p_glMapBufferRange;
-		public static void* glMapBufferRange(BufferTargetARB target, IntPtr offset, int length, uint access) => p_glMapBufferRange(target, offset, length, access);
+		public static void* glMapBufferRange(BufferTargetARB target, nint offset, nint length, uint access) => p_glMapBufferRange(target, offset, length, access);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFlushMappedBufferRange_t(BufferTargetARB target, IntPtr offset, int length);
+		private delegate void glFlushMappedBufferRange_t(BufferTargetARB target, nint offset, nint length);
 		private static glFlushMappedBufferRange_t p_glFlushMappedBufferRange;
-		public static void glFlushMappedBufferRange(BufferTargetARB target, IntPtr offset, int length) => p_glFlushMappedBufferRange(target, offset, length);
+		public static void glFlushMappedBufferRange(BufferTargetARB target, nint offset, nint length) => p_glFlushMappedBufferRange(target, offset, length);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBindVertexArray_t(uint array);
@@ -1455,9 +1452,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glPrimitiveRestartIndex(uint index) => p_glPrimitiveRestartIndex(index);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glCopyBufferSubData_t(CopyBufferSubDataTarget readTarget, CopyBufferSubDataTarget writeTarget, IntPtr readOffset, IntPtr writeOffset, int size);
+		private delegate void glCopyBufferSubData_t(CopyBufferSubDataTarget readTarget, CopyBufferSubDataTarget writeTarget, nint readOffset, nint writeOffset, nint size);
 		private static glCopyBufferSubData_t p_glCopyBufferSubData;
-		public static void glCopyBufferSubData(CopyBufferSubDataTarget readTarget, CopyBufferSubDataTarget writeTarget, IntPtr readOffset, IntPtr writeOffset, int size) => p_glCopyBufferSubData(readTarget, writeTarget, readOffset, writeOffset, size);
+		public static void glCopyBufferSubData(CopyBufferSubDataTarget readTarget, CopyBufferSubDataTarget writeTarget, nint readOffset, nint writeOffset, nint size) => p_glCopyBufferSubData(readTarget, writeTarget, readOffset, writeOffset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetUniformIndices_t(uint program, int uniformCount, IntPtr uniformNames, uint* uniformIndices);
@@ -2615,9 +2612,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glClearBufferData(BufferStorageTarget target, InternalFormat internalformat, PixelFormat format, PixelType type, void* data) => p_glClearBufferData(target, internalformat, format, type, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glClearBufferSubData_t(uint target, InternalFormat internalformat, IntPtr offset, int size, PixelFormat format, PixelType type, void* data);
+		private delegate void glClearBufferSubData_t(uint target, InternalFormat internalformat, nint offset, nint size, PixelFormat format, PixelType type, void* data);
 		private static glClearBufferSubData_t p_glClearBufferSubData;
-		public static void glClearBufferSubData(uint target, InternalFormat internalformat, IntPtr offset, int size, PixelFormat format, PixelType type, void* data) => p_glClearBufferSubData(target, internalformat, offset, size, format, type, data);
+		public static void glClearBufferSubData(uint target, InternalFormat internalformat, nint offset, nint size, PixelFormat format, PixelType type, void* data) => p_glClearBufferSubData(target, internalformat, offset, size, format, type, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glDispatchCompute_t(uint num_groups_x, uint num_groups_y, uint num_groups_z);
@@ -2625,9 +2622,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glDispatchCompute(uint num_groups_x, uint num_groups_y, uint num_groups_z) => p_glDispatchCompute(num_groups_x, num_groups_y, num_groups_z);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDispatchComputeIndirect_t(IntPtr indirect);
+		private delegate void glDispatchComputeIndirect_t(nint indirect);
 		private static glDispatchComputeIndirect_t p_glDispatchComputeIndirect;
-		public static void glDispatchComputeIndirect(IntPtr indirect) => p_glDispatchComputeIndirect(indirect);
+		public static void glDispatchComputeIndirect(nint indirect) => p_glDispatchComputeIndirect(indirect);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glCopyImageSubData_t(uint srcName, CopyBufferSubDataTarget srcTarget, int srcLevel, int srcX, int srcY, int srcZ, uint dstName, CopyBufferSubDataTarget dstTarget, int dstLevel, int dstX, int dstY, int dstZ, int srcWidth, int srcHeight, int srcDepth);
@@ -2660,9 +2657,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glInvalidateTexImage(uint texture, int level) => p_glInvalidateTexImage(texture, level);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glInvalidateBufferSubData_t(uint buffer, IntPtr offset, int length);
+		private delegate void glInvalidateBufferSubData_t(uint buffer, nint offset, nint length);
 		private static glInvalidateBufferSubData_t p_glInvalidateBufferSubData;
-		public static void glInvalidateBufferSubData(uint buffer, IntPtr offset, int length) => p_glInvalidateBufferSubData(buffer, offset, length);
+		public static void glInvalidateBufferSubData(uint buffer, nint offset, nint length) => p_glInvalidateBufferSubData(buffer, offset, length);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glInvalidateBufferData_t(uint buffer);
@@ -2725,9 +2722,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glShaderStorageBlockBinding(uint program, uint storageBlockIndex, uint storageBlockBinding) => p_glShaderStorageBlockBinding(program, storageBlockIndex, storageBlockBinding);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTexBufferRange_t(TextureTarget target, InternalFormat internalformat, uint buffer, IntPtr offset, int size);
+		private delegate void glTexBufferRange_t(TextureTarget target, InternalFormat internalformat, uint buffer, nint offset, nint size);
 		private static glTexBufferRange_t p_glTexBufferRange;
-		public static void glTexBufferRange(TextureTarget target, InternalFormat internalformat, uint buffer, IntPtr offset, int size) => p_glTexBufferRange(target, internalformat, buffer, offset, size);
+		public static void glTexBufferRange(TextureTarget target, InternalFormat internalformat, uint buffer, nint offset, nint size) => p_glTexBufferRange(target, internalformat, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTexStorage2DMultisample_t(TextureTarget target, int samples, InternalFormat internalformat, int width, int height, bool fixedsamplelocations);
@@ -2745,9 +2742,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTextureView(uint texture, TextureTarget target, uint origtexture, InternalFormat internalformat, uint minlevel, uint numlevels, uint minlayer, uint numlayers) => p_glTextureView(texture, target, origtexture, internalformat, minlevel, numlevels, minlayer, numlayers);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindVertexBuffer_t(uint bindingindex, uint buffer, IntPtr offset, int stride);
+		private delegate void glBindVertexBuffer_t(uint bindingindex, uint buffer, nint offset, int stride);
 		private static glBindVertexBuffer_t p_glBindVertexBuffer;
-		public static void glBindVertexBuffer(uint bindingindex, uint buffer, IntPtr offset, int stride) => p_glBindVertexBuffer(bindingindex, buffer, offset, stride);
+		public static void glBindVertexBuffer(uint bindingindex, uint buffer, nint offset, int stride) => p_glBindVertexBuffer(bindingindex, buffer, offset, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glVertexAttribFormat_t(uint attribindex, int size, uint type, bool normalized, uint relativeoffset);
@@ -2830,9 +2827,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetPointerv(GetPointervPName pname, void** @params) => p_glGetPointerv(pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferStorage_t(BufferStorageTarget target, int size, void* data, uint flags);
+		private delegate void glBufferStorage_t(BufferStorageTarget target, nint size, void* data, uint flags);
 		private static glBufferStorage_t p_glBufferStorage;
-		public static void glBufferStorage(BufferStorageTarget target, int size, void* data, uint flags) => p_glBufferStorage(target, size, data, flags);
+		public static void glBufferStorage(BufferStorageTarget target, nint size, void* data, uint flags) => p_glBufferStorage(target, size, data, flags);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glClearTexImage_t(uint texture, int level, PixelFormat format, PixelType type, void* data);
@@ -2850,9 +2847,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glBindBuffersBase(BufferTargetARB target, uint first, int count, uint* buffers) => p_glBindBuffersBase(target, first, count, buffers);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindBuffersRange_t(BufferTargetARB target, uint first, int count, uint* buffers, IntPtr offsets, int* sizes);
+		private delegate void glBindBuffersRange_t(BufferTargetARB target, uint first, int count, uint* buffers, nint* offsets, nint* sizes);
 		private static glBindBuffersRange_t p_glBindBuffersRange;
-		public static void glBindBuffersRange(BufferTargetARB target, uint first, int count, uint* buffers, IntPtr offsets, int* sizes) => p_glBindBuffersRange(target, first, count, buffers, offsets, sizes);
+		public static void glBindBuffersRange(BufferTargetARB target, uint first, int count, uint* buffers, nint* offsets, nint* sizes) => p_glBindBuffersRange(target, first, count, buffers, offsets, sizes);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBindTextures_t(uint first, int count, uint* textures);
@@ -2870,9 +2867,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glBindImageTextures(uint first, int count, uint* textures) => p_glBindImageTextures(first, count, textures);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindVertexBuffers_t(uint first, int count, uint* buffers, IntPtr offsets, int* strides);
+		private delegate void glBindVertexBuffers_t(uint first, int count, uint* buffers, nint* offsets, int* strides);
 		private static glBindVertexBuffers_t p_glBindVertexBuffers;
-		public static void glBindVertexBuffers(uint first, int count, uint* buffers, IntPtr offsets, int* strides) => p_glBindVertexBuffers(first, count, buffers, offsets, strides);
+		public static void glBindVertexBuffers(uint first, int count, uint* buffers, nint* offsets, int* strides) => p_glBindVertexBuffers(first, count, buffers, offsets, strides);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glClipControl_t(ClipControlOrigin origin, ClipControlDepth depth);
@@ -2890,9 +2887,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTransformFeedbackBufferBase(uint xfb, uint index, uint buffer) => p_glTransformFeedbackBufferBase(xfb, index, buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTransformFeedbackBufferRange_t(uint xfb, uint index, uint buffer, IntPtr offset, int size);
+		private delegate void glTransformFeedbackBufferRange_t(uint xfb, uint index, uint buffer, nint offset, nint size);
 		private static glTransformFeedbackBufferRange_t p_glTransformFeedbackBufferRange;
-		public static void glTransformFeedbackBufferRange(uint xfb, uint index, uint buffer, IntPtr offset, int size) => p_glTransformFeedbackBufferRange(xfb, index, buffer, offset, size);
+		public static void glTransformFeedbackBufferRange(uint xfb, uint index, uint buffer, nint offset, nint size) => p_glTransformFeedbackBufferRange(xfb, index, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetTransformFeedbackiv_t(uint xfb, TransformFeedbackPName pname, int* param);
@@ -2915,24 +2912,24 @@ namespace Evergine.Bindings.OpenGL
 		public static void glCreateBuffers(int n, uint* buffers) => p_glCreateBuffers(n, buffers);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferStorage_t(uint buffer, int size, void* data, uint flags);
+		private delegate void glNamedBufferStorage_t(uint buffer, nint size, void* data, uint flags);
 		private static glNamedBufferStorage_t p_glNamedBufferStorage;
-		public static void glNamedBufferStorage(uint buffer, int size, void* data, uint flags) => p_glNamedBufferStorage(buffer, size, data, flags);
+		public static void glNamedBufferStorage(uint buffer, nint size, void* data, uint flags) => p_glNamedBufferStorage(buffer, size, data, flags);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferData_t(uint buffer, int size, void* data, VertexBufferObjectUsage usage);
+		private delegate void glNamedBufferData_t(uint buffer, nint size, void* data, VertexBufferObjectUsage usage);
 		private static glNamedBufferData_t p_glNamedBufferData;
-		public static void glNamedBufferData(uint buffer, int size, void* data, VertexBufferObjectUsage usage) => p_glNamedBufferData(buffer, size, data, usage);
+		public static void glNamedBufferData(uint buffer, nint size, void* data, VertexBufferObjectUsage usage) => p_glNamedBufferData(buffer, size, data, usage);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferSubData_t(uint buffer, IntPtr offset, int size, void* data);
+		private delegate void glNamedBufferSubData_t(uint buffer, nint offset, nint size, void* data);
 		private static glNamedBufferSubData_t p_glNamedBufferSubData;
-		public static void glNamedBufferSubData(uint buffer, IntPtr offset, int size, void* data) => p_glNamedBufferSubData(buffer, offset, size, data);
+		public static void glNamedBufferSubData(uint buffer, nint offset, nint size, void* data) => p_glNamedBufferSubData(buffer, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glCopyNamedBufferSubData_t(uint readBuffer, uint writeBuffer, IntPtr readOffset, IntPtr writeOffset, int size);
+		private delegate void glCopyNamedBufferSubData_t(uint readBuffer, uint writeBuffer, nint readOffset, nint writeOffset, nint size);
 		private static glCopyNamedBufferSubData_t p_glCopyNamedBufferSubData;
-		public static void glCopyNamedBufferSubData(uint readBuffer, uint writeBuffer, IntPtr readOffset, IntPtr writeOffset, int size) => p_glCopyNamedBufferSubData(readBuffer, writeBuffer, readOffset, writeOffset, size);
+		public static void glCopyNamedBufferSubData(uint readBuffer, uint writeBuffer, nint readOffset, nint writeOffset, nint size) => p_glCopyNamedBufferSubData(readBuffer, writeBuffer, readOffset, writeOffset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glClearNamedBufferData_t(uint buffer, InternalFormat internalformat, PixelFormat format, PixelType type, void* data);
@@ -2940,9 +2937,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glClearNamedBufferData(uint buffer, InternalFormat internalformat, PixelFormat format, PixelType type, void* data) => p_glClearNamedBufferData(buffer, internalformat, format, type, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glClearNamedBufferSubData_t(uint buffer, InternalFormat internalformat, IntPtr offset, int size, PixelFormat format, PixelType type, void* data);
+		private delegate void glClearNamedBufferSubData_t(uint buffer, InternalFormat internalformat, nint offset, nint size, PixelFormat format, PixelType type, void* data);
 		private static glClearNamedBufferSubData_t p_glClearNamedBufferSubData;
-		public static void glClearNamedBufferSubData(uint buffer, InternalFormat internalformat, IntPtr offset, int size, PixelFormat format, PixelType type, void* data) => p_glClearNamedBufferSubData(buffer, internalformat, offset, size, format, type, data);
+		public static void glClearNamedBufferSubData(uint buffer, InternalFormat internalformat, nint offset, nint size, PixelFormat format, PixelType type, void* data) => p_glClearNamedBufferSubData(buffer, internalformat, offset, size, format, type, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void* glMapNamedBuffer_t(uint buffer, BufferAccessARB access);
@@ -2950,9 +2947,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void* glMapNamedBuffer(uint buffer, BufferAccessARB access) => p_glMapNamedBuffer(buffer, access);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void* glMapNamedBufferRange_t(uint buffer, IntPtr offset, int length, uint access);
+		private delegate void* glMapNamedBufferRange_t(uint buffer, nint offset, nint length, uint access);
 		private static glMapNamedBufferRange_t p_glMapNamedBufferRange;
-		public static void* glMapNamedBufferRange(uint buffer, IntPtr offset, int length, uint access) => p_glMapNamedBufferRange(buffer, offset, length, access);
+		public static void* glMapNamedBufferRange(uint buffer, nint offset, nint length, uint access) => p_glMapNamedBufferRange(buffer, offset, length, access);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate bool glUnmapNamedBuffer_t(uint buffer);
@@ -2960,9 +2957,9 @@ namespace Evergine.Bindings.OpenGL
 		public static bool glUnmapNamedBuffer(uint buffer) => p_glUnmapNamedBuffer(buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFlushMappedNamedBufferRange_t(uint buffer, IntPtr offset, int length);
+		private delegate void glFlushMappedNamedBufferRange_t(uint buffer, nint offset, nint length);
 		private static glFlushMappedNamedBufferRange_t p_glFlushMappedNamedBufferRange;
-		public static void glFlushMappedNamedBufferRange(uint buffer, IntPtr offset, int length) => p_glFlushMappedNamedBufferRange(buffer, offset, length);
+		public static void glFlushMappedNamedBufferRange(uint buffer, nint offset, nint length) => p_glFlushMappedNamedBufferRange(buffer, offset, length);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetNamedBufferParameteriv_t(uint buffer, VertexBufferObjectParameter pname, int* @params);
@@ -2980,9 +2977,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetNamedBufferPointerv(uint buffer, VertexBufferObjectParameter pname, void** @params) => p_glGetNamedBufferPointerv(buffer, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetNamedBufferSubData_t(uint buffer, IntPtr offset, int size, void* data);
+		private delegate void glGetNamedBufferSubData_t(uint buffer, nint offset, nint size, void* data);
 		private static glGetNamedBufferSubData_t p_glGetNamedBufferSubData;
-		public static void glGetNamedBufferSubData(uint buffer, IntPtr offset, int size, void* data) => p_glGetNamedBufferSubData(buffer, offset, size, data);
+		public static void glGetNamedBufferSubData(uint buffer, nint offset, nint size, void* data) => p_glGetNamedBufferSubData(buffer, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glCreateFramebuffers_t(int n, uint* framebuffers);
@@ -3105,9 +3102,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTextureBuffer(uint texture, InternalFormat internalformat, uint buffer) => p_glTextureBuffer(texture, internalformat, buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTextureBufferRange_t(uint texture, InternalFormat internalformat, uint buffer, IntPtr offset, int size);
+		private delegate void glTextureBufferRange_t(uint texture, InternalFormat internalformat, uint buffer, nint offset, nint size);
 		private static glTextureBufferRange_t p_glTextureBufferRange;
-		public static void glTextureBufferRange(uint texture, InternalFormat internalformat, uint buffer, IntPtr offset, int size) => p_glTextureBufferRange(texture, internalformat, buffer, offset, size);
+		public static void glTextureBufferRange(uint texture, InternalFormat internalformat, uint buffer, nint offset, nint size) => p_glTextureBufferRange(texture, internalformat, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTextureStorage1D_t(uint texture, int levels, InternalFormat internalformat, int width);
@@ -3280,14 +3277,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glVertexArrayElementBuffer(uint vaobj, uint buffer) => p_glVertexArrayElementBuffer(vaobj, buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayVertexBuffer_t(uint vaobj, uint bindingindex, uint buffer, IntPtr offset, int stride);
+		private delegate void glVertexArrayVertexBuffer_t(uint vaobj, uint bindingindex, uint buffer, nint offset, int stride);
 		private static glVertexArrayVertexBuffer_t p_glVertexArrayVertexBuffer;
-		public static void glVertexArrayVertexBuffer(uint vaobj, uint bindingindex, uint buffer, IntPtr offset, int stride) => p_glVertexArrayVertexBuffer(vaobj, bindingindex, buffer, offset, stride);
+		public static void glVertexArrayVertexBuffer(uint vaobj, uint bindingindex, uint buffer, nint offset, int stride) => p_glVertexArrayVertexBuffer(vaobj, bindingindex, buffer, offset, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayVertexBuffers_t(uint vaobj, uint first, int count, uint* buffers, IntPtr offsets, int* strides);
+		private delegate void glVertexArrayVertexBuffers_t(uint vaobj, uint first, int count, uint* buffers, nint* offsets, int* strides);
 		private static glVertexArrayVertexBuffers_t p_glVertexArrayVertexBuffers;
-		public static void glVertexArrayVertexBuffers(uint vaobj, uint first, int count, uint* buffers, IntPtr offsets, int* strides) => p_glVertexArrayVertexBuffers(vaobj, first, count, buffers, offsets, strides);
+		public static void glVertexArrayVertexBuffers(uint vaobj, uint first, int count, uint* buffers, nint* offsets, int* strides) => p_glVertexArrayVertexBuffers(vaobj, first, count, buffers, offsets, strides);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glVertexArrayAttribBinding_t(uint vaobj, uint attribindex, uint bindingindex);
@@ -3345,24 +3342,24 @@ namespace Evergine.Bindings.OpenGL
 		public static void glCreateQueries(QueryTarget target, int n, uint* ids) => p_glCreateQueries(target, n, ids);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetQueryBufferObjecti64v_t(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset);
+		private delegate void glGetQueryBufferObjecti64v_t(uint id, uint buffer, QueryObjectParameterName pname, nint offset);
 		private static glGetQueryBufferObjecti64v_t p_glGetQueryBufferObjecti64v;
-		public static void glGetQueryBufferObjecti64v(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset) => p_glGetQueryBufferObjecti64v(id, buffer, pname, offset);
+		public static void glGetQueryBufferObjecti64v(uint id, uint buffer, QueryObjectParameterName pname, nint offset) => p_glGetQueryBufferObjecti64v(id, buffer, pname, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetQueryBufferObjectiv_t(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset);
+		private delegate void glGetQueryBufferObjectiv_t(uint id, uint buffer, QueryObjectParameterName pname, nint offset);
 		private static glGetQueryBufferObjectiv_t p_glGetQueryBufferObjectiv;
-		public static void glGetQueryBufferObjectiv(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset) => p_glGetQueryBufferObjectiv(id, buffer, pname, offset);
+		public static void glGetQueryBufferObjectiv(uint id, uint buffer, QueryObjectParameterName pname, nint offset) => p_glGetQueryBufferObjectiv(id, buffer, pname, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetQueryBufferObjectui64v_t(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset);
+		private delegate void glGetQueryBufferObjectui64v_t(uint id, uint buffer, QueryObjectParameterName pname, nint offset);
 		private static glGetQueryBufferObjectui64v_t p_glGetQueryBufferObjectui64v;
-		public static void glGetQueryBufferObjectui64v(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset) => p_glGetQueryBufferObjectui64v(id, buffer, pname, offset);
+		public static void glGetQueryBufferObjectui64v(uint id, uint buffer, QueryObjectParameterName pname, nint offset) => p_glGetQueryBufferObjectui64v(id, buffer, pname, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetQueryBufferObjectuiv_t(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset);
+		private delegate void glGetQueryBufferObjectuiv_t(uint id, uint buffer, QueryObjectParameterName pname, nint offset);
 		private static glGetQueryBufferObjectuiv_t p_glGetQueryBufferObjectuiv;
-		public static void glGetQueryBufferObjectuiv(uint id, uint buffer, QueryObjectParameterName pname, IntPtr offset) => p_glGetQueryBufferObjectuiv(id, buffer, pname, offset);
+		public static void glGetQueryBufferObjectuiv(uint id, uint buffer, QueryObjectParameterName pname, nint offset) => p_glGetQueryBufferObjectuiv(id, buffer, pname, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glMemoryBarrierByRegion_t(uint barriers);
@@ -3490,14 +3487,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glSpecializeShader(uint shader, char* pEntryPoint, uint numSpecializationConstants, uint* pConstantIndex, uint* pConstantValue) => p_glSpecializeShader(shader, pEntryPoint, numSpecializationConstants, pConstantIndex, pConstantValue);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiDrawArraysIndirectCount_t(PrimitiveType mode, void* indirect, IntPtr drawcount, int maxdrawcount, int stride);
+		private delegate void glMultiDrawArraysIndirectCount_t(PrimitiveType mode, void* indirect, nint drawcount, int maxdrawcount, int stride);
 		private static glMultiDrawArraysIndirectCount_t p_glMultiDrawArraysIndirectCount;
-		public static void glMultiDrawArraysIndirectCount(PrimitiveType mode, void* indirect, IntPtr drawcount, int maxdrawcount, int stride) => p_glMultiDrawArraysIndirectCount(mode, indirect, drawcount, maxdrawcount, stride);
+		public static void glMultiDrawArraysIndirectCount(PrimitiveType mode, void* indirect, nint drawcount, int maxdrawcount, int stride) => p_glMultiDrawArraysIndirectCount(mode, indirect, drawcount, maxdrawcount, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiDrawElementsIndirectCount_t(PrimitiveType mode, uint type, void* indirect, IntPtr drawcount, int maxdrawcount, int stride);
+		private delegate void glMultiDrawElementsIndirectCount_t(PrimitiveType mode, uint type, void* indirect, nint drawcount, int maxdrawcount, int stride);
 		private static glMultiDrawElementsIndirectCount_t p_glMultiDrawElementsIndirectCount;
-		public static void glMultiDrawElementsIndirectCount(PrimitiveType mode, uint type, void* indirect, IntPtr drawcount, int maxdrawcount, int stride) => p_glMultiDrawElementsIndirectCount(mode, type, indirect, drawcount, maxdrawcount, stride);
+		public static void glMultiDrawElementsIndirectCount(PrimitiveType mode, uint type, void* indirect, nint drawcount, int maxdrawcount, int stride) => p_glMultiDrawElementsIndirectCount(mode, type, indirect, drawcount, maxdrawcount, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glPolygonOffsetClamp_t(float factor, float units, float clamp);
@@ -3940,9 +3937,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glBufferParameteriAPPLE(uint target, uint pname, int param) => p_glBufferParameteriAPPLE(target, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFlushMappedBufferRangeAPPLE_t(BufferTargetARB target, IntPtr offset, int size);
+		private delegate void glFlushMappedBufferRangeAPPLE_t(BufferTargetARB target, nint offset, nint size);
 		private static glFlushMappedBufferRangeAPPLE_t p_glFlushMappedBufferRangeAPPLE;
-		public static void glFlushMappedBufferRangeAPPLE(BufferTargetARB target, IntPtr offset, int size) => p_glFlushMappedBufferRangeAPPLE(target, offset, size);
+		public static void glFlushMappedBufferRangeAPPLE(BufferTargetARB target, nint offset, nint size) => p_glFlushMappedBufferRangeAPPLE(target, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate uint glObjectPurgeableAPPLE_t(uint objectType, uint name, uint option);
@@ -4655,14 +4652,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glResetMinmax(MinmaxTargetEXT target) => p_glResetMinmax(target);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiDrawArraysIndirectCountARB_t(PrimitiveType mode, void* indirect, IntPtr drawcount, int maxdrawcount, int stride);
+		private delegate void glMultiDrawArraysIndirectCountARB_t(PrimitiveType mode, void* indirect, nint drawcount, int maxdrawcount, int stride);
 		private static glMultiDrawArraysIndirectCountARB_t p_glMultiDrawArraysIndirectCountARB;
-		public static void glMultiDrawArraysIndirectCountARB(PrimitiveType mode, void* indirect, IntPtr drawcount, int maxdrawcount, int stride) => p_glMultiDrawArraysIndirectCountARB(mode, indirect, drawcount, maxdrawcount, stride);
+		public static void glMultiDrawArraysIndirectCountARB(PrimitiveType mode, void* indirect, nint drawcount, int maxdrawcount, int stride) => p_glMultiDrawArraysIndirectCountARB(mode, indirect, drawcount, maxdrawcount, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiDrawElementsIndirectCountARB_t(PrimitiveType mode, DrawElementsType type, void* indirect, IntPtr drawcount, int maxdrawcount, int stride);
+		private delegate void glMultiDrawElementsIndirectCountARB_t(PrimitiveType mode, DrawElementsType type, void* indirect, nint drawcount, int maxdrawcount, int stride);
 		private static glMultiDrawElementsIndirectCountARB_t p_glMultiDrawElementsIndirectCountARB;
-		public static void glMultiDrawElementsIndirectCountARB(PrimitiveType mode, DrawElementsType type, void* indirect, IntPtr drawcount, int maxdrawcount, int stride) => p_glMultiDrawElementsIndirectCountARB(mode, type, indirect, drawcount, maxdrawcount, stride);
+		public static void glMultiDrawElementsIndirectCountARB(PrimitiveType mode, DrawElementsType type, void* indirect, nint drawcount, int maxdrawcount, int stride) => p_glMultiDrawElementsIndirectCountARB(mode, type, indirect, drawcount, maxdrawcount, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glVertexAttribDivisorARB_t(uint index, uint divisor);
@@ -5270,19 +5267,19 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetNamedStringivARB(int namelen, char* name, uint pname, int* @params) => p_glGetNamedStringivARB(namelen, name, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferPageCommitmentARB_t(uint target, IntPtr offset, int size, bool commit);
+		private delegate void glBufferPageCommitmentARB_t(uint target, nint offset, nint size, bool commit);
 		private static glBufferPageCommitmentARB_t p_glBufferPageCommitmentARB;
-		public static void glBufferPageCommitmentARB(uint target, IntPtr offset, int size, bool commit) => p_glBufferPageCommitmentARB(target, offset, size, commit);
+		public static void glBufferPageCommitmentARB(uint target, nint offset, nint size, bool commit) => p_glBufferPageCommitmentARB(target, offset, size, commit);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferPageCommitmentEXT_t(uint buffer, IntPtr offset, int size, bool commit);
+		private delegate void glNamedBufferPageCommitmentEXT_t(uint buffer, nint offset, nint size, bool commit);
 		private static glNamedBufferPageCommitmentEXT_t p_glNamedBufferPageCommitmentEXT;
-		public static void glNamedBufferPageCommitmentEXT(uint buffer, IntPtr offset, int size, bool commit) => p_glNamedBufferPageCommitmentEXT(buffer, offset, size, commit);
+		public static void glNamedBufferPageCommitmentEXT(uint buffer, nint offset, nint size, bool commit) => p_glNamedBufferPageCommitmentEXT(buffer, offset, size, commit);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferPageCommitmentARB_t(uint buffer, IntPtr offset, int size, bool commit);
+		private delegate void glNamedBufferPageCommitmentARB_t(uint buffer, nint offset, nint size, bool commit);
 		private static glNamedBufferPageCommitmentARB_t p_glNamedBufferPageCommitmentARB;
-		public static void glNamedBufferPageCommitmentARB(uint buffer, IntPtr offset, int size, bool commit) => p_glNamedBufferPageCommitmentARB(buffer, offset, size, commit);
+		public static void glNamedBufferPageCommitmentARB(uint buffer, nint offset, nint size, bool commit) => p_glNamedBufferPageCommitmentARB(buffer, offset, size, commit);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTexPageCommitmentARB_t(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, bool commit);
@@ -5420,19 +5417,19 @@ namespace Evergine.Bindings.OpenGL
 		public static bool glIsBufferARB(uint buffer) => p_glIsBufferARB(buffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferDataARB_t(BufferTargetARB target, int size, void* data, BufferUsageARB usage);
+		private delegate void glBufferDataARB_t(BufferTargetARB target, nint size, void* data, BufferUsageARB usage);
 		private static glBufferDataARB_t p_glBufferDataARB;
-		public static void glBufferDataARB(BufferTargetARB target, int size, void* data, BufferUsageARB usage) => p_glBufferDataARB(target, size, data, usage);
+		public static void glBufferDataARB(BufferTargetARB target, nint size, void* data, BufferUsageARB usage) => p_glBufferDataARB(target, size, data, usage);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferSubDataARB_t(BufferTargetARB target, int offset, int size, void* data);
+		private delegate void glBufferSubDataARB_t(BufferTargetARB target, nint offset, nint size, void* data);
 		private static glBufferSubDataARB_t p_glBufferSubDataARB;
-		public static void glBufferSubDataARB(BufferTargetARB target, int offset, int size, void* data) => p_glBufferSubDataARB(target, offset, size, data);
+		public static void glBufferSubDataARB(BufferTargetARB target, nint offset, nint size, void* data) => p_glBufferSubDataARB(target, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetBufferSubDataARB_t(BufferTargetARB target, int offset, int size, void* data);
+		private delegate void glGetBufferSubDataARB_t(BufferTargetARB target, nint offset, nint size, void* data);
 		private static glGetBufferSubDataARB_t p_glGetBufferSubDataARB;
-		public static void glGetBufferSubDataARB(BufferTargetARB target, int offset, int size, void* data) => p_glGetBufferSubDataARB(target, offset, size, data);
+		public static void glGetBufferSubDataARB(BufferTargetARB target, nint offset, nint size, void* data) => p_glGetBufferSubDataARB(target, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void* glMapBufferARB_t(BufferTargetARB target, BufferAccessARB access);
@@ -6225,9 +6222,9 @@ namespace Evergine.Bindings.OpenGL
 		public static int glGetUniformBufferSizeEXT(uint program, int location) => p_glGetUniformBufferSizeEXT(program, location);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate IntPtr glGetUniformOffsetEXT_t(uint program, int location);
+		private delegate nint glGetUniformOffsetEXT_t(uint program, int location);
 		private static glGetUniformOffsetEXT_t p_glGetUniformOffsetEXT;
-		public static IntPtr glGetUniformOffsetEXT(uint program, int location) => p_glGetUniformOffsetEXT(program, location);
+		public static nint glGetUniformOffsetEXT(uint program, int location) => p_glGetUniformOffsetEXT(program, location);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBlendColorEXT_t(float red, float green, float blue, float alpha);
@@ -6705,79 +6702,79 @@ namespace Evergine.Bindings.OpenGL
 		public static void glMultiTexCoordPointerEXT(TextureUnit texunit, int size, TexCoordPointerType type, int stride, void* pointer) => p_glMultiTexCoordPointerEXT(texunit, size, type, stride, pointer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexEnvfEXT_t(TextureUnit texunit, uint target, uint pname, float param);
+		private delegate void glMultiTexEnvfEXT_t(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, float param);
 		private static glMultiTexEnvfEXT_t p_glMultiTexEnvfEXT;
-		public static void glMultiTexEnvfEXT(TextureUnit texunit, uint target, uint pname, float param) => p_glMultiTexEnvfEXT(texunit, target, pname, param);
+		public static void glMultiTexEnvfEXT(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, float param) => p_glMultiTexEnvfEXT(texunit, target, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexEnvfvEXT_t(TextureUnit texunit, uint target, uint pname, float* @params);
+		private delegate void glMultiTexEnvfvEXT_t(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, float* @params);
 		private static glMultiTexEnvfvEXT_t p_glMultiTexEnvfvEXT;
-		public static void glMultiTexEnvfvEXT(TextureUnit texunit, uint target, uint pname, float* @params) => p_glMultiTexEnvfvEXT(texunit, target, pname, @params);
+		public static void glMultiTexEnvfvEXT(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, float* @params) => p_glMultiTexEnvfvEXT(texunit, target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexEnviEXT_t(TextureUnit texunit, uint target, uint pname, int param);
+		private delegate void glMultiTexEnviEXT_t(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, int param);
 		private static glMultiTexEnviEXT_t p_glMultiTexEnviEXT;
-		public static void glMultiTexEnviEXT(TextureUnit texunit, uint target, uint pname, int param) => p_glMultiTexEnviEXT(texunit, target, pname, param);
+		public static void glMultiTexEnviEXT(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, int param) => p_glMultiTexEnviEXT(texunit, target, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexEnvivEXT_t(TextureUnit texunit, uint target, uint pname, int* @params);
+		private delegate void glMultiTexEnvivEXT_t(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, int* @params);
 		private static glMultiTexEnvivEXT_t p_glMultiTexEnvivEXT;
-		public static void glMultiTexEnvivEXT(TextureUnit texunit, uint target, uint pname, int* @params) => p_glMultiTexEnvivEXT(texunit, target, pname, @params);
+		public static void glMultiTexEnvivEXT(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, int* @params) => p_glMultiTexEnvivEXT(texunit, target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexGendEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, double param);
+		private delegate void glMultiTexGendEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, double param);
 		private static glMultiTexGendEXT_t p_glMultiTexGendEXT;
-		public static void glMultiTexGendEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, double param) => p_glMultiTexGendEXT(texunit, coord, pname, param);
+		public static void glMultiTexGendEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, double param) => p_glMultiTexGendEXT(texunit, coord, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexGendvEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, double* @params);
+		private delegate void glMultiTexGendvEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, double* @params);
 		private static glMultiTexGendvEXT_t p_glMultiTexGendvEXT;
-		public static void glMultiTexGendvEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, double* @params) => p_glMultiTexGendvEXT(texunit, coord, pname, @params);
+		public static void glMultiTexGendvEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, double* @params) => p_glMultiTexGendvEXT(texunit, coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexGenfEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, float param);
+		private delegate void glMultiTexGenfEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, float param);
 		private static glMultiTexGenfEXT_t p_glMultiTexGenfEXT;
-		public static void glMultiTexGenfEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, float param) => p_glMultiTexGenfEXT(texunit, coord, pname, param);
+		public static void glMultiTexGenfEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, float param) => p_glMultiTexGenfEXT(texunit, coord, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexGenfvEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, float* @params);
+		private delegate void glMultiTexGenfvEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, float* @params);
 		private static glMultiTexGenfvEXT_t p_glMultiTexGenfvEXT;
-		public static void glMultiTexGenfvEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, float* @params) => p_glMultiTexGenfvEXT(texunit, coord, pname, @params);
+		public static void glMultiTexGenfvEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, float* @params) => p_glMultiTexGenfvEXT(texunit, coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexGeniEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, int param);
+		private delegate void glMultiTexGeniEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, int param);
 		private static glMultiTexGeniEXT_t p_glMultiTexGeniEXT;
-		public static void glMultiTexGeniEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, int param) => p_glMultiTexGeniEXT(texunit, coord, pname, param);
+		public static void glMultiTexGeniEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, int param) => p_glMultiTexGeniEXT(texunit, coord, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiTexGenivEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, int* @params);
+		private delegate void glMultiTexGenivEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, int* @params);
 		private static glMultiTexGenivEXT_t p_glMultiTexGenivEXT;
-		public static void glMultiTexGenivEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, int* @params) => p_glMultiTexGenivEXT(texunit, coord, pname, @params);
+		public static void glMultiTexGenivEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, int* @params) => p_glMultiTexGenivEXT(texunit, coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMultiTexEnvfvEXT_t(TextureUnit texunit, uint target, uint pname, float* @params);
+		private delegate void glGetMultiTexEnvfvEXT_t(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, float* @params);
 		private static glGetMultiTexEnvfvEXT_t p_glGetMultiTexEnvfvEXT;
-		public static void glGetMultiTexEnvfvEXT(TextureUnit texunit, uint target, uint pname, float* @params) => p_glGetMultiTexEnvfvEXT(texunit, target, pname, @params);
+		public static void glGetMultiTexEnvfvEXT(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, float* @params) => p_glGetMultiTexEnvfvEXT(texunit, target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMultiTexEnvivEXT_t(TextureUnit texunit, uint target, uint pname, int* @params);
+		private delegate void glGetMultiTexEnvivEXT_t(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, int* @params);
 		private static glGetMultiTexEnvivEXT_t p_glGetMultiTexEnvivEXT;
-		public static void glGetMultiTexEnvivEXT(TextureUnit texunit, uint target, uint pname, int* @params) => p_glGetMultiTexEnvivEXT(texunit, target, pname, @params);
+		public static void glGetMultiTexEnvivEXT(TextureUnit texunit, TextureEnvTarget target, TextureEnvParameter pname, int* @params) => p_glGetMultiTexEnvivEXT(texunit, target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMultiTexGendvEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, double* @params);
+		private delegate void glGetMultiTexGendvEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, double* @params);
 		private static glGetMultiTexGendvEXT_t p_glGetMultiTexGendvEXT;
-		public static void glGetMultiTexGendvEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, double* @params) => p_glGetMultiTexGendvEXT(texunit, coord, pname, @params);
+		public static void glGetMultiTexGendvEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, double* @params) => p_glGetMultiTexGendvEXT(texunit, coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMultiTexGenfvEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, float* @params);
+		private delegate void glGetMultiTexGenfvEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, float* @params);
 		private static glGetMultiTexGenfvEXT_t p_glGetMultiTexGenfvEXT;
-		public static void glGetMultiTexGenfvEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, float* @params) => p_glGetMultiTexGenfvEXT(texunit, coord, pname, @params);
+		public static void glGetMultiTexGenfvEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, float* @params) => p_glGetMultiTexGenfvEXT(texunit, coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMultiTexGenivEXT_t(TextureUnit texunit, uint coord, TextureGenParameter pname, int* @params);
+		private delegate void glGetMultiTexGenivEXT_t(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, int* @params);
 		private static glGetMultiTexGenivEXT_t p_glGetMultiTexGenivEXT;
-		public static void glGetMultiTexGenivEXT(TextureUnit texunit, uint coord, TextureGenParameter pname, int* @params) => p_glGetMultiTexGenivEXT(texunit, coord, pname, @params);
+		public static void glGetMultiTexGenivEXT(TextureUnit texunit, TextureCoordName coord, TextureGenParameter pname, int* @params) => p_glGetMultiTexGenivEXT(texunit, coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glMultiTexParameteriEXT_t(TextureUnit texunit, TextureTarget target, TextureParameterName pname, int param);
@@ -7020,14 +7017,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glMatrixMultTransposedEXT(MatrixMode mode, double* m) => p_glMatrixMultTransposedEXT(mode, m);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferDataEXT_t(uint buffer, int size, void* data, VertexBufferObjectUsage usage);
+		private delegate void glNamedBufferDataEXT_t(uint buffer, nint size, void* data, VertexBufferObjectUsage usage);
 		private static glNamedBufferDataEXT_t p_glNamedBufferDataEXT;
-		public static void glNamedBufferDataEXT(uint buffer, int size, void* data, VertexBufferObjectUsage usage) => p_glNamedBufferDataEXT(buffer, size, data, usage);
+		public static void glNamedBufferDataEXT(uint buffer, nint size, void* data, VertexBufferObjectUsage usage) => p_glNamedBufferDataEXT(buffer, size, data, usage);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferSubDataEXT_t(uint buffer, IntPtr offset, int size, void* data);
+		private delegate void glNamedBufferSubDataEXT_t(uint buffer, nint offset, nint size, void* data);
 		private static glNamedBufferSubDataEXT_t p_glNamedBufferSubDataEXT;
-		public static void glNamedBufferSubDataEXT(uint buffer, IntPtr offset, int size, void* data) => p_glNamedBufferSubDataEXT(buffer, offset, size, data);
+		public static void glNamedBufferSubDataEXT(uint buffer, nint offset, nint size, void* data) => p_glNamedBufferSubDataEXT(buffer, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void* glMapNamedBufferEXT_t(uint buffer, BufferAccessARB access);
@@ -7050,9 +7047,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetNamedBufferPointervEXT(uint buffer, VertexBufferObjectParameter pname, void** @params) => p_glGetNamedBufferPointervEXT(buffer, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetNamedBufferSubDataEXT_t(uint buffer, IntPtr offset, int size, void* data);
+		private delegate void glGetNamedBufferSubDataEXT_t(uint buffer, nint offset, nint size, void* data);
 		private static glGetNamedBufferSubDataEXT_t p_glGetNamedBufferSubDataEXT;
-		public static void glGetNamedBufferSubDataEXT(uint buffer, IntPtr offset, int size, void* data) => p_glGetNamedBufferSubDataEXT(buffer, offset, size, data);
+		public static void glGetNamedBufferSubDataEXT(uint buffer, nint offset, nint size, void* data) => p_glGetNamedBufferSubDataEXT(buffer, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glProgramUniform1fEXT_t(uint program, int location, float v0);
@@ -7465,9 +7462,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetFramebufferParameterivEXT(uint framebuffer, GetFramebufferParameter pname, int* @params) => p_glGetFramebufferParameterivEXT(framebuffer, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedCopyBufferSubDataEXT_t(uint readBuffer, uint writeBuffer, IntPtr readOffset, IntPtr writeOffset, int size);
+		private delegate void glNamedCopyBufferSubDataEXT_t(uint readBuffer, uint writeBuffer, nint readOffset, nint writeOffset, nint size);
 		private static glNamedCopyBufferSubDataEXT_t p_glNamedCopyBufferSubDataEXT;
-		public static void glNamedCopyBufferSubDataEXT(uint readBuffer, uint writeBuffer, IntPtr readOffset, IntPtr writeOffset, int size) => p_glNamedCopyBufferSubDataEXT(readBuffer, writeBuffer, readOffset, writeOffset, size);
+		public static void glNamedCopyBufferSubDataEXT(uint readBuffer, uint writeBuffer, nint readOffset, nint writeOffset, nint size) => p_glNamedCopyBufferSubDataEXT(readBuffer, writeBuffer, readOffset, writeOffset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glNamedFramebufferTextureEXT_t(uint framebuffer, FramebufferAttachment attachment, uint texture, int level);
@@ -7495,59 +7492,59 @@ namespace Evergine.Bindings.OpenGL
 		public static void glMultiTexRenderbufferEXT(TextureUnit texunit, TextureTarget target, uint renderbuffer) => p_glMultiTexRenderbufferEXT(texunit, target, renderbuffer);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayVertexOffsetEXT_t(uint vaobj, uint buffer, int size, VertexPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArrayVertexOffsetEXT_t(uint vaobj, uint buffer, int size, VertexPointerType type, int stride, nint offset);
 		private static glVertexArrayVertexOffsetEXT_t p_glVertexArrayVertexOffsetEXT;
-		public static void glVertexArrayVertexOffsetEXT(uint vaobj, uint buffer, int size, VertexPointerType type, int stride, IntPtr offset) => p_glVertexArrayVertexOffsetEXT(vaobj, buffer, size, type, stride, offset);
+		public static void glVertexArrayVertexOffsetEXT(uint vaobj, uint buffer, int size, VertexPointerType type, int stride, nint offset) => p_glVertexArrayVertexOffsetEXT(vaobj, buffer, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayColorOffsetEXT_t(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArrayColorOffsetEXT_t(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, nint offset);
 		private static glVertexArrayColorOffsetEXT_t p_glVertexArrayColorOffsetEXT;
-		public static void glVertexArrayColorOffsetEXT(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, IntPtr offset) => p_glVertexArrayColorOffsetEXT(vaobj, buffer, size, type, stride, offset);
+		public static void glVertexArrayColorOffsetEXT(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, nint offset) => p_glVertexArrayColorOffsetEXT(vaobj, buffer, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayEdgeFlagOffsetEXT_t(uint vaobj, uint buffer, int stride, IntPtr offset);
+		private delegate void glVertexArrayEdgeFlagOffsetEXT_t(uint vaobj, uint buffer, int stride, nint offset);
 		private static glVertexArrayEdgeFlagOffsetEXT_t p_glVertexArrayEdgeFlagOffsetEXT;
-		public static void glVertexArrayEdgeFlagOffsetEXT(uint vaobj, uint buffer, int stride, IntPtr offset) => p_glVertexArrayEdgeFlagOffsetEXT(vaobj, buffer, stride, offset);
+		public static void glVertexArrayEdgeFlagOffsetEXT(uint vaobj, uint buffer, int stride, nint offset) => p_glVertexArrayEdgeFlagOffsetEXT(vaobj, buffer, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayIndexOffsetEXT_t(uint vaobj, uint buffer, IndexPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArrayIndexOffsetEXT_t(uint vaobj, uint buffer, IndexPointerType type, int stride, nint offset);
 		private static glVertexArrayIndexOffsetEXT_t p_glVertexArrayIndexOffsetEXT;
-		public static void glVertexArrayIndexOffsetEXT(uint vaobj, uint buffer, IndexPointerType type, int stride, IntPtr offset) => p_glVertexArrayIndexOffsetEXT(vaobj, buffer, type, stride, offset);
+		public static void glVertexArrayIndexOffsetEXT(uint vaobj, uint buffer, IndexPointerType type, int stride, nint offset) => p_glVertexArrayIndexOffsetEXT(vaobj, buffer, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayNormalOffsetEXT_t(uint vaobj, uint buffer, NormalPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArrayNormalOffsetEXT_t(uint vaobj, uint buffer, NormalPointerType type, int stride, nint offset);
 		private static glVertexArrayNormalOffsetEXT_t p_glVertexArrayNormalOffsetEXT;
-		public static void glVertexArrayNormalOffsetEXT(uint vaobj, uint buffer, NormalPointerType type, int stride, IntPtr offset) => p_glVertexArrayNormalOffsetEXT(vaobj, buffer, type, stride, offset);
+		public static void glVertexArrayNormalOffsetEXT(uint vaobj, uint buffer, NormalPointerType type, int stride, nint offset) => p_glVertexArrayNormalOffsetEXT(vaobj, buffer, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayTexCoordOffsetEXT_t(uint vaobj, uint buffer, int size, TexCoordPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArrayTexCoordOffsetEXT_t(uint vaobj, uint buffer, int size, TexCoordPointerType type, int stride, nint offset);
 		private static glVertexArrayTexCoordOffsetEXT_t p_glVertexArrayTexCoordOffsetEXT;
-		public static void glVertexArrayTexCoordOffsetEXT(uint vaobj, uint buffer, int size, TexCoordPointerType type, int stride, IntPtr offset) => p_glVertexArrayTexCoordOffsetEXT(vaobj, buffer, size, type, stride, offset);
+		public static void glVertexArrayTexCoordOffsetEXT(uint vaobj, uint buffer, int size, TexCoordPointerType type, int stride, nint offset) => p_glVertexArrayTexCoordOffsetEXT(vaobj, buffer, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayMultiTexCoordOffsetEXT_t(uint vaobj, uint buffer, uint texunit, int size, TexCoordPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArrayMultiTexCoordOffsetEXT_t(uint vaobj, uint buffer, uint texunit, int size, TexCoordPointerType type, int stride, nint offset);
 		private static glVertexArrayMultiTexCoordOffsetEXT_t p_glVertexArrayMultiTexCoordOffsetEXT;
-		public static void glVertexArrayMultiTexCoordOffsetEXT(uint vaobj, uint buffer, uint texunit, int size, TexCoordPointerType type, int stride, IntPtr offset) => p_glVertexArrayMultiTexCoordOffsetEXT(vaobj, buffer, texunit, size, type, stride, offset);
+		public static void glVertexArrayMultiTexCoordOffsetEXT(uint vaobj, uint buffer, uint texunit, int size, TexCoordPointerType type, int stride, nint offset) => p_glVertexArrayMultiTexCoordOffsetEXT(vaobj, buffer, texunit, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayFogCoordOffsetEXT_t(uint vaobj, uint buffer, uint type, int stride, IntPtr offset);
+		private delegate void glVertexArrayFogCoordOffsetEXT_t(uint vaobj, uint buffer, FogCoordinatePointerType type, int stride, nint offset);
 		private static glVertexArrayFogCoordOffsetEXT_t p_glVertexArrayFogCoordOffsetEXT;
-		public static void glVertexArrayFogCoordOffsetEXT(uint vaobj, uint buffer, uint type, int stride, IntPtr offset) => p_glVertexArrayFogCoordOffsetEXT(vaobj, buffer, type, stride, offset);
+		public static void glVertexArrayFogCoordOffsetEXT(uint vaobj, uint buffer, FogCoordinatePointerType type, int stride, nint offset) => p_glVertexArrayFogCoordOffsetEXT(vaobj, buffer, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArraySecondaryColorOffsetEXT_t(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, IntPtr offset);
+		private delegate void glVertexArraySecondaryColorOffsetEXT_t(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, nint offset);
 		private static glVertexArraySecondaryColorOffsetEXT_t p_glVertexArraySecondaryColorOffsetEXT;
-		public static void glVertexArraySecondaryColorOffsetEXT(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, IntPtr offset) => p_glVertexArraySecondaryColorOffsetEXT(vaobj, buffer, size, type, stride, offset);
+		public static void glVertexArraySecondaryColorOffsetEXT(uint vaobj, uint buffer, int size, ColorPointerType type, int stride, nint offset) => p_glVertexArraySecondaryColorOffsetEXT(vaobj, buffer, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayVertexAttribOffsetEXT_t(uint vaobj, uint buffer, uint index, int size, VertexAttribPointerType type, bool normalized, int stride, IntPtr offset);
+		private delegate void glVertexArrayVertexAttribOffsetEXT_t(uint vaobj, uint buffer, uint index, int size, VertexAttribPointerType type, bool normalized, int stride, nint offset);
 		private static glVertexArrayVertexAttribOffsetEXT_t p_glVertexArrayVertexAttribOffsetEXT;
-		public static void glVertexArrayVertexAttribOffsetEXT(uint vaobj, uint buffer, uint index, int size, VertexAttribPointerType type, bool normalized, int stride, IntPtr offset) => p_glVertexArrayVertexAttribOffsetEXT(vaobj, buffer, index, size, type, normalized, stride, offset);
+		public static void glVertexArrayVertexAttribOffsetEXT(uint vaobj, uint buffer, uint index, int size, VertexAttribPointerType type, bool normalized, int stride, nint offset) => p_glVertexArrayVertexAttribOffsetEXT(vaobj, buffer, index, size, type, normalized, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayVertexAttribIOffsetEXT_t(uint vaobj, uint buffer, uint index, int size, VertexAttribEnum type, int stride, IntPtr offset);
+		private delegate void glVertexArrayVertexAttribIOffsetEXT_t(uint vaobj, uint buffer, uint index, int size, VertexAttribEnum type, int stride, nint offset);
 		private static glVertexArrayVertexAttribIOffsetEXT_t p_glVertexArrayVertexAttribIOffsetEXT;
-		public static void glVertexArrayVertexAttribIOffsetEXT(uint vaobj, uint buffer, uint index, int size, VertexAttribEnum type, int stride, IntPtr offset) => p_glVertexArrayVertexAttribIOffsetEXT(vaobj, buffer, index, size, type, stride, offset);
+		public static void glVertexArrayVertexAttribIOffsetEXT(uint vaobj, uint buffer, uint index, int size, VertexAttribEnum type, int stride, nint offset) => p_glVertexArrayVertexAttribIOffsetEXT(vaobj, buffer, index, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glEnableVertexArrayEXT_t(uint vaobj, EnableCap array);
@@ -7590,19 +7587,19 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetVertexArrayPointeri_vEXT(uint vaobj, uint index, VertexArrayPName pname, void** param) => p_glGetVertexArrayPointeri_vEXT(vaobj, index, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void* glMapNamedBufferRangeEXT_t(uint buffer, IntPtr offset, int length, uint access);
+		private delegate void* glMapNamedBufferRangeEXT_t(uint buffer, nint offset, nint length, uint access);
 		private static glMapNamedBufferRangeEXT_t p_glMapNamedBufferRangeEXT;
-		public static void* glMapNamedBufferRangeEXT(uint buffer, IntPtr offset, int length, uint access) => p_glMapNamedBufferRangeEXT(buffer, offset, length, access);
+		public static void* glMapNamedBufferRangeEXT(uint buffer, nint offset, nint length, uint access) => p_glMapNamedBufferRangeEXT(buffer, offset, length, access);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFlushMappedNamedBufferRangeEXT_t(uint buffer, IntPtr offset, int length);
+		private delegate void glFlushMappedNamedBufferRangeEXT_t(uint buffer, nint offset, nint length);
 		private static glFlushMappedNamedBufferRangeEXT_t p_glFlushMappedNamedBufferRangeEXT;
-		public static void glFlushMappedNamedBufferRangeEXT(uint buffer, IntPtr offset, int length) => p_glFlushMappedNamedBufferRangeEXT(buffer, offset, length);
+		public static void glFlushMappedNamedBufferRangeEXT(uint buffer, nint offset, nint length) => p_glFlushMappedNamedBufferRangeEXT(buffer, offset, length);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferStorageEXT_t(uint buffer, int size, void* data, uint flags);
+		private delegate void glNamedBufferStorageEXT_t(uint buffer, nint size, void* data, uint flags);
 		private static glNamedBufferStorageEXT_t p_glNamedBufferStorageEXT;
-		public static void glNamedBufferStorageEXT(uint buffer, int size, void* data, uint flags) => p_glNamedBufferStorageEXT(buffer, size, data, flags);
+		public static void glNamedBufferStorageEXT(uint buffer, nint size, void* data, uint flags) => p_glNamedBufferStorageEXT(buffer, size, data, flags);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glClearNamedBufferDataEXT_t(uint buffer, InternalFormat internalformat, PixelFormat format, PixelType type, void* data);
@@ -7610,9 +7607,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glClearNamedBufferDataEXT(uint buffer, InternalFormat internalformat, PixelFormat format, PixelType type, void* data) => p_glClearNamedBufferDataEXT(buffer, internalformat, format, type, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glClearNamedBufferSubDataEXT_t(uint buffer, uint internalformat, int offset, int size, PixelFormat format, PixelType type, void* data);
+		private delegate void glClearNamedBufferSubDataEXT_t(uint buffer, uint internalformat, nint offset, nint size, PixelFormat format, PixelType type, void* data);
 		private static glClearNamedBufferSubDataEXT_t p_glClearNamedBufferSubDataEXT;
-		public static void glClearNamedBufferSubDataEXT(uint buffer, uint internalformat, int offset, int size, PixelFormat format, PixelType type, void* data) => p_glClearNamedBufferSubDataEXT(buffer, internalformat, offset, size, format, type, data);
+		public static void glClearNamedBufferSubDataEXT(uint buffer, uint internalformat, nint offset, nint size, PixelFormat format, PixelType type, void* data) => p_glClearNamedBufferSubDataEXT(buffer, internalformat, offset, size, format, type, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glNamedFramebufferParameteriEXT_t(uint framebuffer, FramebufferParameterName pname, int param);
@@ -7710,9 +7707,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glProgramUniformMatrix4x3dvEXT(uint program, int location, int count, bool transpose, double* value) => p_glProgramUniformMatrix4x3dvEXT(program, location, count, transpose, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTextureBufferRangeEXT_t(uint texture, TextureTarget target, InternalFormat internalformat, uint buffer, IntPtr offset, int size);
+		private delegate void glTextureBufferRangeEXT_t(uint texture, TextureTarget target, InternalFormat internalformat, uint buffer, nint offset, nint size);
 		private static glTextureBufferRangeEXT_t p_glTextureBufferRangeEXT;
-		public static void glTextureBufferRangeEXT(uint texture, TextureTarget target, InternalFormat internalformat, uint buffer, IntPtr offset, int size) => p_glTextureBufferRangeEXT(texture, target, internalformat, buffer, offset, size);
+		public static void glTextureBufferRangeEXT(uint texture, TextureTarget target, InternalFormat internalformat, uint buffer, nint offset, nint size) => p_glTextureBufferRangeEXT(texture, target, internalformat, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTextureStorage1DEXT_t(uint texture, uint target, int levels, InternalFormat internalformat, int width);
@@ -7740,9 +7737,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTextureStorage3DMultisampleEXT(uint texture, uint target, int samples, InternalFormat internalformat, int width, int height, int depth, bool fixedsamplelocations) => p_glTextureStorage3DMultisampleEXT(texture, target, samples, internalformat, width, height, depth, fixedsamplelocations);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayBindVertexBufferEXT_t(uint vaobj, uint bindingindex, uint buffer, IntPtr offset, int stride);
+		private delegate void glVertexArrayBindVertexBufferEXT_t(uint vaobj, uint bindingindex, uint buffer, nint offset, int stride);
 		private static glVertexArrayBindVertexBufferEXT_t p_glVertexArrayBindVertexBufferEXT;
-		public static void glVertexArrayBindVertexBufferEXT(uint vaobj, uint bindingindex, uint buffer, IntPtr offset, int stride) => p_glVertexArrayBindVertexBufferEXT(vaobj, bindingindex, buffer, offset, stride);
+		public static void glVertexArrayBindVertexBufferEXT(uint vaobj, uint bindingindex, uint buffer, nint offset, int stride) => p_glVertexArrayBindVertexBufferEXT(vaobj, bindingindex, buffer, offset, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glVertexArrayVertexAttribFormatEXT_t(uint vaobj, uint attribindex, int size, uint type, bool normalized, uint relativeoffset);
@@ -7770,9 +7767,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glVertexArrayVertexBindingDivisorEXT(uint vaobj, uint bindingindex, uint divisor) => p_glVertexArrayVertexBindingDivisorEXT(vaobj, bindingindex, divisor);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glVertexArrayVertexAttribLOffsetEXT_t(uint vaobj, uint buffer, uint index, int size, uint type, int stride, IntPtr offset);
+		private delegate void glVertexArrayVertexAttribLOffsetEXT_t(uint vaobj, uint buffer, uint index, int size, uint type, int stride, nint offset);
 		private static glVertexArrayVertexAttribLOffsetEXT_t p_glVertexArrayVertexAttribLOffsetEXT;
-		public static void glVertexArrayVertexAttribLOffsetEXT(uint vaobj, uint buffer, uint index, int size, uint type, int stride, IntPtr offset) => p_glVertexArrayVertexAttribLOffsetEXT(vaobj, buffer, index, size, type, stride, offset);
+		public static void glVertexArrayVertexAttribLOffsetEXT(uint vaobj, uint buffer, uint index, int size, uint type, int stride, nint offset) => p_glVertexArrayVertexAttribLOffsetEXT(vaobj, buffer, index, size, type, stride, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTexturePageCommitmentEXT_t(uint texture, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, bool commit);
@@ -7805,14 +7802,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glDrawRangeElementsEXT(PrimitiveType mode, uint start, uint end, int count, DrawElementsType type, void* indices) => p_glDrawRangeElementsEXT(mode, start, end, count, type, indices);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferStorageExternalEXT_t(uint target, IntPtr offset, int size, IntPtr clientBuffer, uint flags);
+		private delegate void glBufferStorageExternalEXT_t(uint target, nint offset, nint size, IntPtr clientBuffer, uint flags);
 		private static glBufferStorageExternalEXT_t p_glBufferStorageExternalEXT;
-		public static void glBufferStorageExternalEXT(uint target, IntPtr offset, int size, IntPtr clientBuffer, uint flags) => p_glBufferStorageExternalEXT(target, offset, size, clientBuffer, flags);
+		public static void glBufferStorageExternalEXT(uint target, nint offset, nint size, IntPtr clientBuffer, uint flags) => p_glBufferStorageExternalEXT(target, offset, size, clientBuffer, flags);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferStorageExternalEXT_t(uint buffer, IntPtr offset, int size, IntPtr clientBuffer, uint flags);
+		private delegate void glNamedBufferStorageExternalEXT_t(uint buffer, nint offset, nint size, IntPtr clientBuffer, uint flags);
 		private static glNamedBufferStorageExternalEXT_t p_glNamedBufferStorageExternalEXT;
-		public static void glNamedBufferStorageExternalEXT(uint buffer, IntPtr offset, int size, IntPtr clientBuffer, uint flags) => p_glNamedBufferStorageExternalEXT(buffer, offset, size, clientBuffer, flags);
+		public static void glNamedBufferStorageExternalEXT(uint buffer, nint offset, nint size, IntPtr clientBuffer, uint flags) => p_glNamedBufferStorageExternalEXT(buffer, offset, size, clientBuffer, flags);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glFogCoordfEXT_t(float coord);
@@ -8075,9 +8072,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTextureLightEXT(uint pname) => p_glTextureLightEXT(pname);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTextureMaterialEXT_t(MaterialFace face, uint mode);
+		private delegate void glTextureMaterialEXT_t(MaterialFace face, MaterialParameter mode);
 		private static glTextureMaterialEXT_t p_glTextureMaterialEXT;
-		public static void glTextureMaterialEXT(MaterialFace face, uint mode) => p_glTextureMaterialEXT(face, mode);
+		public static void glTextureMaterialEXT(MaterialFace face, MaterialParameter mode) => p_glTextureMaterialEXT(face, mode);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetUnsignedBytevEXT_t(GetPName pname, byte* data);
@@ -8135,9 +8132,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTexStorageMem3DMultisampleEXT(TextureTarget target, int samples, uint internalFormat, int width, int height, int depth, bool fixedSampleLocations, uint memory, ulong offset) => p_glTexStorageMem3DMultisampleEXT(target, samples, internalFormat, width, height, depth, fixedSampleLocations, memory, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferStorageMemEXT_t(BufferTargetARB target, int size, uint memory, ulong offset);
+		private delegate void glBufferStorageMemEXT_t(BufferTargetARB target, nint size, uint memory, ulong offset);
 		private static glBufferStorageMemEXT_t p_glBufferStorageMemEXT;
-		public static void glBufferStorageMemEXT(BufferTargetARB target, int size, uint memory, ulong offset) => p_glBufferStorageMemEXT(target, size, memory, offset);
+		public static void glBufferStorageMemEXT(BufferTargetARB target, nint size, uint memory, ulong offset) => p_glBufferStorageMemEXT(target, size, memory, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTextureStorageMem2DEXT_t(uint texture, int levels, uint internalFormat, int width, int height, uint memory, ulong offset);
@@ -8160,9 +8157,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTextureStorageMem3DMultisampleEXT(uint texture, int samples, uint internalFormat, int width, int height, int depth, bool fixedSampleLocations, uint memory, ulong offset) => p_glTextureStorageMem3DMultisampleEXT(texture, samples, internalFormat, width, height, depth, fixedSampleLocations, memory, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glNamedBufferStorageMemEXT_t(uint buffer, int size, uint memory, ulong offset);
+		private delegate void glNamedBufferStorageMemEXT_t(uint buffer, nint size, uint memory, ulong offset);
 		private static glNamedBufferStorageMemEXT_t p_glNamedBufferStorageMemEXT;
-		public static void glNamedBufferStorageMemEXT(uint buffer, int size, uint memory, ulong offset) => p_glNamedBufferStorageMemEXT(buffer, size, memory, offset);
+		public static void glNamedBufferStorageMemEXT(uint buffer, nint size, uint memory, ulong offset) => p_glNamedBufferStorageMemEXT(buffer, size, memory, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTexStorageMem1DEXT_t(TextureTarget target, int levels, uint internalFormat, int width, uint memory, ulong offset);
@@ -8630,14 +8627,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glEndTransformFeedbackEXT() => p_glEndTransformFeedbackEXT();
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindBufferRangeEXT_t(BufferTargetARB target, uint index, uint buffer, IntPtr offset, int size);
+		private delegate void glBindBufferRangeEXT_t(BufferTargetARB target, uint index, uint buffer, nint offset, nint size);
 		private static glBindBufferRangeEXT_t p_glBindBufferRangeEXT;
-		public static void glBindBufferRangeEXT(BufferTargetARB target, uint index, uint buffer, IntPtr offset, int size) => p_glBindBufferRangeEXT(target, index, buffer, offset, size);
+		public static void glBindBufferRangeEXT(BufferTargetARB target, uint index, uint buffer, nint offset, nint size) => p_glBindBufferRangeEXT(target, index, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindBufferOffsetEXT_t(BufferTargetARB target, uint index, uint buffer, IntPtr offset);
+		private delegate void glBindBufferOffsetEXT_t(BufferTargetARB target, uint index, uint buffer, nint offset);
 		private static glBindBufferOffsetEXT_t p_glBindBufferOffsetEXT;
-		public static void glBindBufferOffsetEXT(BufferTargetARB target, uint index, uint buffer, IntPtr offset) => p_glBindBufferOffsetEXT(target, index, buffer, offset);
+		public static void glBindBufferOffsetEXT(BufferTargetARB target, uint index, uint buffer, nint offset) => p_glBindBufferOffsetEXT(target, index, buffer, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBindBufferBaseEXT_t(BufferTargetARB target, uint index, uint buffer);
@@ -8880,19 +8877,19 @@ namespace Evergine.Bindings.OpenGL
 		public static void glDisableVariantClientStateEXT(uint id) => p_glDisableVariantClientStateEXT(id);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glBindLightParameterEXT_t(LightName light, uint value);
+		private delegate uint glBindLightParameterEXT_t(LightName light, LightParameter value);
 		private static glBindLightParameterEXT_t p_glBindLightParameterEXT;
-		public static uint glBindLightParameterEXT(LightName light, uint value) => p_glBindLightParameterEXT(light, value);
+		public static uint glBindLightParameterEXT(LightName light, LightParameter value) => p_glBindLightParameterEXT(light, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glBindMaterialParameterEXT_t(MaterialFace face, uint value);
+		private delegate uint glBindMaterialParameterEXT_t(MaterialFace face, MaterialParameter value);
 		private static glBindMaterialParameterEXT_t p_glBindMaterialParameterEXT;
-		public static uint glBindMaterialParameterEXT(MaterialFace face, uint value) => p_glBindMaterialParameterEXT(face, value);
+		public static uint glBindMaterialParameterEXT(MaterialFace face, MaterialParameter value) => p_glBindMaterialParameterEXT(face, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glBindTexGenParameterEXT_t(TextureUnit unit, uint coord, TextureGenParameter value);
+		private delegate uint glBindTexGenParameterEXT_t(TextureUnit unit, TextureCoordName coord, TextureGenParameter value);
 		private static glBindTexGenParameterEXT_t p_glBindTexGenParameterEXT;
-		public static uint glBindTexGenParameterEXT(TextureUnit unit, uint coord, TextureGenParameter value) => p_glBindTexGenParameterEXT(unit, coord, value);
+		public static uint glBindTexGenParameterEXT(TextureUnit unit, TextureCoordName coord, TextureGenParameter value) => p_glBindTexGenParameterEXT(unit, coord, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate uint glBindTextureUnitParameterEXT_t(TextureUnit unit, uint value);
@@ -8990,9 +8987,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glWindowRectanglesEXT(uint mode, int count, int* box) => p_glWindowRectanglesEXT(mode, count, box);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate IntPtr glImportSyncEXT_t(uint external_sync_type, IntPtr external_sync, uint flags);
+		private delegate IntPtr glImportSyncEXT_t(uint external_sync_type, nint external_sync, uint flags);
 		private static glImportSyncEXT_t p_glImportSyncEXT;
-		public static IntPtr glImportSyncEXT(uint external_sync_type, IntPtr external_sync, uint flags) => p_glImportSyncEXT(external_sync_type, external_sync, flags);
+		public static IntPtr glImportSyncEXT(uint external_sync_type, nint external_sync, uint flags) => p_glImportSyncEXT(external_sync_type, external_sync, flags);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glFrameTerminatorGREMEDY_t();
@@ -9065,9 +9062,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glEdgeFlagPointerListIBM(int stride, IntPtr pointer, int ptrstride) => p_glEdgeFlagPointerListIBM(stride, pointer, ptrstride);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFogCoordPointerListIBM_t(uint type, int stride, void** pointer, int ptrstride);
+		private delegate void glFogCoordPointerListIBM_t(FogPointerTypeIBM type, int stride, void** pointer, int ptrstride);
 		private static glFogCoordPointerListIBM_t p_glFogCoordPointerListIBM;
-		public static void glFogCoordPointerListIBM(uint type, int stride, void** pointer, int ptrstride) => p_glFogCoordPointerListIBM(type, stride, pointer, ptrstride);
+		public static void glFogCoordPointerListIBM(FogPointerTypeIBM type, int stride, void** pointer, int ptrstride) => p_glFogCoordPointerListIBM(type, stride, pointer, ptrstride);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glIndexPointerListIBM_t(IndexPointerType type, int stride, void** pointer, int ptrstride);
@@ -9410,9 +9407,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glEndConditionalRenderNVX() => p_glEndConditionalRenderNVX();
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glLGPUNamedBufferSubDataNVX_t(uint gpuMask, uint buffer, IntPtr offset, int size, void* data);
+		private delegate void glLGPUNamedBufferSubDataNVX_t(uint gpuMask, uint buffer, nint offset, nint size, void* data);
 		private static glLGPUNamedBufferSubDataNVX_t p_glLGPUNamedBufferSubDataNVX;
-		public static void glLGPUNamedBufferSubDataNVX(uint gpuMask, uint buffer, IntPtr offset, int size, void* data) => p_glLGPUNamedBufferSubDataNVX(gpuMask, buffer, offset, size, data);
+		public static void glLGPUNamedBufferSubDataNVX(uint gpuMask, uint buffer, nint offset, nint size, void* data) => p_glLGPUNamedBufferSubDataNVX(gpuMask, buffer, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glLGPUCopyImageSubDataNVX_t(uint sourceGpu, uint destinationGpuMask, uint srcName, uint srcTarget, int srcLevel, int srcX, int srxY, int srcZ, uint dstName, uint dstTarget, int dstLevel, int dstX, int dstY, int dstZ, int width, int height, int depth);
@@ -9560,9 +9557,9 @@ namespace Evergine.Bindings.OpenGL
 		public static ushort glGetStageIndexNV(ShaderType shadertype) => p_glGetStageIndexNV(shadertype);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDrawCommandsNV_t(uint primitiveMode, uint buffer, IntPtr indirects, int* sizes, uint count);
+		private delegate void glDrawCommandsNV_t(uint primitiveMode, uint buffer, nint* indirects, int* sizes, uint count);
 		private static glDrawCommandsNV_t p_glDrawCommandsNV;
-		public static void glDrawCommandsNV(uint primitiveMode, uint buffer, IntPtr indirects, int* sizes, uint count) => p_glDrawCommandsNV(primitiveMode, buffer, indirects, sizes, count);
+		public static void glDrawCommandsNV(uint primitiveMode, uint buffer, nint* indirects, int* sizes, uint count) => p_glDrawCommandsNV(primitiveMode, buffer, indirects, sizes, count);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glDrawCommandsAddressNV_t(uint primitiveMode, ulong* indirects, int* sizes, uint count);
@@ -9570,9 +9567,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glDrawCommandsAddressNV(uint primitiveMode, ulong* indirects, int* sizes, uint count) => p_glDrawCommandsAddressNV(primitiveMode, indirects, sizes, count);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDrawCommandsStatesNV_t(uint buffer, IntPtr indirects, int* sizes, uint* states, uint* fbos, uint count);
+		private delegate void glDrawCommandsStatesNV_t(uint buffer, nint* indirects, int* sizes, uint* states, uint* fbos, uint count);
 		private static glDrawCommandsStatesNV_t p_glDrawCommandsStatesNV;
-		public static void glDrawCommandsStatesNV(uint buffer, IntPtr indirects, int* sizes, uint* states, uint* fbos, uint count) => p_glDrawCommandsStatesNV(buffer, indirects, sizes, states, fbos, count);
+		public static void glDrawCommandsStatesNV(uint buffer, nint* indirects, int* sizes, uint* states, uint* fbos, uint count) => p_glDrawCommandsStatesNV(buffer, indirects, sizes, states, fbos, count);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glDrawCommandsStatesAddressNV_t(ulong* indirects, int* sizes, uint* states, uint* fbos, uint count);
@@ -10185,14 +10182,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glRenderGpuMaskNV(uint mask) => p_glRenderGpuMaskNV(mask);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMulticastBufferSubDataNV_t(uint gpuMask, uint buffer, IntPtr offset, int size, void* data);
+		private delegate void glMulticastBufferSubDataNV_t(uint gpuMask, uint buffer, nint offset, nint size, void* data);
 		private static glMulticastBufferSubDataNV_t p_glMulticastBufferSubDataNV;
-		public static void glMulticastBufferSubDataNV(uint gpuMask, uint buffer, IntPtr offset, int size, void* data) => p_glMulticastBufferSubDataNV(gpuMask, buffer, offset, size, data);
+		public static void glMulticastBufferSubDataNV(uint gpuMask, uint buffer, nint offset, nint size, void* data) => p_glMulticastBufferSubDataNV(gpuMask, buffer, offset, size, data);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMulticastCopyBufferSubDataNV_t(uint readGpu, uint writeGpuMask, uint readBuffer, uint writeBuffer, IntPtr readOffset, IntPtr writeOffset, int size);
+		private delegate void glMulticastCopyBufferSubDataNV_t(uint readGpu, uint writeGpuMask, uint readBuffer, uint writeBuffer, nint readOffset, nint writeOffset, nint size);
 		private static glMulticastCopyBufferSubDataNV_t p_glMulticastCopyBufferSubDataNV;
-		public static void glMulticastCopyBufferSubDataNV(uint readGpu, uint writeGpuMask, uint readBuffer, uint writeBuffer, IntPtr readOffset, IntPtr writeOffset, int size) => p_glMulticastCopyBufferSubDataNV(readGpu, writeGpuMask, readBuffer, writeBuffer, readOffset, writeOffset, size);
+		public static void glMulticastCopyBufferSubDataNV(uint readGpu, uint writeGpuMask, uint readBuffer, uint writeBuffer, nint readOffset, nint writeOffset, nint size) => p_glMulticastCopyBufferSubDataNV(readGpu, writeGpuMask, readBuffer, writeBuffer, readOffset, writeOffset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glMulticastCopyImageSubDataNV_t(uint srcGpu, uint dstGpuMask, uint srcName, uint srcTarget, int srcLevel, int srcX, int srcY, int srcZ, uint dstName, uint dstTarget, int dstLevel, int dstX, int dstY, int dstZ, int srcWidth, int srcHeight, int srcDepth);
@@ -10275,19 +10272,19 @@ namespace Evergine.Bindings.OpenGL
 		public static void glDrawMeshTasksNV(uint first, uint count) => p_glDrawMeshTasksNV(first, count);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDrawMeshTasksIndirectNV_t(IntPtr indirect);
+		private delegate void glDrawMeshTasksIndirectNV_t(nint indirect);
 		private static glDrawMeshTasksIndirectNV_t p_glDrawMeshTasksIndirectNV;
-		public static void glDrawMeshTasksIndirectNV(IntPtr indirect) => p_glDrawMeshTasksIndirectNV(indirect);
+		public static void glDrawMeshTasksIndirectNV(nint indirect) => p_glDrawMeshTasksIndirectNV(indirect);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiDrawMeshTasksIndirectNV_t(IntPtr indirect, int drawcount, int stride);
+		private delegate void glMultiDrawMeshTasksIndirectNV_t(nint indirect, int drawcount, int stride);
 		private static glMultiDrawMeshTasksIndirectNV_t p_glMultiDrawMeshTasksIndirectNV;
-		public static void glMultiDrawMeshTasksIndirectNV(IntPtr indirect, int drawcount, int stride) => p_glMultiDrawMeshTasksIndirectNV(indirect, drawcount, stride);
+		public static void glMultiDrawMeshTasksIndirectNV(nint indirect, int drawcount, int stride) => p_glMultiDrawMeshTasksIndirectNV(indirect, drawcount, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMultiDrawMeshTasksIndirectCountNV_t(IntPtr indirect, IntPtr drawcount, int maxdrawcount, int stride);
+		private delegate void glMultiDrawMeshTasksIndirectCountNV_t(nint indirect, nint drawcount, int maxdrawcount, int stride);
 		private static glMultiDrawMeshTasksIndirectCountNV_t p_glMultiDrawMeshTasksIndirectCountNV;
-		public static void glMultiDrawMeshTasksIndirectCountNV(IntPtr indirect, IntPtr drawcount, int maxdrawcount, int stride) => p_glMultiDrawMeshTasksIndirectCountNV(indirect, drawcount, maxdrawcount, stride);
+		public static void glMultiDrawMeshTasksIndirectCountNV(nint indirect, nint drawcount, int maxdrawcount, int stride) => p_glMultiDrawMeshTasksIndirectCountNV(indirect, drawcount, maxdrawcount, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGenOcclusionQueriesNV_t(int n, uint* ids);
@@ -10610,9 +10607,9 @@ namespace Evergine.Bindings.OpenGL
 		public static uint glPathGlyphIndexArrayNV(uint firstPathName, uint fontTarget, void* fontName, uint fontStyle, uint firstGlyphIndex, int numGlyphs, uint pathParameterTemplate, float emScale) => p_glPathGlyphIndexArrayNV(firstPathName, fontTarget, fontName, fontStyle, firstGlyphIndex, numGlyphs, pathParameterTemplate, emScale);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate uint glPathMemoryGlyphIndexArrayNV_t(uint firstPathName, uint fontTarget, int fontSize, void* fontData, int faceIndex, uint firstGlyphIndex, int numGlyphs, uint pathParameterTemplate, float emScale);
+		private delegate uint glPathMemoryGlyphIndexArrayNV_t(uint firstPathName, uint fontTarget, nint fontSize, void* fontData, int faceIndex, uint firstGlyphIndex, int numGlyphs, uint pathParameterTemplate, float emScale);
 		private static glPathMemoryGlyphIndexArrayNV_t p_glPathMemoryGlyphIndexArrayNV;
-		public static uint glPathMemoryGlyphIndexArrayNV(uint firstPathName, uint fontTarget, int fontSize, void* fontData, int faceIndex, uint firstGlyphIndex, int numGlyphs, uint pathParameterTemplate, float emScale) => p_glPathMemoryGlyphIndexArrayNV(firstPathName, fontTarget, fontSize, fontData, faceIndex, firstGlyphIndex, numGlyphs, pathParameterTemplate, emScale);
+		public static uint glPathMemoryGlyphIndexArrayNV(uint firstPathName, uint fontTarget, nint fontSize, void* fontData, int faceIndex, uint firstGlyphIndex, int numGlyphs, uint pathParameterTemplate, float emScale) => p_glPathMemoryGlyphIndexArrayNV(firstPathName, fontTarget, fontSize, fontData, faceIndex, firstGlyphIndex, numGlyphs, pathParameterTemplate, emScale);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glProgramPathFragmentInputGenNV_t(uint program, int location, uint genMode, int components, float* coeffs);
@@ -10625,39 +10622,39 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetProgramResourcefvNV(uint program, ProgramInterface programInterface, uint index, int propCount, uint* props, int bufSize, int* length, float* @params) => p_glGetProgramResourcefvNV(program, programInterface, index, propCount, props, bufSize, length, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glPathColorGenNV_t(PathColor color, uint genMode, uint colorFormat, float* coeffs);
+		private delegate void glPathColorGenNV_t(PathColor color, PathGenMode genMode, uint colorFormat, float* coeffs);
 		private static glPathColorGenNV_t p_glPathColorGenNV;
-		public static void glPathColorGenNV(PathColor color, uint genMode, uint colorFormat, float* coeffs) => p_glPathColorGenNV(color, genMode, colorFormat, coeffs);
+		public static void glPathColorGenNV(PathColor color, PathGenMode genMode, uint colorFormat, float* coeffs) => p_glPathColorGenNV(color, genMode, colorFormat, coeffs);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glPathTexGenNV_t(PathColor texCoordSet, uint genMode, int components, float* coeffs);
+		private delegate void glPathTexGenNV_t(PathColor texCoordSet, PathGenMode genMode, int components, float* coeffs);
 		private static glPathTexGenNV_t p_glPathTexGenNV;
-		public static void glPathTexGenNV(PathColor texCoordSet, uint genMode, int components, float* coeffs) => p_glPathTexGenNV(texCoordSet, genMode, components, coeffs);
+		public static void glPathTexGenNV(PathColor texCoordSet, PathGenMode genMode, int components, float* coeffs) => p_glPathTexGenNV(texCoordSet, genMode, components, coeffs);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glPathFogGenNV_t(uint genMode);
+		private delegate void glPathFogGenNV_t(PathGenMode genMode);
 		private static glPathFogGenNV_t p_glPathFogGenNV;
-		public static void glPathFogGenNV(uint genMode) => p_glPathFogGenNV(genMode);
+		public static void glPathFogGenNV(PathGenMode genMode) => p_glPathFogGenNV(genMode);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetPathColorGenivNV_t(PathColor color, uint pname, int* value);
+		private delegate void glGetPathColorGenivNV_t(PathColor color, PathGenMode pname, int* value);
 		private static glGetPathColorGenivNV_t p_glGetPathColorGenivNV;
-		public static void glGetPathColorGenivNV(PathColor color, uint pname, int* value) => p_glGetPathColorGenivNV(color, pname, value);
+		public static void glGetPathColorGenivNV(PathColor color, PathGenMode pname, int* value) => p_glGetPathColorGenivNV(color, pname, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetPathColorGenfvNV_t(PathColor color, uint pname, float* value);
+		private delegate void glGetPathColorGenfvNV_t(PathColor color, PathGenMode pname, float* value);
 		private static glGetPathColorGenfvNV_t p_glGetPathColorGenfvNV;
-		public static void glGetPathColorGenfvNV(PathColor color, uint pname, float* value) => p_glGetPathColorGenfvNV(color, pname, value);
+		public static void glGetPathColorGenfvNV(PathColor color, PathGenMode pname, float* value) => p_glGetPathColorGenfvNV(color, pname, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetPathTexGenivNV_t(TextureUnit texCoordSet, uint pname, int* value);
+		private delegate void glGetPathTexGenivNV_t(TextureUnit texCoordSet, PathGenMode pname, int* value);
 		private static glGetPathTexGenivNV_t p_glGetPathTexGenivNV;
-		public static void glGetPathTexGenivNV(TextureUnit texCoordSet, uint pname, int* value) => p_glGetPathTexGenivNV(texCoordSet, pname, value);
+		public static void glGetPathTexGenivNV(TextureUnit texCoordSet, PathGenMode pname, int* value) => p_glGetPathTexGenivNV(texCoordSet, pname, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetPathTexGenfvNV_t(TextureUnit texCoordSet, uint pname, float* value);
+		private delegate void glGetPathTexGenfvNV_t(TextureUnit texCoordSet, PathGenMode pname, float* value);
 		private static glGetPathTexGenfvNV_t p_glGetPathTexGenfvNV;
-		public static void glGetPathTexGenfvNV(TextureUnit texCoordSet, uint pname, float* value) => p_glGetPathTexGenfvNV(texCoordSet, pname, value);
+		public static void glGetPathTexGenfvNV(TextureUnit texCoordSet, PathGenMode pname, float* value) => p_glGetPathTexGenfvNV(texCoordSet, pname, value);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glPixelDataRangeNV_t(uint target, int length, void* pointer);
@@ -10990,14 +10987,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTransformFeedbackAttribsNV(int count, int* attribs, uint bufferMode) => p_glTransformFeedbackAttribsNV(count, attribs, bufferMode);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindBufferRangeNV_t(BufferTargetARB target, uint index, uint buffer, IntPtr offset, int size);
+		private delegate void glBindBufferRangeNV_t(BufferTargetARB target, uint index, uint buffer, nint offset, nint size);
 		private static glBindBufferRangeNV_t p_glBindBufferRangeNV;
-		public static void glBindBufferRangeNV(BufferTargetARB target, uint index, uint buffer, IntPtr offset, int size) => p_glBindBufferRangeNV(target, index, buffer, offset, size);
+		public static void glBindBufferRangeNV(BufferTargetARB target, uint index, uint buffer, nint offset, nint size) => p_glBindBufferRangeNV(target, index, buffer, offset, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindBufferOffsetNV_t(BufferTargetARB target, uint index, uint buffer, IntPtr offset);
+		private delegate void glBindBufferOffsetNV_t(BufferTargetARB target, uint index, uint buffer, nint offset);
 		private static glBindBufferOffsetNV_t p_glBindBufferOffsetNV;
-		public static void glBindBufferOffsetNV(BufferTargetARB target, uint index, uint buffer, IntPtr offset) => p_glBindBufferOffsetNV(target, index, buffer, offset);
+		public static void glBindBufferOffsetNV(BufferTargetARB target, uint index, uint buffer, nint offset) => p_glBindBufferOffsetNV(target, index, buffer, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBindBufferBaseNV_t(BufferTargetARB target, uint index, uint buffer);
@@ -11230,9 +11227,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glVertexAttribLFormatNV(uint index, int size, VertexAttribType type, int stride) => p_glVertexAttribLFormatNV(index, size, type, stride);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBufferAddressRangeNV_t(uint pname, uint index, ulong address, int length);
+		private delegate void glBufferAddressRangeNV_t(uint pname, uint index, ulong address, nint length);
 		private static glBufferAddressRangeNV_t p_glBufferAddressRangeNV;
-		public static void glBufferAddressRangeNV(uint pname, uint index, ulong address, int length) => p_glBufferAddressRangeNV(pname, index, address, length);
+		public static void glBufferAddressRangeNV(uint pname, uint index, ulong address, nint length) => p_glBufferAddressRangeNV(pname, index, address, length);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glVertexFormatNV_t(int size, VertexPointerType type, int stride);
@@ -11730,9 +11727,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glBeginVideoCaptureNV(uint video_capture_slot) => p_glBeginVideoCaptureNV(video_capture_slot);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glBindVideoCaptureStreamBufferNV_t(uint video_capture_slot, uint stream, uint frame_region, int offset);
+		private delegate void glBindVideoCaptureStreamBufferNV_t(uint video_capture_slot, uint stream, uint frame_region, nint offset);
 		private static glBindVideoCaptureStreamBufferNV_t p_glBindVideoCaptureStreamBufferNV;
-		public static void glBindVideoCaptureStreamBufferNV(uint video_capture_slot, uint stream, uint frame_region, int offset) => p_glBindVideoCaptureStreamBufferNV(video_capture_slot, stream, frame_region, offset);
+		public static void glBindVideoCaptureStreamBufferNV(uint video_capture_slot, uint stream, uint frame_region, nint offset) => p_glBindVideoCaptureStreamBufferNV(video_capture_slot, stream, frame_region, offset);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glBindVideoCaptureStreamTextureNV_t(uint video_capture_slot, uint stream, uint frame_region, uint target, uint texture);
@@ -11930,14 +11927,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glDepthRangexOES(int n, int f) => p_glDepthRangexOES(n, f);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFogxOES_t(uint pname, int param);
+		private delegate void glFogxOES_t(FogPName pname, int param);
 		private static glFogxOES_t p_glFogxOES;
-		public static void glFogxOES(uint pname, int param) => p_glFogxOES(pname, param);
+		public static void glFogxOES(FogPName pname, int param) => p_glFogxOES(pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFogxvOES_t(uint pname, IntPtr param);
+		private delegate void glFogxvOES_t(FogPName pname, IntPtr param);
 		private static glFogxvOES_t p_glFogxvOES;
-		public static void glFogxvOES(uint pname, IntPtr param) => p_glFogxvOES(pname, param);
+		public static void glFogxvOES(FogPName pname, IntPtr param) => p_glFogxvOES(pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glFrustumxOES_t(int l, int r, int b, int t, int n, int f);
@@ -11955,9 +11952,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetFixedvOES(GetPName pname, IntPtr @params) => p_glGetFixedvOES(pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetTexEnvxvOES_t(uint target, uint pname, IntPtr @params);
+		private delegate void glGetTexEnvxvOES_t(TextureEnvTarget target, TextureEnvParameter pname, IntPtr @params);
 		private static glGetTexEnvxvOES_t p_glGetTexEnvxvOES;
-		public static void glGetTexEnvxvOES(uint target, uint pname, IntPtr @params) => p_glGetTexEnvxvOES(target, pname, @params);
+		public static void glGetTexEnvxvOES(TextureEnvTarget target, TextureEnvParameter pname, IntPtr @params) => p_glGetTexEnvxvOES(target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetTexParameterxvOES_t(TextureTarget target, GetTextureParameter pname, IntPtr @params);
@@ -11975,14 +11972,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glLightModelxvOES(LightModelParameter pname, IntPtr param) => p_glLightModelxvOES(pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glLightxOES_t(LightName light, uint pname, int param);
+		private delegate void glLightxOES_t(LightName light, LightParameter pname, int param);
 		private static glLightxOES_t p_glLightxOES;
-		public static void glLightxOES(LightName light, uint pname, int param) => p_glLightxOES(light, pname, param);
+		public static void glLightxOES(LightName light, LightParameter pname, int param) => p_glLightxOES(light, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glLightxvOES_t(LightName light, uint pname, IntPtr @params);
+		private delegate void glLightxvOES_t(LightName light, LightParameter pname, IntPtr @params);
 		private static glLightxvOES_t p_glLightxvOES;
-		public static void glLightxvOES(LightName light, uint pname, IntPtr @params) => p_glLightxvOES(light, pname, @params);
+		public static void glLightxvOES(LightName light, LightParameter pname, IntPtr @params) => p_glLightxvOES(light, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glLineWidthxOES_t(int width);
@@ -11995,14 +11992,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glLoadMatrixxOES(IntPtr m) => p_glLoadMatrixxOES(m);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMaterialxOES_t(MaterialFace face, uint pname, int param);
+		private delegate void glMaterialxOES_t(MaterialFace face, MaterialParameter pname, int param);
 		private static glMaterialxOES_t p_glMaterialxOES;
-		public static void glMaterialxOES(MaterialFace face, uint pname, int param) => p_glMaterialxOES(face, pname, param);
+		public static void glMaterialxOES(MaterialFace face, MaterialParameter pname, int param) => p_glMaterialxOES(face, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glMaterialxvOES_t(MaterialFace face, uint pname, IntPtr param);
+		private delegate void glMaterialxvOES_t(MaterialFace face, MaterialParameter pname, IntPtr param);
 		private static glMaterialxvOES_t p_glMaterialxvOES;
-		public static void glMaterialxvOES(MaterialFace face, uint pname, IntPtr param) => p_glMaterialxvOES(face, pname, param);
+		public static void glMaterialxvOES(MaterialFace face, MaterialParameter pname, IntPtr param) => p_glMaterialxvOES(face, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glMultMatrixxOES_t(IntPtr m);
@@ -12050,14 +12047,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glScalexOES(int x, int y, int z) => p_glScalexOES(x, y, z);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTexEnvxOES_t(uint target, uint pname, int param);
+		private delegate void glTexEnvxOES_t(TextureEnvTarget target, TextureEnvParameter pname, int param);
 		private static glTexEnvxOES_t p_glTexEnvxOES;
-		public static void glTexEnvxOES(uint target, uint pname, int param) => p_glTexEnvxOES(target, pname, param);
+		public static void glTexEnvxOES(TextureEnvTarget target, TextureEnvParameter pname, int param) => p_glTexEnvxOES(target, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTexEnvxvOES_t(uint target, uint pname, IntPtr @params);
+		private delegate void glTexEnvxvOES_t(TextureEnvTarget target, TextureEnvParameter pname, IntPtr @params);
 		private static glTexEnvxvOES_t p_glTexEnvxvOES;
-		public static void glTexEnvxvOES(uint target, uint pname, IntPtr @params) => p_glTexEnvxvOES(target, pname, @params);
+		public static void glTexEnvxvOES(TextureEnvTarget target, TextureEnvParameter pname, IntPtr @params) => p_glTexEnvxvOES(target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glTexParameterxOES_t(TextureTarget target, GetTextureParameter pname, int param);
@@ -12075,14 +12072,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTranslatexOES(int x, int y, int z) => p_glTranslatexOES(x, y, z);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetLightxvOES_t(LightName light, uint pname, IntPtr @params);
+		private delegate void glGetLightxvOES_t(LightName light, LightParameter pname, IntPtr @params);
 		private static glGetLightxvOES_t p_glGetLightxvOES;
-		public static void glGetLightxvOES(LightName light, uint pname, IntPtr @params) => p_glGetLightxvOES(light, pname, @params);
+		public static void glGetLightxvOES(LightName light, LightParameter pname, IntPtr @params) => p_glGetLightxvOES(light, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMaterialxvOES_t(MaterialFace face, uint pname, IntPtr @params);
+		private delegate void glGetMaterialxvOES_t(MaterialFace face, MaterialParameter pname, IntPtr @params);
 		private static glGetMaterialxvOES_t p_glGetMaterialxvOES;
-		public static void glGetMaterialxvOES(MaterialFace face, uint pname, IntPtr @params) => p_glGetMaterialxvOES(face, pname, @params);
+		public static void glGetMaterialxvOES(MaterialFace face, MaterialParameter pname, IntPtr @params) => p_glGetMaterialxvOES(face, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glPointParameterxOES_t(uint pname, int param);
@@ -12175,19 +12172,19 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetHistogramParameterxvOES(HistogramTargetEXT target, GetHistogramParameterPNameEXT pname, IntPtr @params) => p_glGetHistogramParameterxvOES(target, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetLightxOES_t(LightName light, uint pname, IntPtr @params);
+		private delegate void glGetLightxOES_t(LightName light, LightParameter pname, IntPtr @params);
 		private static glGetLightxOES_t p_glGetLightxOES;
-		public static void glGetLightxOES(LightName light, uint pname, IntPtr @params) => p_glGetLightxOES(light, pname, @params);
+		public static void glGetLightxOES(LightName light, LightParameter pname, IntPtr @params) => p_glGetLightxOES(light, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMapxvOES_t(MapTarget target, uint query, IntPtr v);
+		private delegate void glGetMapxvOES_t(MapTarget target, GetMapQuery query, IntPtr v);
 		private static glGetMapxvOES_t p_glGetMapxvOES;
-		public static void glGetMapxvOES(MapTarget target, uint query, IntPtr v) => p_glGetMapxvOES(target, query, v);
+		public static void glGetMapxvOES(MapTarget target, GetMapQuery query, IntPtr v) => p_glGetMapxvOES(target, query, v);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetMaterialxOES_t(MaterialFace face, uint pname, int param);
+		private delegate void glGetMaterialxOES_t(MaterialFace face, MaterialParameter pname, int param);
 		private static glGetMaterialxOES_t p_glGetMaterialxOES;
-		public static void glGetMaterialxOES(MaterialFace face, uint pname, int param) => p_glGetMaterialxOES(face, pname, param);
+		public static void glGetMaterialxOES(MaterialFace face, MaterialParameter pname, int param) => p_glGetMaterialxOES(face, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetPixelMapxv_t(PixelMap map, int size, IntPtr values);
@@ -12195,9 +12192,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetPixelMapxv(PixelMap map, int size, IntPtr values) => p_glGetPixelMapxv(map, size, values);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetTexGenxvOES_t(uint coord, TextureGenParameter pname, IntPtr @params);
+		private delegate void glGetTexGenxvOES_t(TextureCoordName coord, TextureGenParameter pname, IntPtr @params);
 		private static glGetTexGenxvOES_t p_glGetTexGenxvOES;
-		public static void glGetTexGenxvOES(uint coord, TextureGenParameter pname, IntPtr @params) => p_glGetTexGenxvOES(coord, pname, @params);
+		public static void glGetTexGenxvOES(TextureCoordName coord, TextureGenParameter pname, IntPtr @params) => p_glGetTexGenxvOES(coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetTexLevelParameterxvOES_t(TextureTarget target, int level, GetTextureParameter pname, IntPtr @params);
@@ -12395,14 +12392,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glTexCoord4xvOES(IntPtr coords) => p_glTexCoord4xvOES(coords);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTexGenxOES_t(uint coord, TextureGenParameter pname, int param);
+		private delegate void glTexGenxOES_t(TextureCoordName coord, TextureGenParameter pname, int param);
 		private static glTexGenxOES_t p_glTexGenxOES;
-		public static void glTexGenxOES(uint coord, TextureGenParameter pname, int param) => p_glTexGenxOES(coord, pname, param);
+		public static void glTexGenxOES(TextureCoordName coord, TextureGenParameter pname, int param) => p_glTexGenxOES(coord, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glTexGenxvOES_t(uint coord, TextureGenParameter pname, IntPtr @params);
+		private delegate void glTexGenxvOES_t(TextureCoordName coord, TextureGenParameter pname, IntPtr @params);
 		private static glTexGenxvOES_t p_glTexGenxvOES;
-		public static void glTexGenxvOES(uint coord, TextureGenParameter pname, IntPtr @params) => p_glTexGenxvOES(coord, pname, @params);
+		public static void glTexGenxvOES(TextureCoordName coord, TextureGenParameter pname, IntPtr @params) => p_glTexGenxvOES(coord, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glVertex2xOES_t(int x);
@@ -12620,9 +12617,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glFlushRasterSGIX() => p_glFlushRasterSGIX();
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFragmentColorMaterialSGIX_t(MaterialFace face, uint mode);
+		private delegate void glFragmentColorMaterialSGIX_t(MaterialFace face, MaterialParameter mode);
 		private static glFragmentColorMaterialSGIX_t p_glFragmentColorMaterialSGIX;
-		public static void glFragmentColorMaterialSGIX(MaterialFace face, uint mode) => p_glFragmentColorMaterialSGIX(face, mode);
+		public static void glFragmentColorMaterialSGIX(MaterialFace face, MaterialParameter mode) => p_glFragmentColorMaterialSGIX(face, mode);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glFragmentLightfSGIX_t(uint light, uint pname, float param);
@@ -12665,24 +12662,24 @@ namespace Evergine.Bindings.OpenGL
 		public static void glFragmentLightModelivSGIX(FragmentLightModelParameterSGIX pname, int* @params) => p_glFragmentLightModelivSGIX(pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFragmentMaterialfSGIX_t(MaterialFace face, uint pname, float param);
+		private delegate void glFragmentMaterialfSGIX_t(MaterialFace face, MaterialParameter pname, float param);
 		private static glFragmentMaterialfSGIX_t p_glFragmentMaterialfSGIX;
-		public static void glFragmentMaterialfSGIX(MaterialFace face, uint pname, float param) => p_glFragmentMaterialfSGIX(face, pname, param);
+		public static void glFragmentMaterialfSGIX(MaterialFace face, MaterialParameter pname, float param) => p_glFragmentMaterialfSGIX(face, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFragmentMaterialfvSGIX_t(MaterialFace face, uint pname, float* @params);
+		private delegate void glFragmentMaterialfvSGIX_t(MaterialFace face, MaterialParameter pname, float* @params);
 		private static glFragmentMaterialfvSGIX_t p_glFragmentMaterialfvSGIX;
-		public static void glFragmentMaterialfvSGIX(MaterialFace face, uint pname, float* @params) => p_glFragmentMaterialfvSGIX(face, pname, @params);
+		public static void glFragmentMaterialfvSGIX(MaterialFace face, MaterialParameter pname, float* @params) => p_glFragmentMaterialfvSGIX(face, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFragmentMaterialiSGIX_t(MaterialFace face, uint pname, int param);
+		private delegate void glFragmentMaterialiSGIX_t(MaterialFace face, MaterialParameter pname, int param);
 		private static glFragmentMaterialiSGIX_t p_glFragmentMaterialiSGIX;
-		public static void glFragmentMaterialiSGIX(MaterialFace face, uint pname, int param) => p_glFragmentMaterialiSGIX(face, pname, param);
+		public static void glFragmentMaterialiSGIX(MaterialFace face, MaterialParameter pname, int param) => p_glFragmentMaterialiSGIX(face, pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glFragmentMaterialivSGIX_t(MaterialFace face, uint pname, int* @params);
+		private delegate void glFragmentMaterialivSGIX_t(MaterialFace face, MaterialParameter pname, int* @params);
 		private static glFragmentMaterialivSGIX_t p_glFragmentMaterialivSGIX;
-		public static void glFragmentMaterialivSGIX(MaterialFace face, uint pname, int* @params) => p_glFragmentMaterialivSGIX(face, pname, @params);
+		public static void glFragmentMaterialivSGIX(MaterialFace face, MaterialParameter pname, int* @params) => p_glFragmentMaterialivSGIX(face, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glGetFragmentLightfvSGIX_t(uint light, uint pname, float* @params);
@@ -12695,19 +12692,19 @@ namespace Evergine.Bindings.OpenGL
 		public static void glGetFragmentLightivSGIX(uint light, uint pname, int* @params) => p_glGetFragmentLightivSGIX(light, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetFragmentMaterialfvSGIX_t(MaterialFace face, uint pname, float* @params);
+		private delegate void glGetFragmentMaterialfvSGIX_t(MaterialFace face, MaterialParameter pname, float* @params);
 		private static glGetFragmentMaterialfvSGIX_t p_glGetFragmentMaterialfvSGIX;
-		public static void glGetFragmentMaterialfvSGIX(MaterialFace face, uint pname, float* @params) => p_glGetFragmentMaterialfvSGIX(face, pname, @params);
+		public static void glGetFragmentMaterialfvSGIX(MaterialFace face, MaterialParameter pname, float* @params) => p_glGetFragmentMaterialfvSGIX(face, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glGetFragmentMaterialivSGIX_t(MaterialFace face, uint pname, int* @params);
+		private delegate void glGetFragmentMaterialivSGIX_t(MaterialFace face, MaterialParameter pname, int* @params);
 		private static glGetFragmentMaterialivSGIX_t p_glGetFragmentMaterialivSGIX;
-		public static void glGetFragmentMaterialivSGIX(MaterialFace face, uint pname, int* @params) => p_glGetFragmentMaterialivSGIX(face, pname, @params);
+		public static void glGetFragmentMaterialivSGIX(MaterialFace face, MaterialParameter pname, int* @params) => p_glGetFragmentMaterialivSGIX(face, pname, @params);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glLightEnviSGIX_t(uint pname, int param);
+		private delegate void glLightEnviSGIX_t(LightEnvParameterSGIX pname, int param);
 		private static glLightEnviSGIX_t p_glLightEnviSGIX;
-		public static void glLightEnviSGIX(uint pname, int param) => p_glLightEnviSGIX(pname, param);
+		public static void glLightEnviSGIX(LightEnvParameterSGIX pname, int param) => p_glLightEnviSGIX(pname, param);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glFrameZoomSGIX_t(int factor);
@@ -12785,14 +12782,14 @@ namespace Evergine.Bindings.OpenGL
 		public static void glPixelTexGenSGIX(uint mode) => p_glPixelTexGenSGIX(mode);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDeformationMap3dSGIX_t(uint target, double u1, double u2, int ustride, int uorder, double v1, double v2, int vstride, int vorder, double w1, double w2, int wstride, int worder, double* points);
+		private delegate void glDeformationMap3dSGIX_t(FfdTargetSGIX target, double u1, double u2, int ustride, int uorder, double v1, double v2, int vstride, int vorder, double w1, double w2, int wstride, int worder, double* points);
 		private static glDeformationMap3dSGIX_t p_glDeformationMap3dSGIX;
-		public static void glDeformationMap3dSGIX(uint target, double u1, double u2, int ustride, int uorder, double v1, double v2, int vstride, int vorder, double w1, double w2, int wstride, int worder, double* points) => p_glDeformationMap3dSGIX(target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, w1, w2, wstride, worder, points);
+		public static void glDeformationMap3dSGIX(FfdTargetSGIX target, double u1, double u2, int ustride, int uorder, double v1, double v2, int vstride, int vorder, double w1, double w2, int wstride, int worder, double* points) => p_glDeformationMap3dSGIX(target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, w1, w2, wstride, worder, points);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate void glDeformationMap3fSGIX_t(uint target, float u1, float u2, int ustride, int uorder, float v1, float v2, int vstride, int vorder, float w1, float w2, int wstride, int worder, float* points);
+		private delegate void glDeformationMap3fSGIX_t(FfdTargetSGIX target, float u1, float u2, int ustride, int uorder, float v1, float v2, int vstride, int vorder, float w1, float w2, int wstride, int worder, float* points);
 		private static glDeformationMap3fSGIX_t p_glDeformationMap3fSGIX;
-		public static void glDeformationMap3fSGIX(uint target, float u1, float u2, int ustride, int uorder, float v1, float v2, int vstride, int vorder, float w1, float w2, int wstride, int worder, float* points) => p_glDeformationMap3fSGIX(target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, w1, w2, wstride, worder, points);
+		public static void glDeformationMap3fSGIX(FfdTargetSGIX target, float u1, float u2, int ustride, int uorder, float v1, float v2, int vstride, int vorder, float w1, float w2, int wstride, int worder, float* points) => p_glDeformationMap3fSGIX(target, u1, u2, ustride, uorder, v1, v2, vstride, vorder, w1, w2, wstride, worder, points);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glDeformSGIX_t(uint mask);
@@ -13153,12 +13150,6 @@ namespace Evergine.Bindings.OpenGL
 		private delegate void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN_t(uint* rc, float* tc, float* c, float* n, float* v);
 		private static glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN_t p_glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN;
 		public static void glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(uint* rc, float* tc, float* c, float* n, float* v) => p_glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN(rc, tc, c, n, v);
-
-		public static void LoadGetString(Func<string, IntPtr> getProcAddress)
-		{
-			s_getProcAddress = getProcAddress;
-			LoadFunction("glGetString", out p_glGetString);
-		}
 
 		public static void LoadAllFunctions(Func<string, IntPtr> getProcAddress)
 		{
@@ -15793,19 +15784,6 @@ namespace Evergine.Bindings.OpenGL
 			LoadFunction("glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN", out p_glReplacementCodeuiTexCoord2fNormal3fVertex3fvSUN);
 			LoadFunction("glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN", out p_glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fSUN);
 			LoadFunction("glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN", out p_glReplacementCodeuiTexCoord2fColor4fNormal3fVertex3fvSUN);
-		}
-
-		private static void LoadFunction<T>(string name, out T field)
-		{
-			IntPtr funcPtr = s_getProcAddress(name);
-			if (funcPtr != IntPtr.Zero)
-			{
-				field = Marshal.GetDelegateForFunctionPointer<T>(funcPtr);
-			}
-			else
-			{
-				field = default(T);
-			}
 		}
 	}
 }

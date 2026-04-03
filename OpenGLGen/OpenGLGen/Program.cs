@@ -1,350 +1,244 @@
-﻿using System;
-using System.Globalization;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace OpenGLGen
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string glFile = Path.Combine("..", "..", "..", "..", "..", "KhronosRegistry", "gl.xml");
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			string glFile = Path.Combine("..", "..", "..", "..", "..", "KhronosRegistry", "gl.xml");
 
-            // Generate OpenGL bindings
-            DirectoryInfo workingDirectory = new DirectoryInfo(Path.Combine("..", "..", "..", "..", "Evergine.Bindings.OpenGL"));
-            var api = new[] { "gl" };
-            string namespaceText = "namespace Evergine.Bindings.OpenGL";
-            string nativeClassText = "GL";
-            GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
-        }
+			// Generate OpenGL bindings
+			DirectoryInfo workingDirectory = new DirectoryInfo(Path.Combine("..", "..", "..", "..", "Evergine.Bindings.OpenGL"));
+			var api = new[] { "gl" };
+			string namespaceText = "namespace Evergine.Bindings.OpenGL";
+			string nativeClassText = "GL";
+			GenerateBindings(glFile, workingDirectory, api, namespaceText, nativeClassText);
+		}
 
-        private static void GenerateBindings(string glFile, DirectoryInfo workingDirectory, string[] api, string namespaceText, string nativeClassText)
-        {
-            var spec = GLParser.FromFile(glFile, api);
+		private static void GenerateBindings(string glFile, DirectoryInfo workingDirectory, string[] api, string namespaceText, string nativeClassText)
+		{
+			var spec = OpenGLSpecification.FromFile(glFile, api);
 
-            Console.WriteLine($"Parsed {spec.Versions.Count} API versions");
-            Console.WriteLine($"Parsed {spec.Extensions.Count} extensions ({spec.Extensions.Count(e => e.Supported != "disabled" && e.Supported.Split('|').Any(s => api.Contains(s)))} matching API filter)");
+			Console.WriteLine($"Parsed {spec.Features.Count} API versions");
+			Console.WriteLine($"Parsed {spec.Extensions.Count} extensions ({spec.Extensions.Count(e => e.Supported != "disabled" && e.Supported.Split('|').Any(s => api.Contains(s)))} matching API filter)");
+			Console.WriteLine($"Parsed {spec.Commands.Count} commands");
+			Console.WriteLine($"Parsed {spec.Constants.Count} constants");
 
-            // Select version
-            var version = spec.Versions[spec.Versions.Count - 1];
+			var version = OpenGLVersion.FromSpec(spec, api);
 
-            // Write Enums
-            using (var writer = new StreamWriter((Path.Combine(workingDirectory.FullName, "Enums.cs"))))
-            {
-                writer.WriteLine("using System;\n");
-                writer.WriteLine(namespaceText);
-                writer.WriteLine("{");
+			Console.WriteLine($"Resolved {version.Groups.Count} enum groups");
+			Console.WriteLine($"Resolved {version.Commands.Count} commands");
+			Console.WriteLine($"Resolved {version.Constants.Count} constants");
 
-                int count = 0;
-                foreach (var groupElem in version.Groups)
-                {
-                    // Separate one line betweens enums
-                    if (count++ > 0)
-                    {
-                        writer.WriteLine();
-                    }
+			// Ensure Generated/ output directory exists
+			string generatedPath = Path.Combine(workingDirectory.FullName, "Generated");
+			if (!Directory.Exists(generatedPath))
+			{
+				Directory.CreateDirectory(generatedPath);
+			}
 
-                    writer.WriteLine($"\tpublic enum {groupElem.Name} : uint");
-                    writer.WriteLine("\t{");
-                    foreach (var enumElem in groupElem.Enums)
-                    {
-                        if (IsUint(enumElem.Value))
-                        {
-                            writer.WriteLine($"\t\t{enumElem.ShortName} = {enumElem.Value},");
-                        }
-                    }
-                    writer.WriteLine("\t}");
-                }
+			GenerateEnums(version, generatedPath, namespaceText);
+			GenerateConstants(version, generatedPath, namespaceText, nativeClassText);
+			GenerateCommands(version, spec, generatedPath, namespaceText, nativeClassText);
 
-                writer.WriteLine("}");
-            }
+			Console.WriteLine("Generation complete.");
+		}
 
-            // Write Commands
-            using (var writer = new StreamWriter((Path.Combine(workingDirectory.FullName, $"{nativeClassText}.cs"))))
-            {
-                writer.WriteLine("using System;");
-                writer.WriteLine("using System.Runtime.InteropServices;\n");
-                writer.WriteLine(namespaceText);
-                writer.WriteLine("{");
-                writer.WriteLine($"\tpublic static unsafe class {nativeClassText}");
-                writer.WriteLine("\t{");
-                writer.WriteLine("\t\tprivate static Func<string, IntPtr> s_getProcAddress;\n");
-                writer.WriteLine("\t\tprivate const CallingConvention CallConv = CallingConvention.Winapi;");
+		private static void GenerateEnums(OpenGLVersion version, string outputPath, string namespaceText)
+		{
+			using (var writer = new StreamWriter(Path.Combine(outputPath, "Enums.cs")))
+			{
+				writer.WriteLine("using System;\n");
+				writer.WriteLine(namespaceText);
+				writer.WriteLine("{");
 
-                // Prototypes
-                foreach (var command in version.Commands)
-                {
-                    writer.WriteLine("\n\t\t[UnmanagedFunctionPointer(CallConv)]");
+				int count = 0;
+				foreach (var groupElem in version.Groups)
+				{
+					// Separate one line between enums
+					if (count++ > 0)
+					{
+						writer.WriteLine();
+					}
 
-                    // Delegate
-                    StringBuilder delegateCommand = new StringBuilder("\t\tprivate delegate ");
-                    BuildReturnType(version, command, delegateCommand);
-                    delegateCommand.Append($" {command.Name}_t(");
-                    BuildParameterList(version, command, delegateCommand);
-                    delegateCommand.Append(");");
-                    writer.WriteLine(delegateCommand.ToString());
+					if (groupElem.IsBitmask)
+					{
+						writer.WriteLine("\t[Flags]");
+					}
 
-                    // internal function
-                    writer.WriteLine($"\t\tprivate static {command.Name}_t p_{command.Name};");
+					writer.WriteLine($"\tpublic enum {groupElem.Name} : uint");
+					writer.WriteLine("\t{");
 
-                    // public function
-                    StringBuilder function = new StringBuilder($"\t\tpublic static ");
-                    BuildReturnType(version, command, function);
-                    function.Append($" {command.Name}(");
-                    BuildParameterList(version, command, function);
-                    function.Append($") => p_{command.Name}(");
-                    BuildParameterNamesList(command, function);
-                    function.Append(");");
-                    writer.WriteLine(function.ToString());
-                }
+					// Add None = 0 for bitmask enums if no zero value exists
+					if (groupElem.IsBitmask && !groupElem.Enums.Exists(e => e.Value == "0" || e.Value == "0x0000" || e.Value == "0x00000000"))
+					{
+						writer.WriteLine("\t\tNone = 0,");
+					}
 
-                // Helper functions
-                writer.WriteLine("\n\t\tpublic static void LoadGetString(Func<string, IntPtr> getProcAddress)");
-                writer.WriteLine("\t\t{");
-                writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;");
-                writer.WriteLine("\t\t\tLoadFunction(\"glGetString\", out p_glGetString);");
-                writer.WriteLine("\t\t}");
+					foreach (var enumElem in groupElem.Enums)
+					{
+						if (Helpers.IsUint(enumElem.Value))
+						{
+							writer.WriteLine($"\t\t{enumElem.ShortName} = {enumElem.Value},");
+						}
+					}
+					writer.WriteLine("\t}");
+				}
 
-                writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(Func<string, IntPtr> getProcAddress)");
-                writer.WriteLine("\t\t{");
-                writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;\n");
+				writer.WriteLine("}");
+			}
+		}
 
-                foreach (var command in version.Commands)
-                {
-                    writer.WriteLine($"\t\t\tLoadFunction(\"{command.Name}\", out p_{command.Name});");
-                }
-                writer.WriteLine("\t\t}\n");
+		private static void GenerateConstants(OpenGLVersion version, string outputPath, string namespaceText, string nativeClassText)
+		{
+			using (var writer = new StreamWriter(Path.Combine(outputPath, "Constants.cs")))
+			{
+				writer.WriteLine(namespaceText);
+				writer.WriteLine("{");
+				writer.WriteLine($"\tpublic static partial class {nativeClassText}");
+				writer.WriteLine("\t{");
 
-                writer.WriteLine("\t\tprivate static void LoadFunction<T>(string name, out T field)");
-                writer.WriteLine("\t\t{");
-                writer.WriteLine("\t\t\tIntPtr funcPtr = s_getProcAddress(name);");
-                writer.WriteLine("\t\t\tif (funcPtr != IntPtr.Zero)");
-                writer.WriteLine("\t\t\t{");
-                writer.WriteLine("\t\t\t\tfield = Marshal.GetDelegateForFunctionPointer<T>(funcPtr);");
-                writer.WriteLine("\t\t\t}");
-                writer.WriteLine("\t\t\telse");
-                writer.WriteLine("\t\t\t{");
-                writer.WriteLine("\t\t\t\tfield = default(T);");
-                writer.WriteLine("\t\t\t}");
-                writer.WriteLine("\t\t}");
+				foreach (var constant in version.Constants)
+				{
+					string csharpType = constant.GetCSharpType();
+					string csharpValue = constant.GetCSharpValue();
+					string shortName = Helpers.ComputeShortName(constant.Name);
 
-                writer.WriteLine("\t}");
-                writer.WriteLine("}");
-            }
-        }
+					if (constant.Comment != null)
+					{
+						writer.WriteLine($"\t\t/// <summary>{constant.Comment}</summary>");
+					}
 
-        private static bool IsUint(string value)
-        {
-            bool isHex = false;
+					writer.WriteLine($"\t\tpublic const {csharpType} {shortName} = {csharpValue};");
+				}
 
-            if (value.StartsWith("0x"))
-            {
-                isHex = true;
-                value = value.Substring(2);
+				writer.WriteLine("\t}");
+				writer.WriteLine("}");
+			}
+		}
 
-                if (value.Length > 8)
-                {
-                    return false;
-                }
-            }
+		private static void GenerateCommands(OpenGLVersion version, OpenGLSpecification spec, string outputPath, string namespaceText, string nativeClassText)
+		{
+			using (var writer = new StreamWriter(Path.Combine(outputPath, "Commands.cs")))
+			{
+				writer.WriteLine("using System;");
+				writer.WriteLine("using System.Runtime.InteropServices;\n");
+				writer.WriteLine(namespaceText);
+				writer.WriteLine("{");
+				writer.WriteLine($"\tpublic static unsafe partial class {nativeClassText}");
+				writer.WriteLine("\t{");
 
-            uint result;
-            if (isHex)
-            {
-                return uint.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out result);
-            }
-            else
-            {
-                return uint.TryParse(value, out result);
-            }
-        }
+				// Prototypes
+				foreach (var command in version.Commands)
+				{
+					writer.WriteLine("\n\t\t[UnmanagedFunctionPointer(CallConv)]");
 
-        private static void BuildReturnType(GLParser.GLVersion version, GLParser.GLCommand c, StringBuilder builder)
-        {
-            if (c.ReturnType.Type == "GLenum")
-            {
-                bool groupExists = version.Groups.Exists(g => g.Name == c.ReturnType.Group);
+					// Delegate
+					StringBuilder delegateCommand = new StringBuilder("\t\tprivate delegate ");
+					BuildReturnType(version, command, delegateCommand);
+					delegateCommand.Append($" {command.Name}_t(");
+					BuildParameterList(version, command, delegateCommand);
+					delegateCommand.Append(");");
+					writer.WriteLine(delegateCommand.ToString());
 
-                var groupName = c.ReturnType.Group;
+					// internal function pointer field
+					writer.WriteLine($"\t\tprivate static {command.Name}_t p_{command.Name};");
 
-                // For GLenums that don't appear in the gl.xml file.
-                if (!groupExists)
-                {
-                    groupName = "uint";
-                }
+					// public function
+					StringBuilder function = new StringBuilder($"\t\tpublic static ");
+					BuildReturnType(version, command, function);
+					function.Append($" {command.Name}(");
+					BuildParameterList(version, command, function);
+					function.Append($") => p_{command.Name}(");
+					BuildParameterNamesList(command, function);
+					function.Append(");");
+					writer.WriteLine(function.ToString());
+				}
 
-                builder.Append($"{groupName}");
-            }
-            else
-            {
-                builder.Append($"{ConvertGLType(c.ReturnType.Type)}");
-            }
-        }
+				// LoadAllFunctions
+				writer.WriteLine("\n\t\tpublic static void LoadAllFunctions(Func<string, IntPtr> getProcAddress)");
+				writer.WriteLine("\t\t{");
+				writer.WriteLine("\t\t\ts_getProcAddress = getProcAddress;\n");
 
-        private static void BuildParameterList(GLParser.GLVersion version, GLParser.GLCommand c, StringBuilder builder)
-        {
-            if (c.Parameters.Count > 0)
-            {
-                foreach (var p in c.Parameters)
-                {
-                    var name = p.Name;
+				foreach (var command in version.Commands)
+				{
+					writer.WriteLine($"\t\t\tLoadFunction(\"{command.Name}\", out p_{command.Name});");
+				}
+				writer.WriteLine("\t\t}");
 
-                    // Add @ to start of any names that are C# keywords to avoid conflict
-                    if (name == "params" || name == "string" || name == "ref" || name == "base")
-                    {
-                        name = "@" + name;
-                    }
+				writer.WriteLine("\t}");
+				writer.WriteLine("}");
+			}
+		}
 
-                    if (p.Type == "GLenum")
-                    {
-                        bool groupExists = version.Groups.Exists(g => g.Name == p.Group);
+		private static void BuildReturnType(OpenGLVersion version, CommandDefinition c, StringBuilder builder)
+		{
+			if (c.ReturnType.Type == "GLenum")
+			{
+				bool groupExists = version.Groups.Exists(g => g.Name == c.ReturnType.Group);
 
-                        var groupName = p.Group;
+				var groupName = c.ReturnType.Group;
 
-                        // For GLenums that don't appear in the gl.xml file.
-                        if (!groupExists)
-                        {
-                            groupName = "uint";
-                        }
+				// For GLenums that don't appear in the gl.xml file.
+				if (!groupExists)
+				{
+					groupName = "uint";
+				}
 
-                        builder.Append($"{groupName} {name}, ");
-                    }
-                    else
-                    {
-                        builder.Append($"{ConvertGLType(p.Type)} {name}, ");
-                    }
-                }
-                builder.Length -= 2;
-            }
-        }
+				builder.Append($"{groupName}");
+			}
+			else
+			{
+				builder.Append($"{Helpers.ConvertGLType(c.ReturnType.Type)}");
+			}
+		}
 
-        private static void BuildParameterNamesList(GLParser.GLCommand c, StringBuilder builder)
-        {
-            if (c.Parameters.Count > 0)
-            {
-                foreach (var p in c.Parameters)
-                {
-                    var name = p.Name;
+		private static void BuildParameterList(OpenGLVersion version, CommandDefinition c, StringBuilder builder)
+		{
+			if (c.Parameters.Count > 0)
+			{
+				foreach (var p in c.Parameters)
+				{
+					var name = Helpers.EscapeCSharpKeyword(p.Name);
 
-                    // Add @ to start of any names that are C# keywords to avoid conflict
-                    if (name == "params" || name == "string" || name == "ref" || name == "base")
-                    {
-                        name = "@" + name;
-                    }
+					if (p.Type == "GLenum")
+					{
+						bool groupExists = version.Groups.Exists(g => g.Name == p.Group);
 
-                    builder.Append($"{name}, ");
-                }
-                builder.Length -= 2;
-            }
-        }
+						var groupName = p.Group;
 
-        private static string ConvertGLType(string type)
-        {
-            switch (type)
-            {
-                case "GLboolean":
-                    return "bool";
-                case "GLenum":
-                case "GLuint":
-                case "GLbitfield":
-                case "GLhandleARB":
-                    return "uint";
-                case "GLint":
-                case "GLsizei":
-                case "GLsizeiptr":
-                case "GLfixed":
-                case "GLclampx":
-                case "GLintptrARB":
-                case "GLsizeiptrARB":
-                    return "int";
-                case "GLuint *":
-                case "const GLuint *":
-                case "GLenum *":
-                case "const GLenum *":
-                    return "uint*";
-                case "GLdouble *":
-                case "const GLdouble *":
-                    return "double*";
-                case "GLfloat *":
-                case "const GLfloat *":
-                    return "float*";
-                case "GLint *":
-                case "const GLint *":
-                case "GLsizei *":
-                case "const GLsizei *":
-                case "GLsizeiptr *":
-                case "const GLsizeiptr *":
-                    return "int*";
-                case "GLushort *":
-                case "const GLushort *":
-                case "GLshort *":
-                case "const GLshort *":
-                    return "short*";
-                case "GLboolean *":
-                case "const GLboolean *":
-                    return "bool*";
-                case "GLchar *":
-                case "const GLchar *":
-                    return "char*";
-                case "GLint64 *":
-                case "const GLint64 *":
-                    return "long*";
-                case "GLuint64 *":
-                case "const GLuint64 *":
-                    return "ulong*";
-                case "GLubyte *":
-                case "const GLubyte *":
-                case "GLbyte *":
-                case "const GLbyte *":
-                    return "byte*";
-                case "void *":
-                case "const void *":
-                    return "void*";
-                case "void **":
-                case "const void **":
-                    return "void**";
-                case "GLfloat":
-                case "GLclampf":
-                    return "float";
-                case "GLclampd":
-                case "GLdouble":
-                    return "double";
-                case "GLubyte":
-                    return "byte";
-                case "GLbyte":
-                    return "sbyte";
-                case "GLhalfNV":
-                case "GLushort":
-                    return "ushort";
-                case "GLshort":
-                    return "short";
-                case "GLint64":
-                case "GLint64EXT":
-                    return "long";
-                case "GLuint64":
-                case "GLuint64EXT":
-                    return "ulong";
-                case "GLsync":
-                case "GLintptr":
-                case "GLDEBUGPROC":
-                case "GLeglImageOES":
-                case "GLvdpauSurfaceNV":
-                case "GLVULKANPROCNV":
-                case "GLeglClientBufferEXT":
-                case "GLDEBUGPROCKHR":
-                case "GLDEBUGPROCAMD":
-                case "GLDEBUGPROCARB":
-                    return "IntPtr";
-            }
+						// For GLenums that don't appear in the gl.xml file.
+						if (!groupExists)
+						{
+							groupName = "uint";
+						}
 
-            if (type.Contains("*"))
-            {
-                return "IntPtr";
-            }
+						builder.Append($"{groupName} {name}, ");
+					}
+					else
+					{
+						builder.Append($"{Helpers.ConvertGLType(p.Type)} {name}, ");
+					}
+				}
+				builder.Length -= 2;
+			}
+		}
 
-            return type;
-        }
-    }
+		private static void BuildParameterNamesList(CommandDefinition c, StringBuilder builder)
+		{
+			if (c.Parameters.Count > 0)
+			{
+				foreach (var p in c.Parameters)
+				{
+					var name = Helpers.EscapeCSharpKeyword(p.Name);
+					builder.Append($"{name}, ");
+				}
+				builder.Length -= 2;
+			}
+		}
+	}
 }

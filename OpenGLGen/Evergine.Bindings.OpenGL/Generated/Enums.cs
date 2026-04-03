@@ -2,8 +2,10 @@ using System;
 
 namespace Evergine.Bindings.OpenGL
 {
+	[Flags]
 	public enum AttribMask : uint
 	{
+		None = 0,
 		DepthBufferBit = 0x00000100,
 		StencilBufferBit = 0x00000400,
 		ColorBufferBit = 0x00004000,
@@ -4026,6 +4028,19 @@ namespace Evergine.Bindings.OpenGL
 		FogSpecularTextureWin = 0x80EC,
 	}
 
+	public enum GetPointervPName : uint
+	{
+		DebugCallbackFunction = 0x8244,
+		DebugCallbackUserParam = 0x8245,
+		VertexArrayPointerExt = 0x808E,
+		NormalArrayPointerExt = 0x808F,
+		ColorArrayPointerExt = 0x8090,
+		IndexArrayPointerExt = 0x8091,
+		TextureCoordArrayPointerExt = 0x8092,
+		EdgeFlagArrayPointerExt = 0x8093,
+		InstrumentBufferPointerSgix = 0x8180,
+	}
+
 	public enum DrawElementsType : uint
 	{
 		UnsignedByte = 0x1401,
@@ -4417,8 +4432,10 @@ namespace Evergine.Bindings.OpenGL
 		UnsignedInt10f11f11fRev = 0x8C3B,
 	}
 
+	[Flags]
 	public enum ContextFlagMask : uint
 	{
+		None = 0,
 		ContextFlagForwardCompatibleBit = 0x00000001,
 		ContextFlagDebugBit = 0x00000002,
 		ContextFlagRobustAccessBit = 0x00000004,
@@ -4549,8 +4566,10 @@ namespace Evergine.Bindings.OpenGL
 		Renderbuffer = 0x8D41,
 	}
 
+	[Flags]
 	public enum BufferStorageMask : uint
 	{
+		None = 0,
 		MapReadBit = 0x0001,
 		MapWriteBit = 0x0002,
 		MapPersistentBit = 0x0040,
@@ -4562,8 +4581,10 @@ namespace Evergine.Bindings.OpenGL
 		PerGpuStorageBitNv = 0x0800,
 	}
 
+	[Flags]
 	public enum MapBufferAccessMask : uint
 	{
+		None = 0,
 		MapInvalidateRangeBit = 0x0004,
 		MapInvalidateBufferBit = 0x0008,
 		MapFlushExplicitBit = 0x0010,
@@ -4629,8 +4650,10 @@ namespace Evergine.Bindings.OpenGL
 		UniformBuffer = 0x8A11,
 	}
 
+	[Flags]
 	public enum ContextProfileMask : uint
 	{
+		None = 0,
 		ContextCoreProfileBit = 0x00000001,
 		ContextCompatibilityProfileBit = 0x00000002,
 	}
@@ -4662,8 +4685,10 @@ namespace Evergine.Bindings.OpenGL
 		WaitFailed = 0x911D,
 	}
 
+	[Flags]
 	public enum SyncObjectMask : uint
 	{
+		None = 0,
 		SyncFlushCommandsBit = 0x00000001,
 	}
 
@@ -4723,8 +4748,10 @@ namespace Evergine.Bindings.OpenGL
 		HighInt = 0x8DF5,
 	}
 
+	[Flags]
 	public enum UseProgramStageMask : uint
 	{
+		None = 0,
 		VertexShaderBit = 0x00000001,
 		FragmentShaderBit = 0x00000002,
 		GeometryShaderBit = 0x00000004,
@@ -4769,8 +4796,10 @@ namespace Evergine.Bindings.OpenGL
 		AtomicCounterBufferReferencedByComputeShader = 0x90ED,
 	}
 
+	[Flags]
 	public enum MemoryBarrierMask : uint
 	{
+		None = 0,
 		VertexAttribArrayBarrierBit = 0x00000001,
 		ElementArrayBarrierBit = 0x00000002,
 		UniformBarrierBit = 0x00000004,
@@ -4801,19 +4830,6 @@ namespace Evergine.Bindings.OpenGL
 		AtomicCounterBarrierBitExt = 0x00001000,
 		AllBarrierBitsExt = 0xFFFFFFFF,
 		ShaderGlobalAccessBarrierBitNv = 0x00000010,
-	}
-
-	public enum GetPointervPName : uint
-	{
-		DebugCallbackFunction = 0x8244,
-		DebugCallbackUserParam = 0x8245,
-		VertexArrayPointerExt = 0x808E,
-		NormalArrayPointerExt = 0x808F,
-		ColorArrayPointerExt = 0x8090,
-		IndexArrayPointerExt = 0x8091,
-		TextureCoordArrayPointerExt = 0x8092,
-		EdgeFlagArrayPointerExt = 0x8093,
-		InstrumentBufferPointerSgix = 0x8180,
 	}
 
 	public enum DebugSource : uint
@@ -5009,20 +5025,6 @@ namespace Evergine.Bindings.OpenGL
 		Domain = 0x0A02,
 	}
 
-	public enum PixelMap : uint
-	{
-		PixelMapAToA = 0x0C79,
-		PixelMapBToB = 0x0C78,
-		PixelMapGToG = 0x0C77,
-		PixelMapIToA = 0x0C75,
-		PixelMapIToB = 0x0C74,
-		PixelMapIToG = 0x0C73,
-		PixelMapIToI = 0x0C70,
-		PixelMapIToR = 0x0C72,
-		PixelMapRToR = 0x0C76,
-		PixelMapSToS = 0x0C71,
-	}
-
 	public enum ColorTableTarget : uint
 	{
 		ColorTable = 0x80D0,
@@ -5056,8 +5058,10 @@ namespace Evergine.Bindings.OpenGL
 		MinmaxExt = 0x802E,
 	}
 
+	[Flags]
 	public enum OcclusionQueryEventMaskAMD : uint
 	{
+		None = 0,
 		QueryDepthPassEventBitAmd = 0x00000001,
 		QueryDepthFailEventBitAmd = 0x00000002,
 		QueryStencilFailEventBitAmd = 0x00000004,
@@ -5065,8 +5069,10 @@ namespace Evergine.Bindings.OpenGL
 		QueryAllEventBitsAmd = 0xFFFFFFFF,
 	}
 
+	[Flags]
 	public enum TextureStorageMaskAMD : uint
 	{
+		None = 0,
 		TextureStorageSparseBitAmd = 0x00000001,
 	}
 
@@ -5184,6 +5190,20 @@ namespace Evergine.Bindings.OpenGL
 		DistanceAttenuationExt = 0x8129,
 	}
 
+	public enum PixelMap : uint
+	{
+		PixelMapAToA = 0x0C79,
+		PixelMapBToB = 0x0C78,
+		PixelMapGToG = 0x0C77,
+		PixelMapIToA = 0x0C75,
+		PixelMapIToB = 0x0C74,
+		PixelMapIToG = 0x0C73,
+		PixelMapIToI = 0x0C70,
+		PixelMapIToR = 0x0C72,
+		PixelMapRToR = 0x0C76,
+		PixelMapSToS = 0x0C71,
+	}
+
 	public enum FragmentOpATI : uint
 	{
 		MovAti = 0x8961,
@@ -5203,6 +5223,53 @@ namespace Evergine.Bindings.OpenGL
 	{
 		Convolution1dExt = 0x8010,
 		Convolution2dExt = 0x8011,
+	}
+
+	public enum TextureEnvTarget : uint
+	{
+		TextureEnv = 0x2300,
+	}
+
+	public enum TextureEnvParameter : uint
+	{
+		TextureEnvColor = 0x2201,
+		TextureEnvMode = 0x2200,
+	}
+
+	public enum TextureCoordName : uint
+	{
+		S = 0x2000,
+		T = 0x2001,
+		R = 0x2002,
+		Q = 0x2003,
+	}
+
+	public enum TextureGenParameter : uint
+	{
+		EyeLineSgis = 0x81F6,
+		EyePlane = 0x2502,
+		EyePointSgis = 0x81F4,
+		ObjectLineSgis = 0x81F7,
+		ObjectPlane = 0x2501,
+		ObjectPointSgis = 0x81F5,
+		TextureGenMode = 0x2500,
+	}
+
+	public enum FogCoordinatePointerType : uint
+	{
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum MaterialParameter : uint
+	{
+		Ambient = 0x1200,
+		AmbientAndDiffuse = 0x1602,
+		ColorIndexes = 0x1603,
+		Diffuse = 0x1201,
+		Emission = 0x1600,
+		Shininess = 0x1601,
+		Specular = 0x1202,
 	}
 
 	public enum MemoryObjectParameterName : uint
@@ -5271,20 +5338,31 @@ namespace Evergine.Bindings.OpenGL
 		TextureEnvBiasSgix = 0x80BE,
 	}
 
+	public enum LightParameter : uint
+	{
+		Ambient = 0x1200,
+		ConstantAttenuation = 0x1207,
+		Diffuse = 0x1201,
+		LinearAttenuation = 0x1208,
+		Position = 0x1203,
+		QuadraticAttenuation = 0x1209,
+		Specular = 0x1202,
+		SpotCutoff = 0x1206,
+		SpotDirection = 0x1204,
+		SpotExponent = 0x1205,
+	}
+
+	public enum FogPointerTypeIBM : uint
+	{
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
 	public enum MapTextureFormatINTEL : uint
 	{
 		LayoutDefaultIntel = 0,
 		LayoutLinearIntel = 1,
 		LayoutLinearCpuCachedIntel = 2,
-	}
-
-	public enum TextureGenParameter : uint
-	{
-		EyePlane = 0x2502,
-		EyePointSgis = 0x81F4,
-		ObjectPointSgis = 0x81F5,
-		EyeLineSgis = 0x81F6,
-		ObjectLineSgis = 0x81F7,
 	}
 
 	public enum PathStringFormat : uint
@@ -5412,6 +5490,32 @@ namespace Evergine.Bindings.OpenGL
 		SecondaryColorNv = 0x852D,
 	}
 
+	public enum PathGenMode : uint
+	{
+		None = 0,
+		EyeLinear = 0x2400,
+		ObjectLinear = 0x2401,
+		PathObjectBoundingBoxNv = 0x908A,
+		Constant = 0x8576,
+	}
+
+	public enum FogPName : uint
+	{
+		FogMode = 0x0B65,
+		FogDensity = 0x0B62,
+		FogStart = 0x0B63,
+		FogEnd = 0x0B64,
+		FogIndex = 0x0B61,
+		FogCoordSrc = 0x8450,
+	}
+
+	public enum GetMapQuery : uint
+	{
+		Coeff = 0x0A00,
+		Domain = 0x0A02,
+		Order = 0x0A01,
+	}
+
 	public enum PixelTexGenParameterNameSGIS : uint
 	{
 		PixelFragmentRgbSourceSgis = 0x8354,
@@ -5444,9 +5548,20 @@ namespace Evergine.Bindings.OpenGL
 		FragmentLightModelNormalInterpolationSgix = 0x840B,
 	}
 
+	public enum LightEnvParameterSGIX : uint
+	{
+		LightEnvModeSgix = 0x8407,
+	}
+
 	public enum ListParameterName : uint
 	{
 		ListPrioritySgix = 0x8182,
+	}
+
+	public enum FfdTargetSGIX : uint
+	{
+		GeometryDeformationSgix = 0x8194,
+		TextureDeformationSgix = 0x8195,
 	}
 
 	public enum PixelStoreResampleMode : uint
