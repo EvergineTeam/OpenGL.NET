@@ -1,0 +1,36 @@
+# Binding manifest — see https://github.com/EvergineTeam/Evergine.Bindings
+# Schema: https://github.com/EvergineTeam/Evergine.Bindings/blob/main/binding.schema.json
+toolbox: 1.0.0
+
+package:
+  id: Evergine.Bindings.OpenGL
+  project: OpenGLGen/Evergine.Bindings.OpenGL/Evergine.Bindings.OpenGL.csproj
+  target-framework: net10.0
+  runtime-identifier: ""
+
+upstream:
+  kind: http-file
+  language: c
+  project: https://github.com/KhronosGroup/OpenGL-Registry
+  version-from: none                # gl.xml carries no single API version; it is a multi-API registry
+  sources:
+    - url: https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/main/xml/gl.xml
+      path: KhronosRegistry/gl.xml
+      format: khronos-xml
+
+generator:
+  project: OpenGLGen/OpenGLGen/OpenGLGen.csproj
+  name: OpenGL
+  output:
+    - OpenGLGen/Evergine.Bindings.OpenGL/Generated
+
+# NOTE — this repository is the reason the manifest exists.
+#
+# OpenGL.NET vendors gl.xml exactly like Vulkan.NET vendors vk.xml, but its CD is
+# wired to `binding-simple-cd`, which never downloads anything. Nothing has refreshed
+# this registry since it was committed: the vendored copy is 2,742,329 bytes against
+# 2,772,806 upstream. It is an XML-driven binding wearing a simple binding's clothes.
+#
+# Declaring the source here makes the drift visible and lets binding-updater act on it.
+# Switching the CD over to `binding-xml-cd` is a separate, deliberate change: it alters
+# what gets published, so it does not ride along with the toolbox repoint.
