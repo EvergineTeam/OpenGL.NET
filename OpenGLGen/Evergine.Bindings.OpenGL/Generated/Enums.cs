@@ -3,15 +3,26 @@ using System;
 namespace Evergine.Bindings.OpenGL
 {
 	[Flags]
-	public enum AttribMask : uint
+	public enum ClearBufferMask : uint
 	{
 		None = 0,
 		DepthBufferBit = 0x00000100,
 		StencilBufferBit = 0x00000400,
 		ColorBufferBit = 0x00004000,
-		MultisampleBit3dfx = 0x20000000,
-		MultisampleBitArb = 0x20000000,
-		MultisampleBitExt = 0x20000000,
+	}
+
+	public enum SpecialNumbers : uint
+	{
+		False = 0,
+		True = 1,
+		Zero = 0,
+		One = 1,
+		None = 0,
+		NoError = 0,
+		InvalidIndex = 0xFFFFFFFF,
+		AllPixelsAmd = 0xFFFFFFFF,
+		UuidSizeExt = 16,
+		LuidSizeExt = 8,
 	}
 
 	public enum PrimitiveType : uint
@@ -39,7 +50,7 @@ namespace Evergine.Bindings.OpenGL
 		TriangleStripAdjacencyExt = 0x000D,
 	}
 
-	public enum AlphaFunction : uint
+	public enum StencilFunction : uint
 	{
 		Never = 0x0200,
 		Less = 0x0201,
@@ -51,19 +62,8 @@ namespace Evergine.Bindings.OpenGL
 		Always = 0x0207,
 	}
 
-	public enum StencilOp : uint
-	{
-		Zero = 0,
-		Keep = 0x1E00,
-		Incr = 0x1E02,
-		Decr = 0x1E03,
-		IncrWrap = 0x8507,
-		DecrWrap = 0x8508,
-	}
-
 	public enum BlendingFactor : uint
 	{
-		One = 1,
 		SrcColor = 0x0300,
 		OneMinusSrcColor = 0x0301,
 		SrcAlpha = 0x0302,
@@ -77,33 +77,26 @@ namespace Evergine.Bindings.OpenGL
 		OneMinusConstantColor = 0x8002,
 		ConstantAlpha = 0x8003,
 		OneMinusConstantAlpha = 0x8004,
-		Src1Alpha = 0x8589,
 		Src1Color = 0x88F9,
 		OneMinusSrc1Color = 0x88FA,
 		OneMinusSrc1Alpha = 0x88FB,
 	}
 
-	public enum DrawBufferMode : uint
+	public enum ColorBuffer : uint
 	{
-		None = 0,
 		FrontLeft = 0x0400,
 		FrontRight = 0x0401,
 		BackLeft = 0x0402,
 		BackRight = 0x0403,
-		Left = 0x0406,
-		Right = 0x0407,
-	}
-
-	public enum ColorMaterialFace : uint
-	{
 		Front = 0x0404,
 		Back = 0x0405,
+		Left = 0x0406,
+		Right = 0x0407,
 		FrontAndBack = 0x0408,
 	}
 
 	public enum ErrorCode : uint
 	{
-		NoError = 0,
 		InvalidEnum = 0x0500,
 		InvalidValue = 0x0501,
 		InvalidOperation = 0x0502,
@@ -128,16 +121,21 @@ namespace Evergine.Bindings.OpenGL
 		PointSize = 0x0B11,
 		PointSizeRange = 0x0B12,
 		PointSizeGranularity = 0x0B13,
+		LineSmooth = 0x0B20,
 		LineWidth = 0x0B21,
 		LineWidthRange = 0x0B22,
 		LineWidthGranularity = 0x0B23,
 		PolygonMode = 0x0B40,
+		PolygonSmooth = 0x0B41,
+		CullFace = 0x0B44,
 		CullFaceMode = 0x0B45,
 		FrontFace = 0x0B46,
 		DepthRange = 0x0B70,
+		DepthTest = 0x0B71,
 		DepthWritemask = 0x0B72,
 		DepthClearValue = 0x0B73,
 		DepthFunc = 0x0B74,
+		StencilTest = 0x0B90,
 		StencilClearValue = 0x0B91,
 		StencilFunc = 0x0B92,
 		StencilValueMask = 0x0B93,
@@ -147,30 +145,16 @@ namespace Evergine.Bindings.OpenGL
 		StencilRef = 0x0B97,
 		StencilWritemask = 0x0B98,
 		Viewport = 0x0BA2,
+		Dither = 0x0BD0,
 		BlendDst = 0x0BE0,
 		BlendSrc = 0x0BE1,
 		LogicOpMode = 0x0BF0,
 		DrawBuffer = 0x0C01,
 		ReadBuffer = 0x0C02,
 		ScissorBox = 0x0C10,
+		ScissorTest = 0x0C11,
 		ColorClearValue = 0x0C22,
 		ColorWritemask = 0x0C23,
-		Doublebuffer = 0x0C32,
-		Stereo = 0x0C33,
-		LineSmoothHint = 0x0C52,
-		PolygonSmoothHint = 0x0C53,
-		UnpackSwapBytes = 0x0CF0,
-		UnpackLsbFirst = 0x0CF1,
-		UnpackRowLength = 0x0CF2,
-		UnpackSkipRows = 0x0CF3,
-		UnpackSkipPixels = 0x0CF4,
-		UnpackAlignment = 0x0CF5,
-		PackSwapBytes = 0x0D00,
-		PackLsbFirst = 0x0D01,
-		PackRowLength = 0x0D02,
-		PackSkipRows = 0x0D03,
-		PackSkipPixels = 0x0D04,
-		PackAlignment = 0x0D05,
 		MaxTextureSize = 0x0D33,
 		MaxViewportDims = 0x0D3A,
 		SubpixelBits = 0x0D50,
@@ -188,8 +172,6 @@ namespace Evergine.Bindings.OpenGL
 		SmoothLineWidthGranularity = 0x0B23,
 		AliasedLineWidthRange = 0x846E,
 		ActiveTexture = 0x84E0,
-		SampleBuffers = 0x80A8,
-		Samples = 0x80A9,
 		SampleCoverageValue = 0x80AA,
 		SampleCoverageInvert = 0x80AB,
 		TextureBindingCubeMap = 0x8514,
@@ -200,9 +182,9 @@ namespace Evergine.Bindings.OpenGL
 		BlendSrcRgb = 0x80C9,
 		BlendDstAlpha = 0x80CA,
 		BlendSrcAlpha = 0x80CB,
-		PointFadeThresholdSize = 0x8128,
 		MaxTextureLodBias = 0x84FD,
 		BlendColor = 0x8005,
+		BlendEquation = 0x8009,
 		ArrayBufferBinding = 0x8894,
 		ElementArrayBufferBinding = 0x8895,
 		BlendEquationRgb = 0x8009,
@@ -236,13 +218,11 @@ namespace Evergine.Bindings.OpenGL
 		MaxVaryingComponents = 0x8B4B,
 		TextureBinding1dArray = 0x8C1C,
 		TextureBinding2dArray = 0x8C1D,
-		TransformFeedbackBufferStart = 0x8C84,
-		TransformFeedbackBufferSize = 0x8C85,
-		TransformFeedbackBufferBinding = 0x8C8F,
 		MaxRenderbufferSize = 0x84E8,
 		DrawFramebufferBinding = 0x8CA6,
 		RenderbufferBinding = 0x8CA7,
 		ReadFramebufferBinding = 0x8CAA,
+		MaxColorAttachments = 0x8CDF,
 		VertexArrayBinding = 0x85B5,
 		MaxTextureBufferSize = 0x8C2B,
 		TextureBindingBuffer = 0x8C2C,
@@ -268,6 +248,7 @@ namespace Evergine.Bindings.OpenGL
 		MaxGeometryInputComponents = 0x9123,
 		MaxGeometryOutputComponents = 0x9124,
 		MaxFragmentInputComponents = 0x9125,
+		ContextProfileMask = 0x9126,
 		ProvokingVertex = 0x8E4F,
 		MaxServerWaitTimeout = 0x9111,
 		MaxSampleMaskWords = 0x8E59,
@@ -278,10 +259,10 @@ namespace Evergine.Bindings.OpenGL
 		MaxIntegerSamples = 0x9110,
 		MaxDualSourceDrawBuffers = 0x88FC,
 		SamplerBinding = 0x8919,
-		Timestamp = 0x8E28,
-		ImplementationColorReadType = 0x8B9A,
-		ImplementationColorReadFormat = 0x8B9B,
+		MaxTessControlUniformBlocks = 0x8E89,
+		MaxTessEvaluationUniformBlocks = 0x8E8A,
 		ShaderCompiler = 0x8DFA,
+		ShaderBinaryFormats = 0x8DF8,
 		NumShaderBinaryFormats = 0x8DF9,
 		MaxVertexUniformVectors = 0x8DFB,
 		MaxVaryingVectors = 0x8DFC,
@@ -338,16 +319,60 @@ namespace Evergine.Bindings.OpenGL
 		VertexBindingStride = 0x82D8,
 		MaxVertexAttribRelativeOffset = 0x82D9,
 		MaxVertexAttribBindings = 0x82DA,
+		TextureBindingCubeMapArb = 0x8514,
+		MaxCubeMapTextureSizeArb = 0x851C,
+		TextureBindingRectangleArb = 0x84F6,
+		FragmentShaderAti = 0x8920,
 		BlendColorExt = 0x8005,
 		BlendEquationExt = 0x8009,
+		ShadingRateExt = 0x96D0,
+		MinFragmentShadingRateAttachmentTexelWidthExt = 0x96D7,
+		MaxFragmentShadingRateAttachmentTexelWidthExt = 0x96D8,
+		MinFragmentShadingRateAttachmentTexelHeightExt = 0x96D9,
+		MaxFragmentShadingRateAttachmentTexelHeightExt = 0x96DA,
+		MaxFragmentShadingRateAttachmentTexelAspectRatioExt = 0x96DB,
+		MaxFragmentShadingRateAttachmentLayersExt = 0x96DC,
+		FragmentShadingRateWithShaderDepthStencilWritesSupportedExt = 0x96DD,
+		FragmentShadingRateWithSampleMaskSupportedExt = 0x96DE,
+		FragmentShadingRateAttachmentWithDefaultFramebufferSupportedExt = 0x96DF,
+		FragmentShadingRateNonTrivialCombinersSupportedExt = 0x8F6F,
+		FragmentShadingRatePrimitiveRateWithMultiViewportSupportedExt = 0x9780,
+		MaxColorAttachmentsExt = 0x8CDF,
 		NumDeviceUuidsExt = 0x9596,
 		DeviceUuidExt = 0x9597,
 		DriverUuidExt = 0x9598,
 		DeviceLuidExt = 0x9599,
 		DeviceNodeMaskExt = 0x959A,
+		MaxTaskWorkGroupTotalCountExt = 0x9740,
+		MaxMeshWorkGroupTotalCountExt = 0x9741,
+		MaxMeshWorkGroupInvocationsExt = 0x9757,
+		MaxTaskWorkGroupInvocationsExt = 0x9759,
+		MaxTaskPayloadSizeExt = 0x9742,
+		MaxTaskSharedMemorySizeExt = 0x9743,
+		MaxMeshSharedMemorySizeExt = 0x9744,
+		MaxTaskPayloadAndSharedMemorySizeExt = 0x9745,
+		MaxMeshPayloadAndSharedMemorySizeExt = 0x9746,
+		MaxMeshOutputMemorySizeExt = 0x9747,
+		MaxMeshPayloadAndOutputMemorySizeExt = 0x9748,
+		MaxMeshOutputPrimitivesExt = 0x9756,
+		MaxMeshOutputComponentsExt = 0x9749,
+		MaxMeshOutputLayersExt = 0x974A,
+		MaxPreferredTaskWorkGroupInvocationsExt = 0x974B,
+		MaxPreferredMeshWorkGroupInvocationsExt = 0x974C,
+		MeshPrefersLocalInvocationVertexOutputExt = 0x974D,
+		MeshPrefersLocalInvocationPrimitiveOutputExt = 0x974E,
+		MeshPrefersCompactVertexOutputExt = 0x974F,
+		MeshPrefersCompactPrimitiveOutputExt = 0x9750,
+		MaxTaskWorkGroupCountExt = 0x9751,
+		MaxMeshWorkGroupCountExt = 0x9752,
+		MaxMeshWorkGroupSizeExt = 0x9758,
+		MaxTaskWorkGroupSizeExt = 0x975A,
 		PolygonOffsetBiasExt = 0x8039,
 		Max3dTextureSizeExt = 0x8073,
+		TextureBindingCubeMapExt = 0x8514,
+		MaxCubeMapTextureSizeExt = 0x851C,
 		Texture3dBindingExt = 0x806A,
+		MaxTimelineSemaphoreValueDifferenceNv = 0x95B6,
 		VertexArrayCountExt = 0x807D,
 		NormalArrayCountExt = 0x8080,
 		ColorArrayCountExt = 0x8084,
@@ -356,6 +381,9 @@ namespace Evergine.Bindings.OpenGL
 		EdgeFlagArrayCountExt = 0x808D,
 		Modelview0StackDepthExt = 0x0BA3,
 		Modelview0MatrixExt = 0x0BA6,
+		ShadingRateImagePaletteCountNv = 0x95B2,
+		Fog = 0x0B60,
+		TextureBindingRectangleNv = 0x84F6,
 		DetailTexture2dBindingSgis = 0x8096,
 		FogFuncPointsSgis = 0x812B,
 		MaxFogFuncPointsSgis = 0x812C,
@@ -364,10 +392,6 @@ namespace Evergine.Bindings.OpenGL
 		SampleMaskValueSgis = 0x80AA,
 		SampleMaskInvertSgis = 0x80AB,
 		SamplePatternSgis = 0x80AC,
-		PointSizeMinSgis = 0x8126,
-		PointSizeMaxSgis = 0x8127,
-		PointFadeThresholdSizeSgis = 0x8128,
-		DistanceAttenuationSgis = 0x8129,
 		Max4dTextureSizeSgis = 0x8138,
 		Texture4dBindingSgis = 0x814F,
 		AsyncMarkerSgix = 0x8329,
@@ -381,7 +405,10 @@ namespace Evergine.Bindings.OpenGL
 		FragmentColorMaterialParameterSgix = 0x8403,
 		MaxFragmentLightsSgix = 0x8404,
 		MaxActiveLightsSgix = 0x8405,
-		LightEnvModeSgix = 0x8407,
+		FragmentLightModelLocalViewerSgix = 0x8408,
+		FragmentLightModelTwoSideSgix = 0x8409,
+		FragmentLightModelAmbientSgix = 0x840A,
+		FragmentLightModelNormalInterpolationSgix = 0x840B,
 		FramezoomFactorSgix = 0x818C,
 		MaxFramezoomFactorSgix = 0x818D,
 		InstrumentMeasurementsSgix = 0x8181,
@@ -400,81 +427,159 @@ namespace Evergine.Bindings.OpenGL
 		MaxColorMatrixStackDepthSgi = 0x80B3,
 	}
 
-	public enum EnableCap : uint
+	public enum TextureEnvMode : uint
 	{
-		LineSmooth = 0x0B20,
-		PolygonSmooth = 0x0B41,
-		CullFace = 0x0B44,
-		DepthTest = 0x0B71,
-		StencilTest = 0x0B90,
-		Dither = 0x0BD0,
 		Blend = 0x0BE2,
-		ScissorTest = 0x0C11,
-		Texture1d = 0x0DE0,
-		Texture2d = 0x0DE1,
-		ColorLogicOp = 0x0BF2,
-		PolygonOffsetPoint = 0x2A01,
-		PolygonOffsetLine = 0x2A02,
-		PolygonOffsetFill = 0x8037,
-		Multisample = 0x809D,
-		SampleAlphaToCoverage = 0x809E,
-		SampleAlphaToOne = 0x809F,
-		SampleCoverage = 0x80A0,
-		RasterizerDiscard = 0x8C89,
-		FramebufferSrgb = 0x8DB9,
-		PrimitiveRestart = 0x8F9D,
-		ProgramPointSize = 0x8642,
-		DepthClamp = 0x864F,
-		TextureCubeMapSeamless = 0x884F,
-		SampleMask = 0x8E51,
-		SampleShading = 0x8C36,
-		PrimitiveRestartFixedIndex = 0x8D69,
-		DebugOutputSynchronous = 0x8242,
-		VertexArray = 0x8074,
-		DebugOutput = 0x92E0,
-		RescaleNormalExt = 0x803A,
-		SharedTexturePaletteExt = 0x81FB,
-		Fog = 0x0B60,
-		MultisampleSgis = 0x809D,
-		SampleAlphaToMaskSgis = 0x809E,
-		SampleAlphaToOneSgis = 0x809F,
-		SampleMaskSgis = 0x80A0,
-		PixelTextureSgis = 0x8353,
-		AsyncHistogramSgix = 0x832C,
-		AsyncTexImageSgix = 0x835C,
-		AsyncDrawPixelsSgix = 0x835D,
-		AsyncReadPixelsSgix = 0x835E,
-		CalligraphicFragmentSgix = 0x8183,
-		FogOffsetSgix = 0x8198,
-		FragmentLightingSgix = 0x8400,
-		FragmentColorMaterialSgix = 0x8401,
-		FramezoomSgix = 0x818B,
-		InterlaceSgix = 0x8094,
-		IrInstrument1Sgix = 0x817F,
-		PixelTexGenSgix = 0x8139,
-		ReferencePlaneSgix = 0x817D,
-		SpriteSgix = 0x8148,
+		ReplaceExt = 0x8062,
+		TextureEnvBiasSgix = 0x80BE,
 	}
 
-	public enum GetTextureParameter : uint
+	public enum GetFramebufferParameter : uint
+	{
+		Doublebuffer = 0x0C32,
+		Stereo = 0x0C33,
+		SampleBuffers = 0x80A8,
+		Samples = 0x80A9,
+		ImplementationColorReadType = 0x8B9A,
+		ImplementationColorReadFormat = 0x8B9B,
+		FramebufferDefaultWidth = 0x9310,
+		FramebufferDefaultHeight = 0x9311,
+		FramebufferDefaultLayers = 0x9312,
+		FramebufferDefaultSamples = 0x9313,
+		FramebufferDefaultFixedSampleLocations = 0x9314,
+	}
+
+	public enum HintTarget : uint
+	{
+		LineSmoothHint = 0x0C52,
+		PolygonSmoothHint = 0x0C53,
+		TextureCompressionHint = 0x84EF,
+		FragmentShaderDerivativeHint = 0x8B8B,
+		TextureStorageHintApple = 0x85BC,
+		TransformHintApple = 0x85B1,
+		VertexArrayStorageHintApple = 0x851F,
+		FragmentShaderDerivativeHintArb = 0x8B8B,
+		TextureCompressionHintArb = 0x84EF,
+		ClipVolumeClippingHintExt = 0x80F0,
+		PackCmykHintExt = 0x800E,
+		UnpackCmykHintExt = 0x800F,
+		MultisampleFilterHintNv = 0x8534,
+		PreferDoublebufferHintPgi = 0x1A1F8,
+		ConserveMemoryHintPgi = 0x1A1FD,
+		ReclaimMemoryHintPgi = 0x1A1FE,
+		NativeGraphicsBeginHintPgi = 0x1A203,
+		NativeGraphicsEndHintPgi = 0x1A204,
+		AlwaysFastHintPgi = 0x1A20C,
+		AlwaysSoftHintPgi = 0x1A20D,
+		AllowDrawObjHintPgi = 0x1A20E,
+		AllowDrawWinHintPgi = 0x1A20F,
+		AllowDrawFrgHintPgi = 0x1A210,
+		AllowDrawMemHintPgi = 0x1A211,
+		StrictDepthfuncHintPgi = 0x1A216,
+		StrictLightingHintPgi = 0x1A217,
+		StrictScissorHintPgi = 0x1A218,
+		FullStippleHintPgi = 0x1A219,
+		ClipNearHintPgi = 0x1A220,
+		ClipFarHintPgi = 0x1A221,
+		WideLineHintPgi = 0x1A222,
+		BackNormalsHintPgi = 0x1A223,
+		GenerateMipmapHintSgis = 0x8192,
+		ConvolutionHintSgix = 0x8316,
+		ScalebiasHintSgix = 0x8322,
+		TextureMultiBufferHintSgix = 0x812E,
+		VertexPreclipSgix = 0x83EE,
+		VertexPreclipHintSgix = 0x83EF,
+		PhongHintWin = 0x80EB,
+	}
+
+	public enum PixelStoreParameter : uint
+	{
+		UnpackSwapBytes = 0x0CF0,
+		UnpackLsbFirst = 0x0CF1,
+		UnpackRowLength = 0x0CF2,
+		UnpackSkipRows = 0x0CF3,
+		UnpackSkipPixels = 0x0CF4,
+		UnpackAlignment = 0x0CF5,
+		PackSwapBytes = 0x0D00,
+		PackLsbFirst = 0x0D01,
+		PackRowLength = 0x0D02,
+		PackSkipRows = 0x0D03,
+		PackSkipPixels = 0x0D04,
+		PackAlignment = 0x0D05,
+		PackSkipImages = 0x806B,
+		PackImageHeight = 0x806C,
+		UnpackSkipImages = 0x806D,
+		UnpackImageHeight = 0x806E,
+		PackSkipImagesExt = 0x806B,
+		PackImageHeightExt = 0x806C,
+		UnpackSkipImagesExt = 0x806D,
+		UnpackImageHeightExt = 0x806E,
+		PackResampleOml = 0x8984,
+		UnpackResampleOml = 0x8985,
+		PackSkipVolumesSgis = 0x8130,
+		PackImageDepthSgis = 0x8131,
+		UnpackSkipVolumesSgis = 0x8132,
+		UnpackImageDepthSgis = 0x8133,
+		PixelTileWidthSgix = 0x8140,
+		PixelTileHeightSgix = 0x8141,
+		PixelTileGridWidthSgix = 0x8142,
+		PixelTileGridHeightSgix = 0x8143,
+		PixelTileGridDepthSgix = 0x8144,
+		PixelTileCacheSizeSgix = 0x8145,
+		PackResampleSgix = 0x842E,
+		UnpackResampleSgix = 0x842F,
+		PackSubsampleRateSgix = 0x85A0,
+		UnpackSubsampleRateSgix = 0x85A1,
+	}
+
+	public enum CopyImageSubDataTarget : uint
+	{
+		Texture1d = 0x0DE0,
+		Texture2d = 0x0DE1,
+	}
+
+	public enum TextureParameterName : uint
 	{
 		TextureWidth = 0x1000,
 		TextureHeight = 0x1001,
+		TextureBaseLevel = 0x813C,
+		TextureMaxLevel = 0x813D,
+		TextureLodBias = 0x8501,
+		TextureSwizzleR = 0x8E42,
+		TextureSwizzleG = 0x8E43,
+		TextureSwizzleB = 0x8E44,
+		TextureSwizzleA = 0x8E45,
+		TextureSwizzleRgba = 0x8E46,
+		DepthStencilTextureMode = 0x90EA,
+		TextureTilingExt = 0x9580,
+		TexturePriorityExt = 0x8066,
+		TextureMemoryLayoutIntel = 0x83FF,
+	}
+
+	public enum SamplerParameterF : uint
+	{
 		TextureBorderColor = 0x1004,
-		TextureMagFilter = 0x2800,
-		TextureMinFilter = 0x2801,
-		TextureWrapS = 0x2802,
-		TextureWrapT = 0x2803,
+		TextureMinLod = 0x813A,
+		TextureMaxLod = 0x813B,
+		TextureMaxAnisotropy = 0x84FE,
+	}
+
+	public enum DebugSeverity : uint
+	{
+		DontCare = 0x1100,
+		DebugSeverityHigh = 0x9146,
+		DebugSeverityMedium = 0x9147,
+		DebugSeverityLow = 0x9148,
+		DebugSeverityNotification = 0x826B,
 	}
 
 	public enum HintMode : uint
 	{
-		DontCare = 0x1100,
 		Fastest = 0x1101,
 		Nicest = 0x1102,
 	}
 
-	public enum ColorPointerType : uint
+	public enum VertexAttribIType : uint
 	{
 		Byte = 0x1400,
 		UnsignedByte = 0x1401,
@@ -482,8 +587,11 @@ namespace Evergine.Bindings.OpenGL
 		UnsignedShort = 0x1403,
 		Int = 0x1404,
 		UnsignedInt = 0x1405,
+	}
+
+	public enum MapTypeNV : uint
+	{
 		Float = 0x1406,
-		Double = 0x140A,
 	}
 
 	public enum LogicOp : uint
@@ -498,7 +606,6 @@ namespace Evergine.Bindings.OpenGL
 		Or = 0x1507,
 		Nor = 0x1508,
 		Equiv = 0x1509,
-		Invert = 0x150A,
 		OrReverse = 0x150B,
 		CopyInverted = 0x150C,
 		OrInverted = 0x150D,
@@ -506,467 +613,38 @@ namespace Evergine.Bindings.OpenGL
 		Set = 0x150F,
 	}
 
-	public enum MatrixMode : uint
+	public enum PathFillMode : uint
 	{
-		Texture = 0x1702,
-		Modelview0Ext = 0x1700,
+		Invert = 0x150A,
+		CountUpNv = 0x9088,
+		CountDownNv = 0x9089,
 	}
 
-	public enum PixelCopyType : uint
+	public enum ObjectIdentifier : uint
+	{
+		Texture = 0x1702,
+		Framebuffer = 0x8D40,
+		TransformFeedback = 0x8E22,
+		Buffer = 0x82E0,
+		Shader = 0x82E1,
+		Program = 0x82E2,
+		VertexArray = 0x8074,
+		Query = 0x82E3,
+		ProgramPipeline = 0x82E4,
+		Sampler = 0x82E6,
+	}
+
+	public enum Buffer : uint
 	{
 		Color = 0x1800,
 		Depth = 0x1801,
 		Stencil = 0x1802,
 	}
 
-	public enum PixelFormat : uint
+	public enum InternalFormat : uint
 	{
 		StencilIndex = 0x1901,
 		DepthComponent = 0x1902,
-		Red = 0x1903,
-		Green = 0x1904,
-		Blue = 0x1905,
-		Alpha = 0x1906,
-		Rgb = 0x1907,
-		Rgba = 0x1908,
-		Bgr = 0x80E0,
-		Bgra = 0x80E1,
-		RedInteger = 0x8D94,
-		GreenInteger = 0x8D95,
-		BlueInteger = 0x8D96,
-		RgbInteger = 0x8D98,
-		RgbaInteger = 0x8D99,
-		BgrInteger = 0x8D9A,
-		BgraInteger = 0x8D9B,
-		DepthStencil = 0x84F9,
-		Rg = 0x8227,
-		RgInteger = 0x8228,
-		AbgrExt = 0x8000,
-		CmykExt = 0x800C,
-		CmykaExt = 0x800D,
-		Ycrcb422Sgix = 0x81BB,
-		Ycrcb444Sgix = 0x81BC,
-	}
-
-	public enum MeshMode1 : uint
-	{
-		Point = 0x1B00,
-		Line = 0x1B01,
-	}
-
-	public enum MeshMode2 : uint
-	{
-		Fill = 0x1B02,
-	}
-
-	public enum LightEnvModeSGIX : uint
-	{
-		Replace = 0x1E01,
-	}
-
-	public enum StringName : uint
-	{
-		Vendor = 0x1F00,
-		Renderer = 0x1F01,
-		Version = 0x1F02,
-		Extensions = 0x1F03,
-		ShadingLanguageVersion = 0x8B8C,
-	}
-
-	public enum TextureMagFilter : uint
-	{
-		Nearest = 0x2600,
-		LinearDetailSgis = 0x8097,
-		LinearDetailAlphaSgis = 0x8098,
-		LinearDetailColorSgis = 0x8099,
-		LinearSharpenSgis = 0x80AD,
-		LinearSharpenAlphaSgis = 0x80AE,
-		LinearSharpenColorSgis = 0x80AF,
-	}
-
-	public enum FogMode : uint
-	{
-		Linear = 0x2601,
-		FogFuncSgis = 0x812A,
-	}
-
-	public enum TextureMinFilter : uint
-	{
-		NearestMipmapNearest = 0x2700,
-		LinearMipmapNearest = 0x2701,
-		NearestMipmapLinear = 0x2702,
-		LinearMipmapLinear = 0x2703,
-		LinearClipmapLinearSgix = 0x8170,
-		NearestClipmapNearestSgix = 0x844D,
-		NearestClipmapLinearSgix = 0x844E,
-		LinearClipmapNearestSgix = 0x844F,
-	}
-
-	public enum TextureWrapMode : uint
-	{
-		Repeat = 0x2901,
-		ClampToEdge = 0x812F,
-		ClampToBorder = 0x812D,
-		ClampToBorderArb = 0x812D,
-		ClampToBorderSgis = 0x812D,
-		ClampToEdgeSgis = 0x812F,
-	}
-
-	public enum PixelType : uint
-	{
-		UnsignedByte332 = 0x8032,
-		UnsignedShort4444 = 0x8033,
-		UnsignedShort5551 = 0x8034,
-		UnsignedInt8888 = 0x8035,
-		UnsignedInt1010102 = 0x8036,
-		UnsignedByte332Ext = 0x8032,
-		UnsignedShort4444Ext = 0x8033,
-		UnsignedShort5551Ext = 0x8034,
-		UnsignedInt8888Ext = 0x8035,
-		UnsignedInt1010102Ext = 0x8036,
-	}
-
-	public enum ClipPlaneName : uint
-	{
-		ClipDistance0 = 0x3000,
-		ClipDistance1 = 0x3001,
-		ClipDistance2 = 0x3002,
-		ClipDistance3 = 0x3003,
-		ClipDistance4 = 0x3004,
-		ClipDistance5 = 0x3005,
-		ClipDistance6 = 0x3006,
-		ClipDistance7 = 0x3007,
-	}
-
-	public enum CullFaceMode : uint
-	{
-		Back = 0x0405,
-		Front = 0x0404,
-		FrontAndBack = 0x0408,
-	}
-
-	public enum HintTarget : uint
-	{
-		AllowDrawFrgHintPgi = 0x1A210,
-		AllowDrawMemHintPgi = 0x1A211,
-		AllowDrawObjHintPgi = 0x1A20E,
-		AllowDrawWinHintPgi = 0x1A20F,
-		AlwaysFastHintPgi = 0x1A20C,
-		AlwaysSoftHintPgi = 0x1A20D,
-		BackNormalsHintPgi = 0x1A223,
-		BinningControlHintQcom = 0x8FB0,
-		ClipFarHintPgi = 0x1A221,
-		ClipNearHintPgi = 0x1A220,
-		ClipVolumeClippingHintExt = 0x80F0,
-		ConserveMemoryHintPgi = 0x1A1FD,
-		ConvolutionHintSgix = 0x8316,
-		FragmentShaderDerivativeHint = 0x8B8B,
-		FragmentShaderDerivativeHintArb = 0x8B8B,
-		FragmentShaderDerivativeHintOes = 0x8B8B,
-		FullStippleHintPgi = 0x1A219,
-		GenerateMipmapHintSgis = 0x8192,
-		LineQualityHintSgix = 0x835B,
-		LineSmoothHint = 0x0C52,
-		MaterialSideHintPgi = 0x1A22C,
-		MaxVertexHintPgi = 0x1A22D,
-		MultisampleFilterHintNv = 0x8534,
-		NativeGraphicsBeginHintPgi = 0x1A203,
-		NativeGraphicsEndHintPgi = 0x1A204,
-		PackCmykHintExt = 0x800E,
-		PhongHintWin = 0x80EB,
-		PolygonSmoothHint = 0x0C53,
-		PreferDoublebufferHintPgi = 0x1A1F8,
-		ProgramBinaryRetrievableHint = 0x8257,
-		ReclaimMemoryHintPgi = 0x1A1FE,
-		ScalebiasHintSgix = 0x8322,
-		StrictDepthfuncHintPgi = 0x1A216,
-		StrictLightingHintPgi = 0x1A217,
-		StrictScissorHintPgi = 0x1A218,
-		TextureCompressionHint = 0x84EF,
-		TextureCompressionHintArb = 0x84EF,
-		TextureMultiBufferHintSgix = 0x812E,
-		TextureStorageHintApple = 0x85BC,
-		TransformHintApple = 0x85B1,
-		UnpackCmykHintExt = 0x800F,
-		VertexArrayStorageHintApple = 0x851F,
-		VertexConsistentHintPgi = 0x1A22B,
-		VertexDataHintPgi = 0x1A22A,
-		VertexPreclipHintSgix = 0x83EF,
-		VertexPreclipSgix = 0x83EE,
-		WideLineHintPgi = 0x1A222,
-	}
-
-	public enum MaterialFace : uint
-	{
-		Back = 0x0405,
-		Front = 0x0404,
-		FrontAndBack = 0x0408,
-	}
-
-	public enum PolygonMode : uint
-	{
-		Fill = 0x1B02,
-		Line = 0x1B01,
-		Point = 0x1B00,
-	}
-
-	public enum TextureTarget : uint
-	{
-		DetailTexture2dSgis = 0x8095,
-		ProxyTexture1d = 0x8063,
-		ProxyTexture1dArray = 0x8C19,
-		ProxyTexture1dArrayExt = 0x8C19,
-		ProxyTexture1dExt = 0x8063,
-		ProxyTexture2d = 0x8064,
-		ProxyTexture2dArray = 0x8C1B,
-		ProxyTexture2dArrayExt = 0x8C1B,
-		ProxyTexture2dExt = 0x8064,
-		ProxyTexture2dMultisample = 0x9101,
-		ProxyTexture2dMultisampleArray = 0x9103,
-		ProxyTexture3d = 0x8070,
-		ProxyTexture3dExt = 0x8070,
-		ProxyTexture4dSgis = 0x8135,
-		ProxyTextureCubeMap = 0x851B,
-		ProxyTextureCubeMapArb = 0x851B,
-		ProxyTextureCubeMapExt = 0x851B,
-		ProxyTextureCubeMapArray = 0x900B,
-		ProxyTextureCubeMapArrayArb = 0x900B,
-		ProxyTextureRectangle = 0x84F7,
-		ProxyTextureRectangleArb = 0x84F7,
-		ProxyTextureRectangleNv = 0x84F7,
-		Texture1d = 0x0DE0,
-		Texture2d = 0x0DE1,
-		Texture3d = 0x806F,
-		Texture3dExt = 0x806F,
-		Texture3dOes = 0x806F,
-		Texture4dSgis = 0x8134,
-		TextureRectangle = 0x84F5,
-		TextureCubeMap = 0x8513,
-		TextureCubeMapPositiveX = 0x8515,
-		TextureCubeMapNegativeX = 0x8516,
-		TextureCubeMapPositiveY = 0x8517,
-		TextureCubeMapNegativeY = 0x8518,
-		TextureCubeMapPositiveZ = 0x8519,
-		TextureCubeMapNegativeZ = 0x851A,
-		TextureCubeMapArray = 0x9009,
-		TextureCubeMapArrayArb = 0x9009,
-		TextureCubeMapArrayExt = 0x9009,
-		TextureCubeMapArrayOes = 0x9009,
-		Texture1dArray = 0x8C18,
-		Texture2dArray = 0x8C1A,
-		Texture2dMultisample = 0x9100,
-		Texture2dMultisampleArray = 0x9102,
-	}
-
-	public enum TextureParameterName : uint
-	{
-		DetailTextureLevelSgis = 0x809A,
-		DetailTextureModeSgis = 0x809B,
-		DualTextureSelectSgis = 0x8124,
-		GenerateMipmapSgis = 0x8191,
-		PostTextureFilterBiasSgix = 0x8179,
-		PostTextureFilterScaleSgix = 0x817A,
-		QuadTextureSelectSgis = 0x8125,
-		ShadowAmbientSgix = 0x80BF,
-		TextureBorderColor = 0x1004,
-		TextureClipmapCenterSgix = 0x8171,
-		TextureClipmapDepthSgix = 0x8176,
-		TextureClipmapFrameSgix = 0x8172,
-		TextureClipmapLodOffsetSgix = 0x8175,
-		TextureClipmapOffsetSgix = 0x8173,
-		TextureClipmapVirtualDepthSgix = 0x8174,
-		TextureCompareSgix = 0x819A,
-		TextureLodBiasRSgix = 0x8190,
-		TextureLodBiasSSgix = 0x818E,
-		TextureLodBiasTSgix = 0x818F,
-		TextureMagFilter = 0x2800,
-		TextureMaxClampRSgix = 0x836B,
-		TextureMaxClampSSgix = 0x8369,
-		TextureMaxClampTSgix = 0x836A,
-		TextureMinFilter = 0x2801,
-		TexturePriorityExt = 0x8066,
-		TextureWrapQSgis = 0x8137,
-		TextureWrapR = 0x8072,
-		TextureWrapRExt = 0x8072,
-		TextureWrapROes = 0x8072,
-		TextureWrapS = 0x2802,
-		TextureWrapT = 0x2803,
-		TextureBaseLevel = 0x813C,
-		TextureCompareMode = 0x884C,
-		TextureCompareFunc = 0x884D,
-		TextureLodBias = 0x8501,
-		TextureMinLod = 0x813A,
-		TextureMaxLod = 0x813B,
-		TextureMaxLevel = 0x813D,
-		TextureSwizzleR = 0x8E42,
-		TextureSwizzleG = 0x8E43,
-		TextureSwizzleB = 0x8E44,
-		TextureSwizzleA = 0x8E45,
-		TextureSwizzleRgba = 0x8E46,
-		TextureTilingExt = 0x9580,
-		DepthStencilTextureMode = 0x90EA,
-		DetailTextureFuncPointsSgis = 0x809C,
-		SharpenTextureFuncPointsSgis = 0x80B0,
-		Texture4dsizeSgis = 0x8136,
-		TextureAlphaSize = 0x805F,
-		TextureBaseLevelSgis = 0x813C,
-		TextureBlueSize = 0x805E,
-		TextureBorderColorNv = 0x1004,
-		TextureCompareOperatorSgix = 0x819B,
-		TextureDepthExt = 0x8071,
-		TextureFilter4SizeSgis = 0x8147,
-		TextureGequalRSgix = 0x819D,
-		TextureGreenSize = 0x805D,
-		TextureHeight = 0x1001,
-		TextureInternalFormat = 0x1003,
-		TextureLequalRSgix = 0x819C,
-		TextureMaxLevelSgis = 0x813D,
-		TextureMaxLodSgis = 0x813B,
-		TextureMinLodSgis = 0x813A,
-		TextureRedSize = 0x805C,
-		TextureWidth = 0x1000,
-	}
-
-	public enum StencilFunction : uint
-	{
-		Always = 0x0207,
-		Equal = 0x0202,
-		Gequal = 0x0206,
-		Greater = 0x0204,
-		Lequal = 0x0203,
-		Less = 0x0201,
-		Never = 0x0200,
-		Notequal = 0x0205,
-	}
-
-	public enum DepthFunction : uint
-	{
-		Always = 0x0207,
-		Equal = 0x0202,
-		Gequal = 0x0206,
-		Greater = 0x0204,
-		Lequal = 0x0203,
-		Less = 0x0201,
-		Never = 0x0200,
-		Notequal = 0x0205,
-	}
-
-	public enum PixelStoreParameter : uint
-	{
-		PackAlignment = 0x0D05,
-		PackImageDepthSgis = 0x8131,
-		PackImageHeight = 0x806C,
-		PackImageHeightExt = 0x806C,
-		PackLsbFirst = 0x0D01,
-		PackResampleOml = 0x8984,
-		PackResampleSgix = 0x842E,
-		PackRowLength = 0x0D02,
-		PackSkipImages = 0x806B,
-		PackSkipImagesExt = 0x806B,
-		PackSkipPixels = 0x0D04,
-		PackSkipRows = 0x0D03,
-		PackSkipVolumesSgis = 0x8130,
-		PackSubsampleRateSgix = 0x85A0,
-		PackSwapBytes = 0x0D00,
-		PixelTileCacheSizeSgix = 0x8145,
-		PixelTileGridDepthSgix = 0x8144,
-		PixelTileGridHeightSgix = 0x8143,
-		PixelTileGridWidthSgix = 0x8142,
-		PixelTileHeightSgix = 0x8141,
-		PixelTileWidthSgix = 0x8140,
-		UnpackAlignment = 0x0CF5,
-		UnpackImageDepthSgis = 0x8133,
-		UnpackImageHeight = 0x806E,
-		UnpackImageHeightExt = 0x806E,
-		UnpackLsbFirst = 0x0CF1,
-		UnpackResampleOml = 0x8985,
-		UnpackResampleSgix = 0x842F,
-		UnpackRowLength = 0x0CF2,
-		UnpackRowLengthExt = 0x0CF2,
-		UnpackSkipImages = 0x806D,
-		UnpackSkipImagesExt = 0x806D,
-		UnpackSkipPixels = 0x0CF4,
-		UnpackSkipPixelsExt = 0x0CF4,
-		UnpackSkipRows = 0x0CF3,
-		UnpackSkipRowsExt = 0x0CF3,
-		UnpackSkipVolumesSgis = 0x8132,
-		UnpackSubsampleRateSgix = 0x85A1,
-		UnpackSwapBytes = 0x0CF0,
-	}
-
-	public enum ReadBufferMode : uint
-	{
-		Back = 0x0405,
-		BackLeft = 0x0402,
-		BackRight = 0x0403,
-		Front = 0x0404,
-		FrontLeft = 0x0400,
-		FrontRight = 0x0401,
-		Left = 0x0406,
-		Right = 0x0407,
-	}
-
-	public enum LightName : uint
-	{
-		FragmentLight0Sgix = 0x840C,
-		FragmentLight1Sgix = 0x840D,
-		FragmentLight2Sgix = 0x840E,
-		FragmentLight3Sgix = 0x840F,
-		FragmentLight4Sgix = 0x8410,
-		FragmentLight5Sgix = 0x8411,
-		FragmentLight6Sgix = 0x8412,
-		FragmentLight7Sgix = 0x8413,
-	}
-
-	public enum LightModelParameter : uint
-	{
-		LightModelColorControlExt = 0x81F8,
-	}
-
-	public enum MapTarget : uint
-	{
-		GeometryDeformationSgix = 0x8194,
-		TextureDeformationSgix = 0x8195,
-	}
-
-	public enum PixelTransferParameter : uint
-	{
-		PostColorMatrixAlphaBias = 0x80BB,
-		PostColorMatrixAlphaBiasSgi = 0x80BB,
-		PostColorMatrixAlphaScale = 0x80B7,
-		PostColorMatrixAlphaScaleSgi = 0x80B7,
-		PostColorMatrixBlueBias = 0x80BA,
-		PostColorMatrixBlueBiasSgi = 0x80BA,
-		PostColorMatrixBlueScale = 0x80B6,
-		PostColorMatrixBlueScaleSgi = 0x80B6,
-		PostColorMatrixGreenBias = 0x80B9,
-		PostColorMatrixGreenBiasSgi = 0x80B9,
-		PostColorMatrixGreenScale = 0x80B5,
-		PostColorMatrixGreenScaleSgi = 0x80B5,
-		PostColorMatrixRedBias = 0x80B8,
-		PostColorMatrixRedBiasSgi = 0x80B8,
-		PostColorMatrixRedScale = 0x80B4,
-		PostColorMatrixRedScaleSgi = 0x80B4,
-		PostConvolutionAlphaBias = 0x8023,
-		PostConvolutionAlphaBiasExt = 0x8023,
-		PostConvolutionAlphaScale = 0x801F,
-		PostConvolutionAlphaScaleExt = 0x801F,
-		PostConvolutionBlueBias = 0x8022,
-		PostConvolutionBlueBiasExt = 0x8022,
-		PostConvolutionBlueScale = 0x801E,
-		PostConvolutionBlueScaleExt = 0x801E,
-		PostConvolutionGreenBias = 0x8021,
-		PostConvolutionGreenBiasExt = 0x8021,
-		PostConvolutionGreenScale = 0x801D,
-		PostConvolutionGreenScaleExt = 0x801D,
-		PostConvolutionRedBias = 0x8020,
-		PostConvolutionRedBiasExt = 0x8020,
-		PostConvolutionRedScale = 0x801C,
-		PostConvolutionRedScaleExt = 0x801C,
-	}
-
-	public enum InternalFormat : uint
-	{
 		R3G3B2 = 0x2A10,
 		Rgb4 = 0x804F,
 		Rgb5 = 0x8050,
@@ -974,6 +652,7 @@ namespace Evergine.Bindings.OpenGL
 		Rgb10 = 0x8052,
 		Rgb12 = 0x8053,
 		Rgb16 = 0x8054,
+		Rgba2 = 0x8055,
 		Rgba4 = 0x8056,
 		Rgb5A1 = 0x8057,
 		Rgba8 = 0x8058,
@@ -983,6 +662,8 @@ namespace Evergine.Bindings.OpenGL
 		CompressedRgb = 0x84ED,
 		CompressedRgba = 0x84EE,
 		DepthComponent16 = 0x81A5,
+		DepthComponent24 = 0x81A6,
+		DepthComponent32 = 0x81A7,
 		Srgb = 0x8C40,
 		Srgb8 = 0x8C41,
 		SrgbAlpha = 0x8C42,
@@ -992,6 +673,7 @@ namespace Evergine.Bindings.OpenGL
 		CompressedRed = 0x8225,
 		CompressedRg = 0x8226,
 		Rgba32f = 0x8814,
+		Rgb32f = 0x8815,
 		Rgba16f = 0x881A,
 		Rgb16f = 0x881B,
 		R11fG11fB10f = 0x8C3A,
@@ -1010,11 +692,17 @@ namespace Evergine.Bindings.OpenGL
 		Rgb8i = 0x8D8F,
 		DepthComponent32f = 0x8CAC,
 		Depth32fStencil8 = 0x8CAD,
+		DepthStencil = 0x84F9,
 		Depth24Stencil8 = 0x88F0,
+		StencilIndex1 = 0x8D46,
+		StencilIndex4 = 0x8D47,
+		StencilIndex8 = 0x8D48,
+		StencilIndex16 = 0x8D49,
 		CompressedRedRgtc1 = 0x8DBB,
 		CompressedSignedRedRgtc1 = 0x8DBC,
 		CompressedRgRgtc2 = 0x8DBD,
 		CompressedSignedRgRgtc2 = 0x8DBE,
+		Rg = 0x8227,
 		R8 = 0x8229,
 		R16 = 0x822A,
 		Rg8 = 0x822B,
@@ -1042,60 +730,12 @@ namespace Evergine.Bindings.OpenGL
 		R16Snorm = 0x8F98,
 		Rg16Snorm = 0x8F99,
 		Rgb16Snorm = 0x8F9A,
-		Rgb10A2ui = 0x906F,
-		CompressedRgbaBptcUnorm = 0x8E8C,
-		CompressedSrgbAlphaBptcUnorm = 0x8E8D,
-		CompressedRgbBptcSignedFloat = 0x8E8E,
-		CompressedRgbBptcUnsignedFloat = 0x8E8F,
-		CompressedRgb8Etc2 = 0x9274,
-		CompressedSrgb8Etc2 = 0x9275,
-		CompressedRgb8PunchthroughAlpha1Etc2 = 0x9276,
-		CompressedSrgb8PunchthroughAlpha1Etc2 = 0x9277,
-		CompressedRgba8Etc2Eac = 0x9278,
-		CompressedSrgb8Alpha8Etc2Eac = 0x9279,
-		CompressedR11Eac = 0x9270,
-		CompressedSignedR11Eac = 0x9271,
-		CompressedRg11Eac = 0x9272,
-		CompressedSignedRg11Eac = 0x9273,
-		DepthComponent16Arb = 0x81A5,
-		DepthComponent24Arb = 0x81A6,
-		DepthComponent32Arb = 0x81A7,
-		Rgba32fArb = 0x8814,
-		Rgba16fArb = 0x881A,
-		Rgb16fArb = 0x881B,
+		Rgba16Snorm = 0x8F9B,
 		DepthStencilExt = 0x84F9,
-		Depth24Stencil8Ext = 0x88F0,
-		R11fG11fB10fExt = 0x8C3A,
-		Rgb2Ext = 0x804E,
-		Rgb4Ext = 0x804F,
-		Rgb5Ext = 0x8050,
-		Rgb8Ext = 0x8051,
-		Rgb10Ext = 0x8052,
-		Rgb12Ext = 0x8053,
-		Rgb16Ext = 0x8054,
-		Rgba4Ext = 0x8056,
-		Rgb5A1Ext = 0x8057,
-		Rgba8Ext = 0x8058,
-		Rgb10A2Ext = 0x8059,
-		Rgba12Ext = 0x805A,
-		Rgba16Ext = 0x805B,
-		CompressedRedRgtc1Ext = 0x8DBB,
-		CompressedSignedRedRgtc1Ext = 0x8DBC,
-		CompressedRgbS3tcDxt1Ext = 0x83F0,
-		CompressedRgbaS3tcDxt1Ext = 0x83F1,
-		CompressedRgbaS3tcDxt3Ext = 0x83F2,
-		CompressedRgbaS3tcDxt5Ext = 0x83F3,
 		SrgbExt = 0x8C40,
-		Srgb8Ext = 0x8C41,
 		SrgbAlphaExt = 0x8C42,
-		Srgb8Alpha8Ext = 0x8C43,
-		CompressedSrgbS3tcDxt1Ext = 0x8C4C,
-		CompressedSrgbAlphaS3tcDxt1Ext = 0x8C4D,
-		CompressedSrgbAlphaS3tcDxt3Ext = 0x8C4E,
-		CompressedSrgbAlphaS3tcDxt5Ext = 0x8C4F,
-		Rgb9E5Ext = 0x8C3D,
-		DepthComponent32fNv = 0x8DAB,
-		Depth32fStencil8Nv = 0x8DAC,
+		Sr8Ext = 0x8FBD,
+		Srg8Ext = 0x8FBE,
 		DepthStencilNv = 0x84F9,
 		DualAlpha4Sgis = 0x8110,
 		DualAlpha8Sgis = 0x8111,
@@ -1117,30 +757,645 @@ namespace Evergine.Bindings.OpenGL
 		QuadLuminance8Sgis = 0x8121,
 		QuadIntensity4Sgis = 0x8122,
 		QuadIntensity8Sgis = 0x8123,
-		DepthComponent16Sgix = 0x81A5,
-		DepthComponent24Sgix = 0x81A6,
-		DepthComponent32Sgix = 0x81A7,
 	}
 
-	public enum Extensions : uint
+	public enum FragmentShaderValueRepATI : uint
 	{
-		Rgba2 = 0x8055,
-		TextureDepth = 0x8071,
+		Red = 0x1903,
+		Green = 0x1904,
+		Blue = 0x1905,
+	}
+
+	public enum PixelTexGenModeSGIX : uint
+	{
+		Alpha = 0x1906,
+		Rgb = 0x1907,
+		Rgba = 0x1908,
+	}
+
+	public enum PolygonMode : uint
+	{
+		Point = 0x1B00,
+		Line = 0x1B01,
+		Fill = 0x1B02,
+	}
+
+	public enum StencilOp : uint
+	{
+		Keep = 0x1E00,
+		Replace = 0x1E01,
+		Incr = 0x1E02,
+		Decr = 0x1E03,
+		IncrWrap = 0x8507,
+		DecrWrap = 0x8508,
+	}
+
+	public enum StringName : uint
+	{
+		Vendor = 0x1F00,
+		Renderer = 0x1F01,
+		Version = 0x1F02,
+		Extensions = 0x1F03,
+		ShadingLanguageVersion = 0x8B8C,
+	}
+
+	public enum BlitFramebufferFilter : uint
+	{
+		Nearest = 0x2600,
+		Linear = 0x2601,
+	}
+
+	public enum TextureMinFilter : uint
+	{
+		NearestMipmapNearest = 0x2700,
+		LinearMipmapNearest = 0x2701,
+		NearestMipmapLinear = 0x2702,
+		LinearMipmapLinear = 0x2703,
+		LinearClipmapLinearSgix = 0x8170,
+		NearestClipmapNearestSgix = 0x844D,
+		NearestClipmapLinearSgix = 0x844E,
+		LinearClipmapNearestSgix = 0x844F,
+	}
+
+	public enum SamplerParameterI : uint
+	{
+		TextureMagFilter = 0x2800,
+		TextureMinFilter = 0x2801,
+		TextureWrapS = 0x2802,
+		TextureWrapT = 0x2803,
+		TextureWrapR = 0x8072,
+		TextureCompareMode = 0x884C,
+		TextureCompareFunc = 0x884D,
+	}
+
+	public enum TextureWrapMode : uint
+	{
+		Repeat = 0x2901,
+		ClampToEdge = 0x812F,
+		ClampToBorder = 0x812D,
+		MirroredRepeat = 0x8370,
+		MirrorClampToEdge = 0x8743,
+		ClampToBorderArb = 0x812D,
+		MirroredRepeatArb = 0x8370,
+		MirrorClampAti = 0x8742,
+		MirrorClampToEdgeAti = 0x8743,
+		MirrorClampExt = 0x8742,
+		MirrorClampToEdgeExt = 0x8743,
+		MirrorClampToBorderExt = 0x8912,
+		MirroredRepeatIbm = 0x8370,
+		ClampToBorderSgis = 0x812D,
+		ClampToEdgeSgis = 0x812F,
+	}
+
+	public enum PixelFormat : uint
+	{
+		Bgr = 0x80E0,
+		Bgra = 0x80E1,
+		RedInteger = 0x8D94,
+		GreenInteger = 0x8D95,
+		BlueInteger = 0x8D96,
+		RgbInteger = 0x8D98,
+		RgbaInteger = 0x8D99,
+		BgrInteger = 0x8D9A,
+		BgraInteger = 0x8D9B,
+		RgInteger = 0x8228,
+		AbgrExt = 0x8000,
+		BgrExt = 0x80E0,
+		BgraExt = 0x80E1,
+		CmykExt = 0x800C,
+		CmykaExt = 0x800D,
+		Ycrcb422Sgix = 0x81BB,
+		Ycrcb444Sgix = 0x81BC,
+	}
+
+	public enum PixelType : uint
+	{
+		UnsignedByte332 = 0x8032,
+		UnsignedShort4444 = 0x8033,
+		UnsignedShort5551 = 0x8034,
+		UnsignedInt8888 = 0x8035,
+		UnsignedInt1010102 = 0x8036,
 		UnsignedByte233Rev = 0x8362,
 		UnsignedShort565 = 0x8363,
 		UnsignedShort565Rev = 0x8364,
 		UnsignedShort4444Rev = 0x8365,
 		UnsignedShort1555Rev = 0x8366,
 		UnsignedInt8888Rev = 0x8367,
+		UnsignedInt2101010Rev = 0x8368,
+		UnsignedInt5999Rev = 0x8C3E,
+		Float32UnsignedInt248Rev = 0x8DAD,
+		UnsignedInt248 = 0x84FA,
+		HalfApple = 0x140B,
+		HalfFloatArb = 0x140B,
+		UnsignedInt248Ext = 0x84FA,
+		UnsignedInt10f11f11fRevExt = 0x8C3B,
+		UnsignedByte332Ext = 0x8032,
+		UnsignedShort4444Ext = 0x8033,
+		UnsignedShort5551Ext = 0x8034,
+		UnsignedInt8888Ext = 0x8035,
+		UnsignedInt1010102Ext = 0x8036,
+		UnsignedInt5999RevExt = 0x8C3E,
+		Float32UnsignedInt248RevNv = 0x8DAD,
+		HalfFloatNv = 0x140B,
+		UnsignedInt248Nv = 0x84FA,
+	}
+
+	public enum TextureEnvParameter : uint
+	{
+		Src1Alpha = 0x8589,
+		CombineArb = 0x8570,
+		CombineRgbArb = 0x8571,
+		CombineAlphaArb = 0x8572,
+		Source0RgbArb = 0x8580,
+		Source1RgbArb = 0x8581,
+		Source2RgbArb = 0x8582,
+		Source0AlphaArb = 0x8588,
+		Source1AlphaArb = 0x8589,
+		Source2AlphaArb = 0x858A,
+		Operand0RgbArb = 0x8590,
+		Operand1RgbArb = 0x8591,
+		Operand2RgbArb = 0x8592,
+		Operand0AlphaArb = 0x8598,
+		Operand1AlphaArb = 0x8599,
+		Operand2AlphaArb = 0x859A,
+		RgbScaleArb = 0x8573,
+		AddSignedArb = 0x8574,
+		InterpolateArb = 0x8575,
+		ConstantArb = 0x8576,
+		PrimaryColorArb = 0x8577,
+		PreviousArb = 0x8578,
+		CombineExt = 0x8570,
+		CombineRgbExt = 0x8571,
+		CombineAlphaExt = 0x8572,
+		RgbScaleExt = 0x8573,
+		AddSignedExt = 0x8574,
+		InterpolateExt = 0x8575,
+		ConstantExt = 0x8576,
+		PrimaryColorExt = 0x8577,
+		PreviousExt = 0x8578,
+		Source0RgbExt = 0x8580,
+		Source1RgbExt = 0x8581,
+		Source2RgbExt = 0x8582,
+		Source0AlphaExt = 0x8588,
+		Source1AlphaExt = 0x8589,
+		Source2AlphaExt = 0x858A,
+		Operand0RgbExt = 0x8590,
+		Operand1RgbExt = 0x8591,
+		Operand2RgbExt = 0x8592,
+		Operand0AlphaExt = 0x8598,
+		Operand1AlphaExt = 0x8599,
+		Operand2AlphaExt = 0x859A,
+		ConstantNv = 0x8576,
+		PrimaryColor = 0x8577,
+		Source3RgbNv = 0x8583,
+		Source3AlphaNv = 0x858B,
+		Operand3RgbNv = 0x8593,
+		Operand3AlphaNv = 0x859B,
+	}
+
+	public enum TriangleFace : uint
+	{
+		Front = 0x0404,
+		Back = 0x0405,
+		FrontAndBack = 0x0408,
+	}
+
+	public enum TextureTarget : uint
+	{
+		Texture1d = 0x0DE0,
+		Texture2d = 0x0DE1,
+		ProxyTexture1d = 0x8063,
+		ProxyTexture1dExt = 0x8063,
+		ProxyTexture2d = 0x8064,
+		ProxyTexture2dExt = 0x8064,
+		Texture3d = 0x806F,
+		Texture3dExt = 0x806F,
+		Texture3dOes = 0x806F,
+		ProxyTexture3d = 0x8070,
+		ProxyTexture3dExt = 0x8070,
+		DetailTexture2dSgis = 0x8095,
+		Texture4dSgis = 0x8134,
+		ProxyTexture4dSgis = 0x8135,
+		TextureRectangle = 0x84F5,
+		TextureRectangleArb = 0x84F5,
+		TextureRectangleNv = 0x84F5,
+		ProxyTextureRectangle = 0x84F7,
+		ProxyTextureRectangleArb = 0x84F7,
+		ProxyTextureRectangleNv = 0x84F7,
+		TextureCubeMap = 0x8513,
+		TextureCubeMapArb = 0x8513,
+		TextureCubeMapExt = 0x8513,
+		TextureCubeMapOes = 0x8513,
+		TextureCubeMapPositiveX = 0x8515,
+		TextureCubeMapPositiveXArb = 0x8515,
+		TextureCubeMapPositiveXExt = 0x8515,
+		TextureCubeMapPositiveXOes = 0x8515,
+		TextureCubeMapNegativeX = 0x8516,
+		TextureCubeMapNegativeXArb = 0x8516,
+		TextureCubeMapNegativeXExt = 0x8516,
+		TextureCubeMapNegativeXOes = 0x8516,
+		TextureCubeMapPositiveY = 0x8517,
+		TextureCubeMapPositiveYArb = 0x8517,
+		TextureCubeMapPositiveYExt = 0x8517,
+		TextureCubeMapPositiveYOes = 0x8517,
+		TextureCubeMapNegativeY = 0x8518,
+		TextureCubeMapNegativeYArb = 0x8518,
+		TextureCubeMapNegativeYExt = 0x8518,
+		TextureCubeMapNegativeYOes = 0x8518,
+		TextureCubeMapPositiveZ = 0x8519,
+		TextureCubeMapPositiveZArb = 0x8519,
+		TextureCubeMapPositiveZExt = 0x8519,
+		TextureCubeMapPositiveZOes = 0x8519,
+		TextureCubeMapNegativeZ = 0x851A,
+		TextureCubeMapNegativeZArb = 0x851A,
+		TextureCubeMapNegativeZExt = 0x851A,
+		TextureCubeMapNegativeZOes = 0x851A,
+		ProxyTextureCubeMap = 0x851B,
+		ProxyTextureCubeMapArb = 0x851B,
+		ProxyTextureCubeMapExt = 0x851B,
+		Texture1dArray = 0x8C18,
+		ProxyTexture1dArray = 0x8C19,
+		ProxyTexture1dArrayExt = 0x8C19,
+		Texture2dArray = 0x8C1A,
+		ProxyTexture2dArray = 0x8C1B,
+		ProxyTexture2dArrayExt = 0x8C1B,
+		TextureBuffer = 0x8C2A,
+		Renderbuffer = 0x8D41,
+		TextureCubeMapArray = 0x9009,
+		TextureCubeMapArrayArb = 0x9009,
+		TextureCubeMapArrayExt = 0x9009,
+		TextureCubeMapArrayOes = 0x9009,
+		ProxyTextureCubeMapArray = 0x900B,
+		ProxyTextureCubeMapArrayArb = 0x900B,
+		Texture2dMultisample = 0x9100,
+		ProxyTexture2dMultisample = 0x9101,
+		Texture2dMultisampleArray = 0x9102,
+		ProxyTexture2dMultisampleArray = 0x9103,
+	}
+
+	public enum DrawBufferMode : uint
+	{
+		None = 0,
+		NoneOes = 0,
+		FrontLeft = 0x0400,
+		FrontRight = 0x0401,
+		BackLeft = 0x0402,
+		BackRight = 0x0403,
+		Front = 0x0404,
+		Back = 0x0405,
+		Left = 0x0406,
+		Right = 0x0407,
+		FrontAndBack = 0x0408,
+		ColorAttachment0 = 0x8CE0,
+		ColorAttachment0Nv = 0x8CE0,
+		ColorAttachment1 = 0x8CE1,
+		ColorAttachment1Nv = 0x8CE1,
+		ColorAttachment2 = 0x8CE2,
+		ColorAttachment2Nv = 0x8CE2,
+		ColorAttachment3 = 0x8CE3,
+		ColorAttachment3Nv = 0x8CE3,
+		ColorAttachment4 = 0x8CE4,
+		ColorAttachment4Nv = 0x8CE4,
+		ColorAttachment5 = 0x8CE5,
+		ColorAttachment5Nv = 0x8CE5,
+		ColorAttachment6 = 0x8CE6,
+		ColorAttachment6Nv = 0x8CE6,
+		ColorAttachment7 = 0x8CE7,
+		ColorAttachment7Nv = 0x8CE7,
+		ColorAttachment8 = 0x8CE8,
+		ColorAttachment8Nv = 0x8CE8,
+		ColorAttachment9 = 0x8CE9,
+		ColorAttachment9Nv = 0x8CE9,
+		ColorAttachment10 = 0x8CEA,
+		ColorAttachment10Nv = 0x8CEA,
+		ColorAttachment11 = 0x8CEB,
+		ColorAttachment11Nv = 0x8CEB,
+		ColorAttachment12 = 0x8CEC,
+		ColorAttachment12Nv = 0x8CEC,
+		ColorAttachment13 = 0x8CED,
+		ColorAttachment13Nv = 0x8CED,
+		ColorAttachment14 = 0x8CEE,
+		ColorAttachment14Nv = 0x8CEE,
+		ColorAttachment15 = 0x8CEF,
+		ColorAttachment15Nv = 0x8CEF,
+		ColorAttachment16 = 0x8CF0,
+		ColorAttachment17 = 0x8CF1,
+		ColorAttachment18 = 0x8CF2,
+		ColorAttachment19 = 0x8CF3,
+		ColorAttachment20 = 0x8CF4,
+		ColorAttachment21 = 0x8CF5,
+		ColorAttachment22 = 0x8CF6,
+		ColorAttachment23 = 0x8CF7,
+		ColorAttachment24 = 0x8CF8,
+		ColorAttachment25 = 0x8CF9,
+		ColorAttachment26 = 0x8CFA,
+		ColorAttachment27 = 0x8CFB,
+		ColorAttachment28 = 0x8CFC,
+		ColorAttachment29 = 0x8CFD,
+		ColorAttachment30 = 0x8CFE,
+		ColorAttachment31 = 0x8CFF,
+	}
+
+	public enum EnableCap : uint
+	{
+		LineSmooth = 0x0B20,
+		PolygonSmooth = 0x0B41,
+		CullFace = 0x0B44,
+		DepthTest = 0x0B71,
+		StencilTest = 0x0B90,
+		Dither = 0x0BD0,
+		Blend = 0x0BE2,
+		ColorLogicOp = 0x0BF2,
+		ScissorTest = 0x0C11,
+		Texture1d = 0x0DE0,
+		Texture2d = 0x0DE1,
+		PolygonOffsetPoint = 0x2A01,
+		PolygonOffsetLine = 0x2A02,
+		ClipDistance0 = 0x3000,
+		ClipDistance1 = 0x3001,
+		ClipDistance2 = 0x3002,
+		ClipDistance3 = 0x3003,
+		ClipDistance4 = 0x3004,
+		ClipDistance5 = 0x3005,
+		ClipDistance6 = 0x3006,
+		ClipDistance7 = 0x3007,
+		Convolution1dExt = 0x8010,
+		Convolution2dExt = 0x8011,
+		Separable2dExt = 0x8012,
+		HistogramExt = 0x8024,
+		MinmaxExt = 0x802E,
+		PolygonOffsetFill = 0x8037,
+		RescaleNormalExt = 0x803A,
+		Texture3dExt = 0x806F,
+		InterlaceSgix = 0x8094,
+		Multisample = 0x809D,
+		MultisampleSgis = 0x809D,
+		SampleAlphaToCoverage = 0x809E,
+		SampleAlphaToMaskSgis = 0x809E,
+		SampleAlphaToOne = 0x809F,
+		SampleAlphaToOneSgis = 0x809F,
+		SampleCoverage = 0x80A0,
+		SampleMaskSgis = 0x80A0,
+		TextureColorTableSgi = 0x80BC,
+		ColorTable = 0x80D0,
+		ColorTableSgi = 0x80D0,
+		PostConvolutionColorTable = 0x80D1,
+		PostConvolutionColorTableSgi = 0x80D1,
+		PostColorMatrixColorTable = 0x80D2,
+		PostColorMatrixColorTableSgi = 0x80D2,
+		Texture4dSgis = 0x8134,
+		PixelTexGenSgix = 0x8139,
+		SpriteSgix = 0x8148,
+		ReferencePlaneSgix = 0x817D,
+		IrInstrument1Sgix = 0x817F,
+		CalligraphicFragmentSgix = 0x8183,
+		FramezoomSgix = 0x818B,
+		FogOffsetSgix = 0x8198,
+		SharedTexturePaletteExt = 0x81FB,
+		DebugOutputSynchronous = 0x8242,
+		AsyncHistogramSgix = 0x832C,
+		PixelTextureSgis = 0x8353,
+		AsyncTexImageSgix = 0x835C,
+		AsyncDrawPixelsSgix = 0x835D,
+		AsyncReadPixelsSgix = 0x835E,
+		FragmentLightingSgix = 0x8400,
+		FragmentColorMaterialSgix = 0x8401,
+		FragmentLight0Sgix = 0x840C,
+		FragmentLight1Sgix = 0x840D,
+		FragmentLight2Sgix = 0x840E,
+		FragmentLight3Sgix = 0x840F,
+		FragmentLight4Sgix = 0x8410,
+		FragmentLight5Sgix = 0x8411,
+		FragmentLight6Sgix = 0x8412,
+		FragmentLight7Sgix = 0x8413,
+		TextureRectangle = 0x84F5,
+		TextureRectangleArb = 0x84F5,
+		TextureRectangleNv = 0x84F5,
+		TextureCubeMap = 0x8513,
+		TextureCubeMapArb = 0x8513,
+		TextureCubeMapExt = 0x8513,
+		TextureCubeMapOes = 0x8513,
+		ProgramPointSize = 0x8642,
+		DepthClamp = 0x864F,
+		TextureCubeMapSeamless = 0x884F,
+		SampleShading = 0x8C36,
+		RasterizerDiscard = 0x8C89,
+		TextureGenStrOes = 0x8D60,
+		PrimitiveRestartFixedIndex = 0x8D69,
+		FramebufferSrgb = 0x8DB9,
+		SampleMask = 0x8E51,
+		FetchPerSampleArm = 0x8F65,
+		PrimitiveRestart = 0x8F9D,
+		DebugOutput = 0x92E0,
+		ShadingRateImagePerPrimitiveNv = 0x95B1,
+		FramebufferFetchNoncoherentQcom = 0x96A2,
+		ShadingRatePreserveAspectRatioQcom = 0x96A5,
+	}
+
+	public enum DepthFunction : uint
+	{
+		Never = 0x0200,
+		Less = 0x0201,
+		Equal = 0x0202,
+		Lequal = 0x0203,
+		Greater = 0x0204,
+		Notequal = 0x0205,
+		Gequal = 0x0206,
+		Always = 0x0207,
+	}
+
+	public enum GetTextureParameter : uint
+	{
+		TextureWidth = 0x1000,
+		TextureHeight = 0x1001,
+		TextureInternalFormat = 0x1003,
+		TextureBorderColor = 0x1004,
+		TextureBorderColorNv = 0x1004,
+		TextureMagFilter = 0x2800,
+		TextureMinFilter = 0x2801,
+		TextureWrapS = 0x2802,
+		TextureWrapT = 0x2803,
+		TextureRedSize = 0x805C,
+		TextureGreenSize = 0x805D,
+		TextureBlueSize = 0x805E,
+		TextureAlphaSize = 0x805F,
+		TextureDepthExt = 0x8071,
+		TextureWrapRExt = 0x8072,
+		DetailTextureLevelSgis = 0x809A,
+		DetailTextureModeSgis = 0x809B,
+		DetailTextureFuncPointsSgis = 0x809C,
+		SharpenTextureFuncPointsSgis = 0x80B0,
+		ShadowAmbientSgix = 0x80BF,
+		DualTextureSelectSgis = 0x8124,
+		QuadTextureSelectSgis = 0x8125,
+		Texture4dsizeSgis = 0x8136,
+		TextureWrapQSgis = 0x8137,
+		TextureMinLodSgis = 0x813A,
+		TextureMaxLodSgis = 0x813B,
+		TextureBaseLevelSgis = 0x813C,
+		TextureMaxLevelSgis = 0x813D,
+		TextureFilter4SizeSgis = 0x8147,
+		TextureClipmapCenterSgix = 0x8171,
+		TextureClipmapFrameSgix = 0x8172,
+		TextureClipmapOffsetSgix = 0x8173,
+		TextureClipmapVirtualDepthSgix = 0x8174,
+		TextureClipmapLodOffsetSgix = 0x8175,
+		TextureClipmapDepthSgix = 0x8176,
+		PostTextureFilterBiasSgix = 0x8179,
+		PostTextureFilterScaleSgix = 0x817A,
+		TextureLodBiasSSgix = 0x818E,
+		TextureLodBiasTSgix = 0x818F,
+		TextureLodBiasRSgix = 0x8190,
+		GenerateMipmapSgis = 0x8191,
+		TextureCompareSgix = 0x819A,
+		TextureCompareOperatorSgix = 0x819B,
+		TextureLequalRSgix = 0x819C,
+		TextureGequalRSgix = 0x819D,
+		TextureMaxClampSSgix = 0x8369,
+		TextureMaxClampTSgix = 0x836A,
+		TextureMaxClampRSgix = 0x836B,
+		NormalMapArb = 0x8511,
+		NormalMapExt = 0x8511,
+		NormalMapNv = 0x8511,
+		NormalMapOes = 0x8511,
+		ReflectionMapArb = 0x8512,
+		ReflectionMapExt = 0x8512,
+		ReflectionMapNv = 0x8512,
+		ReflectionMapOes = 0x8512,
+		TextureUnnormalizedCoordinatesArm = 0x8F6A,
+		SurfaceCompressionExt = 0x96C0,
+		TextureYDegammaQcom = 0x9710,
+		TextureCbcrDegammaQcom = 0x9711,
+	}
+
+	public enum ClipPlaneName : uint
+	{
+		ClipDistance0 = 0x3000,
+		ClipDistance1 = 0x3001,
+		ClipDistance2 = 0x3002,
+		ClipDistance3 = 0x3003,
+		ClipDistance4 = 0x3004,
+		ClipDistance5 = 0x3005,
+		ClipDistance6 = 0x3006,
+		ClipDistance7 = 0x3007,
+	}
+
+	public enum FogParameter : uint
+	{
+		FogOffsetValueSgix = 0x8199,
+	}
+
+	public enum MeshMode1 : uint
+	{
+		Point = 0x1B00,
+		Line = 0x1B01,
+	}
+
+	public enum MeshMode2 : uint
+	{
+		Point = 0x1B00,
+		Line = 0x1B01,
+		Fill = 0x1B02,
+	}
+
+	public enum AlphaFunction : uint
+	{
+		Never = 0x0200,
+		Less = 0x0201,
+		Equal = 0x0202,
+		Lequal = 0x0203,
+		Greater = 0x0204,
+		Notequal = 0x0205,
+		Gequal = 0x0206,
+		Always = 0x0207,
+	}
+
+	public enum PixelCopyType : uint
+	{
+		Color = 0x1800,
+		ColorExt = 0x1800,
+		Depth = 0x1801,
+		DepthExt = 0x1801,
+		Stencil = 0x1802,
+		StencilExt = 0x1802,
+	}
+
+	public enum VertexAttribLType : uint
+	{
+		Double = 0x140A,
+	}
+
+	public enum GetPointervPName : uint
+	{
+		DebugCallbackFunction = 0x8244,
+		DebugCallbackUserParam = 0x8245,
+		VertexArrayPointerExt = 0x808E,
+		NormalArrayPointerExt = 0x808F,
+		ColorArrayPointerExt = 0x8090,
+		IndexArrayPointerExt = 0x8091,
+		TextureCoordArrayPointerExt = 0x8092,
+		EdgeFlagArrayPointerExt = 0x8093,
+		InstrumentBufferPointerSgix = 0x8180,
+	}
+
+	public enum DrawElementsType : uint
+	{
+		UnsignedByte = 0x1401,
+		UnsignedShort = 0x1403,
+		UnsignedInt = 0x1405,
+	}
+
+	public enum ColorPointerType : uint
+	{
+		Byte = 0x1400,
+		UnsignedByte = 0x1401,
+		Short = 0x1402,
+		UnsignedShort = 0x1403,
+		Int = 0x1404,
+		UnsignedInt = 0x1405,
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum IndexPointerType : uint
+	{
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum NormalPointerType : uint
+	{
+		Byte = 0x1400,
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum TexCoordPointerType : uint
+	{
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum VertexPointerType : uint
+	{
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum Extensions : uint
+	{
+		TextureDepth = 0x8071,
 		TextureCompressedImageSize = 0x86A0,
-		DepthComponent24 = 0x81A6,
-		DepthComponent32 = 0x81A7,
-		MirroredRepeat = 0x8370,
 		TextureDepthSize = 0x884A,
-		BlendEquation = 0x8009,
-		BufferMapPointer = 0x88BD,
 		VertexProgramPointSize = 0x8642,
-		VertexAttribArrayPointer = 0x8645,
 		DrawBuffer0 = 0x8825,
 		DrawBuffer1 = 0x8826,
 		DrawBuffer2 = 0x8827,
@@ -1158,40 +1413,11 @@ namespace Evergine.Bindings.OpenGL
 		DrawBuffer14 = 0x8833,
 		DrawBuffer15 = 0x8834,
 		PointSpriteCoordOrigin = 0x8CA0,
-		CompareRefToTexture = 0x884E,
-		Rgb32f = 0x8815,
-		ClampReadColor = 0x891C,
-		FixedOnly = 0x891D,
-		UnsignedInt5999Rev = 0x8C3E,
 		TextureSharedSize = 0x8C3F,
 		MaxTransformFeedbackSeparateComponents = 0x8C80,
 		MaxTransformFeedbackInterleavedComponents = 0x8C8A,
 		MaxTransformFeedbackSeparateAttribs = 0x8C8B,
-		InterleavedAttribs = 0x8C8C,
-		SeparateAttribs = 0x8C8D,
-		Sampler1dArray = 0x8DC0,
-		Sampler2dArray = 0x8DC1,
-		Sampler1dArrayShadow = 0x8DC3,
-		Sampler2dArrayShadow = 0x8DC4,
-		SamplerCubeShadow = 0x8DC5,
-		UnsignedIntVec2 = 0x8DC6,
-		UnsignedIntVec3 = 0x8DC7,
-		UnsignedIntVec4 = 0x8DC8,
-		IntSampler1d = 0x8DC9,
-		IntSampler2d = 0x8DCA,
-		IntSampler3d = 0x8DCB,
-		IntSamplerCube = 0x8DCC,
-		IntSampler1dArray = 0x8DCE,
-		IntSampler2dArray = 0x8DCF,
-		UnsignedIntSampler1d = 0x8DD1,
-		UnsignedIntSampler2d = 0x8DD2,
-		UnsignedIntSampler3d = 0x8DD3,
-		UnsignedIntSamplerCube = 0x8DD4,
-		UnsignedIntSampler1dArray = 0x8DD6,
-		UnsignedIntSampler2dArray = 0x8DD7,
-		Float32UnsignedInt248Rev = 0x8DAD,
 		FramebufferDefault = 0x8218,
-		UnsignedInt248 = 0x84FA,
 		TextureStencilSize = 0x88F1,
 		TextureRedType = 0x8C10,
 		TextureGreenType = 0x8C11,
@@ -1200,47 +1426,22 @@ namespace Evergine.Bindings.OpenGL
 		TextureDepthType = 0x8C16,
 		UnsignedNormalized = 0x8C17,
 		FramebufferBinding = 0x8CA6,
-		FramebufferAttachmentObjectType = 0x8CD0,
-		StencilAttachment = 0x8D20,
-		StencilIndex1 = 0x8D46,
-		StencilIndex4 = 0x8D47,
-		StencilIndex8 = 0x8D48,
-		StencilIndex16 = 0x8D49,
 		MaxSamples = 0x8D57,
-		SamplerBuffer = 0x8DC2,
-		IntSampler2dRect = 0x8DCD,
-		IntSamplerBuffer = 0x8DD0,
-		UnsignedIntSampler2dRect = 0x8DD5,
-		UnsignedIntSamplerBuffer = 0x8DD8,
 		TextureBufferDataStoreBinding = 0x8C2D,
-		Rgba16Snorm = 0x8F9B,
 		SignedNormalized = 0x8F9C,
-		InvalidIndex = 0xFFFFFFFF,
 		MaxGeometryOutputVertices = 0x8DE0,
 		MaxGeometryTotalOutputComponents = 0x8DE1,
-		ContextProfileMask = 0x9126,
 		QuadsFollowProvokingVertexConvention = 0x8E4C,
 		SyncFence = 0x9116,
 		Unsignaled = 0x9118,
 		Signaled = 0x9119,
-		SamplePosition = 0x8E50,
 		SampleMaskValue = 0x8E52,
 		TextureSamples = 0x9106,
 		TextureFixedSampleLocations = 0x9107,
-		Sampler2dMultisample = 0x9108,
-		IntSampler2dMultisample = 0x9109,
-		UnsignedIntSampler2dMultisample = 0x910A,
-		Sampler2dMultisampleArray = 0x910B,
-		IntSampler2dMultisampleArray = 0x910C,
-		UnsignedIntSampler2dMultisampleArray = 0x910D,
 		MinSampleShadingValue = 0x8C37,
 		MinProgramTextureGatherOffset = 0x8E5E,
 		MaxProgramTextureGatherOffset = 0x8E5F,
 		TextureBindingCubeMapArray = 0x900A,
-		SamplerCubeMapArray = 0x900C,
-		SamplerCubeMapArrayShadow = 0x900D,
-		IntSamplerCubeMapArray = 0x900E,
-		UnsignedIntSamplerCubeMapArray = 0x900F,
 		DrawIndirectBufferBinding = 0x8F43,
 		GeometryShaderInvocations = 0x887F,
 		MaxGeometryShaderInvocations = 0x8E5A,
@@ -1248,18 +1449,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxFragmentInterpolationOffset = 0x8E5C,
 		FragmentInterpolationOffsetBits = 0x8E5D,
 		MaxVertexStreams = 0x8E71,
-		DoubleVec2 = 0x8FFC,
-		DoubleVec3 = 0x8FFD,
-		DoubleVec4 = 0x8FFE,
-		DoubleMat2 = 0x8F46,
-		DoubleMat3 = 0x8F47,
-		DoubleMat4 = 0x8F48,
-		DoubleMat2x3 = 0x8F49,
-		DoubleMat2x4 = 0x8F4A,
-		DoubleMat3x2 = 0x8F4B,
-		DoubleMat3x4 = 0x8F4C,
-		DoubleMat4x2 = 0x8F4D,
-		DoubleMat4x3 = 0x8F4E,
 		MaxSubroutines = 0x8DE7,
 		MaxSubroutineUniformLocations = 0x8DE8,
 		TessControlOutputVertices = 0x8E75,
@@ -1280,8 +1469,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxTessPatchComponents = 0x8E84,
 		MaxTessControlTotalOutputComponents = 0x8E85,
 		MaxTessEvaluationOutputComponents = 0x8E86,
-		MaxTessControlUniformBlocks = 0x8E89,
-		MaxTessEvaluationUniformBlocks = 0x8E8A,
 		MaxTessControlInputComponents = 0x886C,
 		MaxTessEvaluationInputComponents = 0x886D,
 		MaxCombinedTessControlUniformComponents = 0x8E1E,
@@ -1290,8 +1477,6 @@ namespace Evergine.Bindings.OpenGL
 		TransformFeedbackBufferActive = 0x8E24,
 		TransformFeedbackBinding = 0x8E25,
 		MaxTransformFeedbackBuffers = 0x8E70,
-		ShaderBinaryFormats = 0x8DF8,
-		Rgb565 = 0x8D62,
 		UndefinedVertex = 0x8260,
 		CopyReadBufferBinding = 0x8F36,
 		CopyWriteBufferBinding = 0x8F37,
@@ -1321,39 +1506,6 @@ namespace Evergine.Bindings.OpenGL
 		ImageBindingLayered = 0x8F3C,
 		ImageBindingLayer = 0x8F3D,
 		ImageBindingAccess = 0x8F3E,
-		Image1d = 0x904C,
-		Image2d = 0x904D,
-		Image3d = 0x904E,
-		Image2dRect = 0x904F,
-		ImageCube = 0x9050,
-		ImageBuffer = 0x9051,
-		Image1dArray = 0x9052,
-		Image2dArray = 0x9053,
-		ImageCubeMapArray = 0x9054,
-		Image2dMultisample = 0x9055,
-		Image2dMultisampleArray = 0x9056,
-		IntImage1d = 0x9057,
-		IntImage2d = 0x9058,
-		IntImage3d = 0x9059,
-		IntImage2dRect = 0x905A,
-		IntImageCube = 0x905B,
-		IntImageBuffer = 0x905C,
-		IntImage1dArray = 0x905D,
-		IntImage2dArray = 0x905E,
-		IntImageCubeMapArray = 0x905F,
-		IntImage2dMultisample = 0x9060,
-		IntImage2dMultisampleArray = 0x9061,
-		UnsignedIntImage1d = 0x9062,
-		UnsignedIntImage2d = 0x9063,
-		UnsignedIntImage3d = 0x9064,
-		UnsignedIntImage2dRect = 0x9065,
-		UnsignedIntImageCube = 0x9066,
-		UnsignedIntImageBuffer = 0x9067,
-		UnsignedIntImage1dArray = 0x9068,
-		UnsignedIntImage2dArray = 0x9069,
-		UnsignedIntImageCubeMapArray = 0x906A,
-		UnsignedIntImage2dMultisample = 0x906B,
-		UnsignedIntImage2dMultisampleArray = 0x906C,
 		MaxImageSamples = 0x906D,
 		ImageBindingFormat = 0x906E,
 		ImageFormatCompatibilityBySize = 0x90C8,
@@ -1405,30 +1557,6 @@ namespace Evergine.Bindings.OpenGL
 		ViewClassRgtc2Rg = 0x82D1,
 		ViewClassBptcUnorm = 0x82D2,
 		ViewClassBptcFloat = 0x82D3,
-		NameLength = 0x92F9,
-		Type = 0x92FA,
-		ArraySize = 0x92FB,
-		Offset = 0x92FC,
-		BlockIndex = 0x92FD,
-		ArrayStride = 0x92FE,
-		MatrixStride = 0x92FF,
-		IsRowMajor = 0x9300,
-		AtomicCounterBufferIndex = 0x9301,
-		BufferBinding = 0x9302,
-		BufferDataSize = 0x9303,
-		NumActiveVariables = 0x9304,
-		ActiveVariables = 0x9305,
-		ReferencedByVertexShader = 0x9306,
-		ReferencedByTessControlShader = 0x9307,
-		ReferencedByTessEvaluationShader = 0x9308,
-		ReferencedByGeometryShader = 0x9309,
-		ReferencedByFragmentShader = 0x930A,
-		ReferencedByComputeShader = 0x930B,
-		TopLevelArraySize = 0x930C,
-		TopLevelArrayStride = 0x930D,
-		Location = 0x930E,
-		LocationIndex = 0x930F,
-		IsPerPatch = 0x92E7,
 		MaxShaderStorageBlockSize = 0x90DE,
 		MaxCombinedShaderOutputResources = 0x8F39,
 		TextureBufferOffset = 0x919D,
@@ -1438,24 +1566,15 @@ namespace Evergine.Bindings.OpenGL
 		TextureViewMinLayer = 0x82DD,
 		TextureViewNumLayers = 0x82DE,
 		TextureImmutableLevels = 0x82DF,
-		VertexAttribBinding = 0x82D4,
 		VertexBindingBuffer = 0x8F4F,
 		DisplayList = 0x82E7,
 		MaxVertexAttribStride = 0x82E5,
 		PrimitiveRestartForPatchesSupported = 0x8221,
 		TextureBufferBinding = 0x8C2A,
-		LocationComponent = 0x934A,
-		TransformFeedbackBufferIndex = 0x934B,
-		TransformFeedbackBufferStride = 0x934C,
 		QueryBufferBinding = 0x9193,
-		MirrorClampToEdge = 0x8743,
 		ContextLost = 0x0507,
 		ClipOrigin = 0x935C,
 		ClipDepthMode = 0x935D,
-		QueryWaitInverted = 0x8E17,
-		QueryNoWaitInverted = 0x8E18,
-		QueryByRegionWaitInverted = 0x8E19,
-		QueryByRegionNoWaitInverted = 0x8E1A,
 		MaxCullDistances = 0x82F9,
 		MaxCombinedClipAndCullDistances = 0x82FA,
 		TextureTarget = 0x1006,
@@ -1464,12 +1583,8 @@ namespace Evergine.Bindings.OpenGL
 		NoResetNotification = 0x8261,
 		ContextReleaseBehavior = 0x82FB,
 		ContextReleaseBehaviorFlush = 0x82FC,
-		ShaderBinaryFormatSpirV = 0x9551,
 		SpirVBinary = 0x9552,
 		ParameterBufferBinding = 0x80EF,
-		VerticesSubmitted = 0x82EE,
-		PrimitivesSubmitted = 0x82EF,
-		VertexShaderInvocations = 0x82F0,
 		TessControlShaderPatches = 0x82F1,
 		TessEvaluationShaderInvocations = 0x82F2,
 		GeometryShaderPrimitivesEmitted = 0x82F3,
@@ -1480,15 +1595,11 @@ namespace Evergine.Bindings.OpenGL
 		PolygonOffsetClamp = 0x8E1B,
 		SpirVExtensions = 0x9553,
 		NumSpirVExtensions = 0x9554,
-		TextureMaxAnisotropy = 0x84FE,
 		MaxTextureMaxAnisotropy = 0x84FF,
-		TransformFeedbackOverflow = 0x82EC,
 		TransformFeedbackStreamOverflow = 0x82ED,
 		Multisample3dfx = 0x86B2,
 		SampleBuffers3dfx = 0x86B3,
 		Samples3dfx = 0x86B4,
-		CompressedRgbFxt13dfx = 0x86B0,
-		CompressedRgbaFxt13dfx = 0x86B1,
 		FactorMinAmd = 0x901C,
 		FactorMaxAmd = 0x901D,
 		MaxDebugMessageLengthAmd = 0x9143,
@@ -1507,7 +1618,6 @@ namespace Evergine.Bindings.OpenGL
 		DebugCategoryOtherAmd = 0x9150,
 		DepthClampNearAmd = 0x901E,
 		DepthClampFarAmd = 0x901F,
-		RenderbufferStorageSamplesAmd = 0x91B2,
 		MaxColorFramebufferSamplesAmd = 0x91B3,
 		MaxColorFramebufferStorageSamplesAmd = 0x91B4,
 		MaxDepthStencilFramebufferSamplesAmd = 0x91B5,
@@ -1516,7 +1626,6 @@ namespace Evergine.Bindings.OpenGL
 		SubsampleDistanceAmd = 0x883F,
 		PixelsPerSamplePatternXAmd = 0x91AE,
 		PixelsPerSamplePatternYAmd = 0x91AF,
-		AllPixelsAmd = 0xFFFFFFFF,
 		Float16Nv = 0x8FF8,
 		Float16Vec2Nv = 0x8FF9,
 		Float16Vec3Nv = 0x8FFA,
@@ -1530,8 +1639,6 @@ namespace Evergine.Bindings.OpenGL
 		Float16Mat3x4Amd = 0x91CB,
 		Float16Mat4x2Amd = 0x91CC,
 		Float16Mat4x3Amd = 0x91CD,
-		Int64Nv = 0x140E,
-		UnsignedInt64Nv = 0x140F,
 		Int8Nv = 0x8FE0,
 		Int8Vec2Nv = 0x8FE1,
 		Int8Vec3Nv = 0x8FE2,
@@ -1598,9 +1705,6 @@ namespace Evergine.Bindings.OpenGL
 		ElementArrayApple = 0x8A0C,
 		ElementArrayTypeApple = 0x8A0D,
 		ElementArrayPointerApple = 0x8A0E,
-		DrawPixelsApple = 0x8A0A,
-		FenceApple = 0x8A0B,
-		HalfApple = 0x140B,
 		RgbaFloat32Apple = 0x8814,
 		RgbFloat32Apple = 0x8815,
 		AlphaFloat32Apple = 0x8816,
@@ -1632,13 +1736,10 @@ namespace Evergine.Bindings.OpenGL
 		TextureRangeLengthApple = 0x85B7,
 		TextureRangePointerApple = 0x85B8,
 		StoragePrivateApple = 0x85BD,
-		StorageCachedApple = 0x85BE,
-		StorageSharedApple = 0x85BF,
 		VertexArrayBindingApple = 0x85B5,
 		VertexArrayRangeApple = 0x851D,
 		VertexArrayRangeLengthApple = 0x851E,
 		VertexArrayRangePointerApple = 0x8521,
-		StorageClientApple = 0x85B4,
 		VertexAttribMap1Apple = 0x8A00,
 		VertexAttribMap2Apple = 0x8A01,
 		VertexAttribMap1SizeApple = 0x8A02,
@@ -1653,14 +1754,9 @@ namespace Evergine.Bindings.OpenGL
 		PrimitiveBoundingBoxArb = 0x92BE,
 		MultisampleLineWidthRangeArb = 0x9381,
 		MultisampleLineWidthGranularityArb = 0x9382,
-		UnsignedInt64Arb = 0x140F,
 		SyncClEventArb = 0x8240,
 		SyncClEventCompleteArb = 0x8241,
 		RgbaFloatModeArb = 0x8820,
-		ClampVertexColorArb = 0x891A,
-		ClampFragmentColorArb = 0x891B,
-		ClampReadColorArb = 0x891C,
-		FixedOnlyArb = 0x891D,
 		MaxComputeVariableGroupInvocationsArb = 0x9344,
 		MaxComputeFixedGroupInvocationsArb = 0x90EB,
 		MaxComputeVariableGroupSizeArb = 0x9345,
@@ -1706,8 +1802,6 @@ namespace Evergine.Bindings.OpenGL
 		DrawBuffer13Arb = 0x8832,
 		DrawBuffer14Arb = 0x8833,
 		DrawBuffer15Arb = 0x8834,
-		FragmentProgramArb = 0x8804,
-		ProgramFormatAsciiArb = 0x8875,
 		ProgramLengthArb = 0x8627,
 		ProgramFormatArb = 0x8876,
 		ProgramBindingArb = 0x8677,
@@ -1742,7 +1836,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxProgramNativeAluInstructionsArb = 0x880E,
 		MaxProgramNativeTexInstructionsArb = 0x880F,
 		MaxProgramNativeTexIndirectionsArb = 0x8810,
-		ProgramStringArb = 0x8628,
 		ProgramErrorPositionArb = 0x864B,
 		CurrentMatrixArb = 0x8641,
 		TransposeCurrentMatrixArb = 0x88B7,
@@ -1788,7 +1881,6 @@ namespace Evergine.Bindings.OpenGL
 		Index = 0x8222,
 		ProgramPointSizeArb = 0x8642,
 		MaxGeometryTextureImageUnitsArb = 0x8C29,
-		FramebufferAttachmentLayeredArb = 0x8DA7,
 		FramebufferIncompleteLayerTargetsArb = 0x8DA8,
 		FramebufferIncompleteLayerCountArb = 0x8DA9,
 		GeometryShaderArb = 0x8DD9,
@@ -1802,14 +1894,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxGeometryTotalOutputComponentsArb = 0x8DE1,
 		ShaderBinaryFormatSpirVArb = 0x9551,
 		SpirVBinaryArb = 0x9552,
-		Int64Arb = 0x140E,
-		Int64Vec2Arb = 0x8FE9,
-		Int64Vec3Arb = 0x8FEA,
-		Int64Vec4Arb = 0x8FEB,
-		UnsignedInt64Vec2Arb = 0x8FF5,
-		UnsignedInt64Vec3Arb = 0x8FF6,
-		UnsignedInt64Vec4Arb = 0x8FF7,
-		HalfFloatArb = 0x140B,
 		ColorMatrix = 0x80B1,
 		ColorMatrixStackDepth = 0x80B2,
 		MaxColorMatrixStackDepth = 0x80B3,
@@ -1856,8 +1940,6 @@ namespace Evergine.Bindings.OpenGL
 		SamplesArb = 0x80A9,
 		SampleCoverageValueArb = 0x80AA,
 		SampleCoverageInvertArb = 0x80AB,
-		Texture0Arb = 0x84C0,
-		Texture1Arb = 0x84C1,
 		Texture2Arb = 0x84C2,
 		Texture3Arb = 0x84C3,
 		Texture4Arb = 0x84C4,
@@ -1924,13 +2006,10 @@ namespace Evergine.Bindings.OpenGL
 		SampleLocationPixelGridWidthArb = 0x933E,
 		SampleLocationPixelGridHeightArb = 0x933F,
 		ProgrammableSampleLocationTableSizeArb = 0x9340,
-		SampleLocationArb = 0x8E50,
-		ProgrammableSampleLocationArb = 0x9341,
 		FramebufferProgrammableSampleLocationsArb = 0x9342,
 		FramebufferSampleLocationPixelGridArb = 0x9343,
 		SampleShadingArb = 0x8C36,
 		MinSampleShadingValueArb = 0x8C37,
-		ProgramObjectArb = 0x8B40,
 		ShaderObjectArb = 0x8B48,
 		ObjectTypeArb = 0x8B4E,
 		ObjectSubtypeArb = 0x8B4F,
@@ -1978,48 +2057,12 @@ namespace Evergine.Bindings.OpenGL
 		TextureCompressedArb = 0x86A1,
 		NumCompressedTextureFormatsArb = 0x86A2,
 		CompressedTextureFormatsArb = 0x86A3,
-		CompressedRgbaBptcUnormArb = 0x8E8C,
-		CompressedSrgbAlphaBptcUnormArb = 0x8E8D,
-		CompressedRgbBptcSignedFloatArb = 0x8E8E,
-		CompressedRgbBptcUnsignedFloatArb = 0x8E8F,
-		NormalMapArb = 0x8511,
-		ReflectionMapArb = 0x8512,
-		TextureCubeMapArb = 0x8513,
-		TextureBindingCubeMapArb = 0x8514,
-		TextureCubeMapPositiveXArb = 0x8515,
-		TextureCubeMapNegativeXArb = 0x8516,
-		TextureCubeMapPositiveYArb = 0x8517,
-		TextureCubeMapNegativeYArb = 0x8518,
-		TextureCubeMapPositiveZArb = 0x8519,
-		TextureCubeMapNegativeZArb = 0x851A,
-		MaxCubeMapTextureSizeArb = 0x851C,
 		TextureBindingCubeMapArrayArb = 0x900A,
 		SamplerCubeMapArrayArb = 0x900C,
 		SamplerCubeMapArrayShadowArb = 0x900D,
 		IntSamplerCubeMapArrayArb = 0x900E,
 		UnsignedIntSamplerCubeMapArrayArb = 0x900F,
-		CombineArb = 0x8570,
-		CombineRgbArb = 0x8571,
-		CombineAlphaArb = 0x8572,
-		Source0RgbArb = 0x8580,
-		Source1RgbArb = 0x8581,
-		Source2RgbArb = 0x8582,
-		Source0AlphaArb = 0x8588,
-		Source1AlphaArb = 0x8589,
-		Source2AlphaArb = 0x858A,
-		Operand0RgbArb = 0x8590,
-		Operand1RgbArb = 0x8591,
-		Operand2RgbArb = 0x8592,
-		Operand0AlphaArb = 0x8598,
-		Operand1AlphaArb = 0x8599,
-		Operand2AlphaArb = 0x859A,
-		RgbScaleArb = 0x8573,
-		AddSignedArb = 0x8574,
-		InterpolateArb = 0x8575,
 		SubtractArb = 0x84E7,
-		ConstantArb = 0x8576,
-		PrimaryColorArb = 0x8577,
-		PreviousArb = 0x8578,
 		Dot3RgbArb = 0x86AE,
 		Dot3RgbaArb = 0x86AF,
 		TextureReductionModeArb = 0x9366,
@@ -2032,7 +2075,6 @@ namespace Evergine.Bindings.OpenGL
 		TextureIntensityTypeArb = 0x8C15,
 		TextureDepthTypeArb = 0x8C16,
 		UnsignedNormalizedArb = 0x8C17,
-		Rgb32fArb = 0x8815,
 		Alpha32fArb = 0x8816,
 		Intensity32fArb = 0x8817,
 		Luminance32fArb = 0x8818,
@@ -2044,9 +2086,6 @@ namespace Evergine.Bindings.OpenGL
 		MinProgramTextureGatherOffsetArb = 0x8E5E,
 		MaxProgramTextureGatherOffsetArb = 0x8E5F,
 		MaxProgramTextureGatherComponentsArb = 0x8F9F,
-		MirroredRepeatArb = 0x8370,
-		TextureRectangleArb = 0x84F5,
-		TextureBindingRectangleArb = 0x84F6,
 		MaxRectangleTextureSizeArb = 0x84F8,
 		TransformFeedbackOverflowArb = 0x82EC,
 		TransformFeedbackStreamOverflowArb = 0x82ED,
@@ -2096,8 +2135,6 @@ namespace Evergine.Bindings.OpenGL
 		Modelview29Arb = 0x873D,
 		Modelview30Arb = 0x873E,
 		Modelview31Arb = 0x873F,
-		BufferSizeArb = 0x8764,
-		BufferUsageArb = 0x8765,
 		ArrayBufferArb = 0x8892,
 		ElementArrayBufferArb = 0x8893,
 		ArrayBufferBindingArb = 0x8894,
@@ -2115,9 +2152,6 @@ namespace Evergine.Bindings.OpenGL
 		ReadOnlyArb = 0x88B8,
 		WriteOnlyArb = 0x88B9,
 		ReadWriteArb = 0x88BA,
-		BufferAccessArb = 0x88BB,
-		BufferMappedArb = 0x88BC,
-		BufferMapPointerArb = 0x88BD,
 		StreamDrawArb = 0x88E0,
 		StreamReadArb = 0x88E1,
 		StreamCopyArb = 0x88E2,
@@ -2128,7 +2162,6 @@ namespace Evergine.Bindings.OpenGL
 		DynamicReadArb = 0x88E9,
 		DynamicCopyArb = 0x88EA,
 		ColorSumArb = 0x8458,
-		VertexProgramArb = 0x8620,
 		VertexAttribArrayEnabledArb = 0x8622,
 		VertexAttribArraySizeArb = 0x8623,
 		VertexAttribArrayStrideArb = 0x8624,
@@ -2136,7 +2169,6 @@ namespace Evergine.Bindings.OpenGL
 		CurrentVertexAttribArb = 0x8626,
 		VertexProgramPointSizeArb = 0x8642,
 		VertexProgramTwoSideArb = 0x8643,
-		VertexAttribArrayPointerArb = 0x8645,
 		MaxVertexAttribsArb = 0x8869,
 		VertexAttribArrayNormalizedArb = 0x886A,
 		ProgramAddressRegistersArb = 0x88B0,
@@ -2169,80 +2201,10 @@ namespace Evergine.Bindings.OpenGL
 		ElementArrayAti = 0x8768,
 		ElementArrayTypeAti = 0x8769,
 		ElementArrayPointerAti = 0x876A,
-		BumpRotMatrixAti = 0x8775,
-		BumpRotMatrixSizeAti = 0x8776,
-		BumpNumTexUnitsAti = 0x8777,
-		BumpTexUnitsAti = 0x8778,
 		DudvAti = 0x8779,
 		Du8dv8Ati = 0x877A,
 		BumpEnvmapAti = 0x877B,
 		BumpTargetAti = 0x877C,
-		FragmentShaderAti = 0x8920,
-		Reg0Ati = 0x8921,
-		Reg1Ati = 0x8922,
-		Reg2Ati = 0x8923,
-		Reg3Ati = 0x8924,
-		Reg4Ati = 0x8925,
-		Reg5Ati = 0x8926,
-		Reg6Ati = 0x8927,
-		Reg7Ati = 0x8928,
-		Reg8Ati = 0x8929,
-		Reg9Ati = 0x892A,
-		Reg10Ati = 0x892B,
-		Reg11Ati = 0x892C,
-		Reg12Ati = 0x892D,
-		Reg13Ati = 0x892E,
-		Reg14Ati = 0x892F,
-		Reg15Ati = 0x8930,
-		Reg16Ati = 0x8931,
-		Reg17Ati = 0x8932,
-		Reg18Ati = 0x8933,
-		Reg19Ati = 0x8934,
-		Reg20Ati = 0x8935,
-		Reg21Ati = 0x8936,
-		Reg22Ati = 0x8937,
-		Reg23Ati = 0x8938,
-		Reg24Ati = 0x8939,
-		Reg25Ati = 0x893A,
-		Reg26Ati = 0x893B,
-		Reg27Ati = 0x893C,
-		Reg28Ati = 0x893D,
-		Reg29Ati = 0x893E,
-		Reg30Ati = 0x893F,
-		Reg31Ati = 0x8940,
-		Con0Ati = 0x8941,
-		Con1Ati = 0x8942,
-		Con2Ati = 0x8943,
-		Con3Ati = 0x8944,
-		Con4Ati = 0x8945,
-		Con5Ati = 0x8946,
-		Con6Ati = 0x8947,
-		Con7Ati = 0x8948,
-		Con8Ati = 0x8949,
-		Con9Ati = 0x894A,
-		Con10Ati = 0x894B,
-		Con11Ati = 0x894C,
-		Con12Ati = 0x894D,
-		Con13Ati = 0x894E,
-		Con14Ati = 0x894F,
-		Con15Ati = 0x8950,
-		Con16Ati = 0x8951,
-		Con17Ati = 0x8952,
-		Con18Ati = 0x8953,
-		Con19Ati = 0x8954,
-		Con20Ati = 0x8955,
-		Con21Ati = 0x8956,
-		Con22Ati = 0x8957,
-		Con23Ati = 0x8958,
-		Con24Ati = 0x8959,
-		Con25Ati = 0x895A,
-		Con26Ati = 0x895B,
-		Con27Ati = 0x895C,
-		Con28Ati = 0x895D,
-		Con29Ati = 0x895E,
-		Con30Ati = 0x895F,
-		Con31Ati = 0x8960,
-		SecondaryInterpolatorAti = 0x896D,
 		NumFragmentRegistersAti = 0x896E,
 		NumFragmentConstantsAti = 0x896F,
 		NumPassesAti = 0x8970,
@@ -2251,25 +2213,8 @@ namespace Evergine.Bindings.OpenGL
 		NumInputInterpolatorComponentsAti = 0x8973,
 		NumLoopbackComponentsAti = 0x8974,
 		ColorAlphaPairingAti = 0x8975,
-		SwizzleStrAti = 0x8976,
-		SwizzleStqAti = 0x8977,
-		SwizzleStrDrAti = 0x8978,
-		SwizzleStqDqAti = 0x8979,
 		SwizzleStrqAti = 0x897A,
 		SwizzleStrqDqAti = 0x897B,
-		RedBitAti = 0x00000001,
-		GreenBitAti = 0x00000002,
-		BlueBitAti = 0x00000004,
-		_2xBitAti = 0x00000001,
-		_4xBitAti = 0x00000002,
-		_8xBitAti = 0x00000004,
-		HalfBitAti = 0x00000008,
-		QuarterBitAti = 0x00000010,
-		EighthBitAti = 0x00000020,
-		SaturateBitAti = 0x00000040,
-		CompBitAti = 0x00000002,
-		NegateBitAti = 0x00000004,
-		BiasBitAti = 0x00000008,
 		VboFreeMemoryAti = 0x87FB,
 		TextureFreeMemoryAti = 0x87FC,
 		RenderbufferFreeMemoryAti = 0x87FD,
@@ -2277,9 +2222,6 @@ namespace Evergine.Bindings.OpenGL
 		ColorClearUnclampedValueAti = 0x8835,
 		PnTrianglesAti = 0x87F0,
 		MaxPnTrianglesTesselationLevelAti = 0x87F1,
-		PnTrianglesPointModeAti = 0x87F2,
-		PnTrianglesNormalModeAti = 0x87F3,
-		PnTrianglesTesselationLevelAti = 0x87F4,
 		PnTrianglesPointModeLinearAti = 0x87F5,
 		PnTrianglesPointModeCubicAti = 0x87F6,
 		PnTrianglesNormalModeLinearAti = 0x87F7,
@@ -2288,7 +2230,6 @@ namespace Evergine.Bindings.OpenGL
 		StencilBackFailAti = 0x8801,
 		StencilBackPassDepthFailAti = 0x8802,
 		StencilBackPassDepthPassAti = 0x8803,
-		TextFragmentShaderAti = 0x8200,
 		ModulateAddAti = 0x8744,
 		ModulateSignedAddAti = 0x8745,
 		ModulateSubtractAti = 0x8746,
@@ -2304,32 +2245,14 @@ namespace Evergine.Bindings.OpenGL
 		IntensityFloat16Ati = 0x881D,
 		LuminanceFloat16Ati = 0x881E,
 		LuminanceAlphaFloat16Ati = 0x881F,
-		MirrorClampAti = 0x8742,
-		MirrorClampToEdgeAti = 0x8743,
-		StaticAti = 0x8760,
-		DynamicAti = 0x8761,
-		PreserveAti = 0x8762,
-		DiscardAti = 0x8763,
-		ObjectBufferSizeAti = 0x8764,
-		ObjectBufferUsageAti = 0x8765,
 		ArrayObjectBufferAti = 0x8766,
 		ArrayObjectOffsetAti = 0x8767,
 		MaxVertexStreamsAti = 0x876B,
-		VertexStream0Ati = 0x876C,
-		VertexStream1Ati = 0x876D,
-		VertexStream2Ati = 0x876E,
-		VertexStream3Ati = 0x876F,
-		VertexStream4Ati = 0x8770,
-		VertexStream5Ati = 0x8771,
-		VertexStream6Ati = 0x8772,
-		VertexStream7Ati = 0x8773,
 		VertexSourceAti = 0x8774,
 		_422Ext = 0x80CC,
 		_422RevExt = 0x80CD,
 		_422AverageExt = 0x80CE,
 		_422RevAverageExt = 0x80CF,
-		BgrExt = 0x80E0,
-		BgraExt = 0x80E1,
 		MaxVertexBindableUniformsExt = 0x8DE2,
 		MaxFragmentBindableUniformsExt = 0x8DE3,
 		MaxGeometryBindableUniformsExt = 0x8DE4,
@@ -2363,10 +2286,7 @@ namespace Evergine.Bindings.OpenGL
 		Map1BinormalExt = 0x8446,
 		Map2BinormalExt = 0x8447,
 		CullVertexExt = 0x81AA,
-		CullVertexEyePositionExt = 0x81AB,
-		CullVertexObjectPositionExt = 0x81AC,
 		ProgramPipelineObjectExt = 0x8A4F,
-		ProgramObjectExt = 0x8B40,
 		ShaderObjectExt = 0x8B48,
 		BufferObjectExt = 0x9151,
 		QueryObjectExt = 0x9153,
@@ -2379,8 +2299,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxElementsVerticesExt = 0x80E8,
 		MaxElementsIndicesExt = 0x80E9,
 		FogCoordinateSourceExt = 0x8450,
-		FogCoordinateExt = 0x8451,
-		FragmentDepthExt = 0x8452,
 		CurrentFogCoordinateExt = 0x8453,
 		FogCoordinateArrayTypeExt = 0x8454,
 		FogCoordinateArrayStrideExt = 0x8455,
@@ -2390,7 +2308,6 @@ namespace Evergine.Bindings.OpenGL
 		DrawFramebufferExt = 0x8CA9,
 		DrawFramebufferBindingExt = 0x8CA6,
 		ReadFramebufferBindingExt = 0x8CAA,
-		RenderbufferSamplesExt = 0x8CAB,
 		FramebufferIncompleteMultisampleExt = 0x8D56,
 		MaxSamplesExt = 0x8D57,
 		ScaledResolveFastestExt = 0x90BA,
@@ -2398,11 +2315,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxRenderbufferSizeExt = 0x84E8,
 		FramebufferBindingExt = 0x8CA6,
 		RenderbufferBindingExt = 0x8CA7,
-		FramebufferAttachmentObjectTypeExt = 0x8CD0,
-		FramebufferAttachmentObjectNameExt = 0x8CD1,
-		FramebufferAttachmentTextureLevelExt = 0x8CD2,
-		FramebufferAttachmentTextureCubeMapFaceExt = 0x8CD3,
-		FramebufferAttachmentTexture3dZoffsetExt = 0x8CD4,
 		FramebufferCompleteExt = 0x8CD5,
 		FramebufferIncompleteAttachmentExt = 0x8CD6,
 		FramebufferIncompleteMissingAttachmentExt = 0x8CD7,
@@ -2411,22 +2323,8 @@ namespace Evergine.Bindings.OpenGL
 		FramebufferIncompleteDrawBufferExt = 0x8CDB,
 		FramebufferIncompleteReadBufferExt = 0x8CDC,
 		FramebufferUnsupportedExt = 0x8CDD,
-		StencilAttachmentExt = 0x8D20,
 		FramebufferExt = 0x8D40,
 		RenderbufferExt = 0x8D41,
-		RenderbufferWidthExt = 0x8D42,
-		RenderbufferHeightExt = 0x8D43,
-		RenderbufferInternalFormatExt = 0x8D44,
-		StencilIndex1Ext = 0x8D46,
-		StencilIndex4Ext = 0x8D47,
-		StencilIndex8Ext = 0x8D48,
-		StencilIndex16Ext = 0x8D49,
-		RenderbufferRedSizeExt = 0x8D50,
-		RenderbufferGreenSizeExt = 0x8D51,
-		RenderbufferBlueSizeExt = 0x8D52,
-		RenderbufferAlphaSizeExt = 0x8D53,
-		RenderbufferDepthSizeExt = 0x8D54,
-		RenderbufferStencilSizeExt = 0x8D55,
 		FramebufferSrgbExt = 0x8DB9,
 		FramebufferSrgbCapableExt = 0x8DBA,
 		GeometryShaderExt = 0x8DD9,
@@ -2442,10 +2340,7 @@ namespace Evergine.Bindings.OpenGL
 		MaxGeometryTotalOutputComponentsExt = 0x8DE1,
 		FramebufferIncompleteLayerTargetsExt = 0x8DA8,
 		FramebufferIncompleteLayerCountExt = 0x8DA9,
-		FramebufferAttachmentLayeredExt = 0x8DA7,
-		FramebufferAttachmentTextureLayerExt = 0x8CD4,
 		ProgramPointSizeExt = 0x8642,
-		VertexAttribArrayIntegerExt = 0x88FD,
 		Sampler1dArrayExt = 0x8DC0,
 		Sampler2dArrayExt = 0x8DC1,
 		SamplerBufferExt = 0x8DC2,
@@ -2487,11 +2382,6 @@ namespace Evergine.Bindings.OpenGL
 		IndexMaterialExt = 0x81B8,
 		IndexMaterialParameterExt = 0x81B9,
 		IndexMaterialFaceExt = 0x81BA,
-		FragmentMaterialExt = 0x8349,
-		FragmentNormalExt = 0x834A,
-		FragmentColorExt = 0x834C,
-		AttenuationExt = 0x834D,
-		ShadowAttenuationExt = 0x834E,
 		TextureApplicationModeExt = 0x834F,
 		TextureLightExt = 0x8350,
 		TextureMaterialFaceExt = 0x8351,
@@ -2500,8 +2390,43 @@ namespace Evergine.Bindings.OpenGL
 		TilingTypesExt = 0x9583,
 		OptimalTilingExt = 0x9584,
 		LinearTilingExt = 0x9585,
-		UuidSizeExt = 16,
-		LuidSizeExt = 8,
+		MeshShaderExt = 0x9559,
+		TaskShaderExt = 0x955A,
+		MaxMeshUniformBlocksExt = 0x8E60,
+		MaxMeshTextureImageUnitsExt = 0x8E61,
+		MaxMeshImageUniformsExt = 0x8E62,
+		MaxMeshUniformComponentsExt = 0x8E63,
+		MaxMeshAtomicCounterBuffersExt = 0x8E64,
+		MaxMeshAtomicCountersExt = 0x8E65,
+		MaxMeshShaderStorageBlocksExt = 0x8E66,
+		MaxCombinedMeshUniformComponentsExt = 0x8E67,
+		MaxTaskUniformBlocksExt = 0x8E68,
+		MaxTaskTextureImageUnitsExt = 0x8E69,
+		MaxTaskImageUniformsExt = 0x8E6A,
+		MaxTaskUniformComponentsExt = 0x8E6B,
+		MaxTaskAtomicCounterBuffersExt = 0x8E6C,
+		MaxTaskAtomicCountersExt = 0x8E6D,
+		MaxTaskShaderStorageBlocksExt = 0x8E6E,
+		MaxCombinedTaskUniformComponentsExt = 0x8E6F,
+		MaxMeshOutputVerticesExt = 0x9538,
+		MaxMeshMultiviewViewCountExt = 0x9557,
+		MeshOutputPerVertexGranularityExt = 0x92DF,
+		MeshOutputPerPrimitiveGranularityExt = 0x9543,
+		MeshWorkGroupSizeExt = 0x953E,
+		TaskWorkGroupSizeExt = 0x953F,
+		MeshVerticesOutExt = 0x9579,
+		MeshPrimitivesOutExt = 0x957A,
+		MeshOutputTypeExt = 0x957B,
+		UniformBlockReferencedByMeshShaderExt = 0x959C,
+		UniformBlockReferencedByTaskShaderExt = 0x959D,
+		ReferencedByMeshShaderExt = 0x95A0,
+		ReferencedByTaskShaderExt = 0x95A1,
+		MeshSubroutineExt = 0x957C,
+		TaskSubroutineExt = 0x957D,
+		MeshSubroutineUniformExt = 0x957E,
+		TaskSubroutineUniformExt = 0x957F,
+		AtomicCounterBufferReferencedByMeshShaderExt = 0x959E,
+		AtomicCounterBufferReferencedByTaskShaderExt = 0x959F,
 		MultisampleExt = 0x809D,
 		SampleAlphaToMaskExt = 0x809E,
 		SampleAlphaToOneExt = 0x809F,
@@ -2511,9 +2436,7 @@ namespace Evergine.Bindings.OpenGL
 		SampleMaskValueExt = 0x80AA,
 		SampleMaskInvertExt = 0x80AB,
 		SamplePatternExt = 0x80AC,
-		UnsignedInt248Ext = 0x84FA,
 		TextureStencilSizeExt = 0x88F1,
-		UnsignedInt10f11f11fRevExt = 0x8C3B,
 		RgbaSignedComponentsExt = 0x8C3C,
 		ColorIndex1Ext = 0x80E2,
 		ColorIndex2Ext = 0x80E3,
@@ -2526,10 +2449,6 @@ namespace Evergine.Bindings.OpenGL
 		PixelUnpackBufferExt = 0x88EC,
 		PixelPackBufferBindingExt = 0x88ED,
 		PixelUnpackBufferBindingExt = 0x88EF,
-		PixelTransform2dExt = 0x8330,
-		PixelMagFilterExt = 0x8331,
-		PixelMinFilterExt = 0x8332,
-		PixelCubicWeightExt = 0x8333,
 		CubicExt = 0x8334,
 		AverageExt = 0x8335,
 		PixelTransform2dStackDepthExt = 0x8336,
@@ -2607,26 +2526,7 @@ namespace Evergine.Bindings.OpenGL
 		ActiveStencilFaceExt = 0x8911,
 		IncrWrapExt = 0x8507,
 		DecrWrapExt = 0x8508,
-		Alpha4Ext = 0x803B,
-		Alpha8Ext = 0x803C,
-		Alpha12Ext = 0x803D,
-		Alpha16Ext = 0x803E,
-		Luminance4Ext = 0x803F,
-		Luminance8Ext = 0x8040,
-		Luminance12Ext = 0x8041,
-		Luminance16Ext = 0x8042,
-		Luminance4Alpha4Ext = 0x8043,
-		Luminance6Alpha2Ext = 0x8044,
-		Luminance8Alpha8Ext = 0x8045,
-		Luminance12Alpha4Ext = 0x8046,
-		Luminance12Alpha12Ext = 0x8047,
-		Luminance16Alpha16Ext = 0x8048,
 		IntensityExt = 0x8049,
-		Intensity4Ext = 0x804A,
-		Intensity8Ext = 0x804B,
-		Intensity12Ext = 0x804C,
-		Intensity16Ext = 0x804D,
-		Rgba2Ext = 0x8055,
 		TextureRedSizeExt = 0x805C,
 		TextureGreenSizeExt = 0x805D,
 		TextureBlueSizeExt = 0x805E,
@@ -2644,86 +2544,12 @@ namespace Evergine.Bindings.OpenGL
 		TextureBindingBufferExt = 0x8C2C,
 		TextureBufferDataStoreBindingExt = 0x8C2D,
 		TextureBufferFormatExt = 0x8C2E,
-		CompressedLuminanceLatc1Ext = 0x8C70,
-		CompressedSignedLuminanceLatc1Ext = 0x8C71,
-		CompressedLuminanceAlphaLatc2Ext = 0x8C72,
-		CompressedSignedLuminanceAlphaLatc2Ext = 0x8C73,
-		CompressedRedGreenRgtc2Ext = 0x8DBD,
-		CompressedSignedRedGreenRgtc2Ext = 0x8DBE,
-		NormalMapExt = 0x8511,
-		ReflectionMapExt = 0x8512,
-		TextureCubeMapExt = 0x8513,
-		TextureBindingCubeMapExt = 0x8514,
-		TextureCubeMapPositiveXExt = 0x8515,
-		TextureCubeMapNegativeXExt = 0x8516,
-		TextureCubeMapPositiveYExt = 0x8517,
-		TextureCubeMapNegativeYExt = 0x8518,
-		TextureCubeMapPositiveZExt = 0x8519,
-		TextureCubeMapNegativeZExt = 0x851A,
-		MaxCubeMapTextureSizeExt = 0x851C,
-		CombineExt = 0x8570,
-		CombineRgbExt = 0x8571,
-		CombineAlphaExt = 0x8572,
-		RgbScaleExt = 0x8573,
-		AddSignedExt = 0x8574,
-		InterpolateExt = 0x8575,
-		ConstantExt = 0x8576,
-		PrimaryColorExt = 0x8577,
-		PreviousExt = 0x8578,
-		Source0RgbExt = 0x8580,
-		Source1RgbExt = 0x8581,
-		Source2RgbExt = 0x8582,
-		Source0AlphaExt = 0x8588,
-		Source1AlphaExt = 0x8589,
-		Source2AlphaExt = 0x858A,
-		Operand0RgbExt = 0x8590,
-		Operand1RgbExt = 0x8591,
-		Operand2RgbExt = 0x8592,
-		Operand0AlphaExt = 0x8598,
-		Operand1AlphaExt = 0x8599,
-		Operand2AlphaExt = 0x859A,
 		Dot3RgbExt = 0x8740,
 		Dot3RgbaExt = 0x8741,
 		TextureMaxAnisotropyExt = 0x84FE,
 		MaxTextureMaxAnisotropyExt = 0x84FF,
 		TextureReductionModeExt = 0x9366,
 		WeightedAverageExt = 0x9367,
-		Rgba32uiExt = 0x8D70,
-		Rgb32uiExt = 0x8D71,
-		Alpha32uiExt = 0x8D72,
-		Intensity32uiExt = 0x8D73,
-		Luminance32uiExt = 0x8D74,
-		LuminanceAlpha32uiExt = 0x8D75,
-		Rgba16uiExt = 0x8D76,
-		Rgb16uiExt = 0x8D77,
-		Alpha16uiExt = 0x8D78,
-		Intensity16uiExt = 0x8D79,
-		Luminance16uiExt = 0x8D7A,
-		LuminanceAlpha16uiExt = 0x8D7B,
-		Rgba8uiExt = 0x8D7C,
-		Rgb8uiExt = 0x8D7D,
-		Alpha8uiExt = 0x8D7E,
-		Intensity8uiExt = 0x8D7F,
-		Luminance8uiExt = 0x8D80,
-		LuminanceAlpha8uiExt = 0x8D81,
-		Rgba32iExt = 0x8D82,
-		Rgb32iExt = 0x8D83,
-		Alpha32iExt = 0x8D84,
-		Intensity32iExt = 0x8D85,
-		Luminance32iExt = 0x8D86,
-		LuminanceAlpha32iExt = 0x8D87,
-		Rgba16iExt = 0x8D88,
-		Rgb16iExt = 0x8D89,
-		Alpha16iExt = 0x8D8A,
-		Intensity16iExt = 0x8D8B,
-		Luminance16iExt = 0x8D8C,
-		LuminanceAlpha16iExt = 0x8D8D,
-		Rgba8iExt = 0x8D8E,
-		Rgb8iExt = 0x8D8F,
-		Alpha8iExt = 0x8D90,
-		Intensity8iExt = 0x8D91,
-		Luminance8iExt = 0x8D92,
-		LuminanceAlpha8iExt = 0x8D93,
 		RedIntegerExt = 0x8D94,
 		GreenIntegerExt = 0x8D95,
 		BlueIntegerExt = 0x8D96,
@@ -2738,27 +2564,21 @@ namespace Evergine.Bindings.OpenGL
 		MaxTextureLodBiasExt = 0x84FD,
 		TextureFilterControlExt = 0x8500,
 		TextureLodBiasExt = 0x8501,
-		MirrorClampExt = 0x8742,
-		MirrorClampToEdgeExt = 0x8743,
-		MirrorClampToBorderExt = 0x8912,
 		TextureResidentExt = 0x8067,
 		Texture1dBindingExt = 0x8068,
 		Texture2dBindingExt = 0x8069,
-		PerturbExt = 0x85AE,
 		TextureNormalExt = 0x85AF,
+		CompressedSrgbExt = 0x8C48,
+		CompressedSrgbAlphaExt = 0x8C49,
 		SluminanceAlphaExt = 0x8C44,
 		Sluminance8Alpha8Ext = 0x8C45,
 		SluminanceExt = 0x8C46,
 		Sluminance8Ext = 0x8C47,
-		CompressedSrgbExt = 0x8C48,
-		CompressedSrgbAlphaExt = 0x8C49,
 		CompressedSluminanceExt = 0x8C4A,
 		CompressedSluminanceAlphaExt = 0x8C4B,
-		Sr8Ext = 0x8FBD,
 		TextureSrgbDecodeExt = 0x8A48,
 		DecodeExt = 0x8A49,
 		SkipDecodeExt = 0x8A4A,
-		UnsignedInt5999RevExt = 0x8C3E,
 		TextureSharedSizeExt = 0x8C3F,
 		AlphaSnorm = 0x9010,
 		LuminanceSnorm = 0x9011,
@@ -2776,6 +2596,14 @@ namespace Evergine.Bindings.OpenGL
 		RgSnorm = 0x8F91,
 		RgbSnorm = 0x8F92,
 		RgbaSnorm = 0x8F93,
+		TextureImmutableFormatExt = 0x912F,
+		Alpha32fExt = 0x8816,
+		Luminance32fExt = 0x8818,
+		LuminanceAlpha32fExt = 0x8819,
+		Alpha16fExt = 0x881C,
+		Luminance16fExt = 0x881E,
+		LuminanceAlpha16fExt = 0x881F,
+		Bgra8Ext = 0x93A1,
 		TextureSwizzleRExt = 0x8E42,
 		TextureSwizzleGExt = 0x8E43,
 		TextureSwizzleBExt = 0x8E44,
@@ -2831,30 +2659,6 @@ namespace Evergine.Bindings.OpenGL
 		DoubleMat4x3Ext = 0x8F4E,
 		VertexShaderExt = 0x8780,
 		VertexShaderBindingExt = 0x8781,
-		OpIndexExt = 0x8782,
-		OpNegateExt = 0x8783,
-		OpDot3Ext = 0x8784,
-		OpDot4Ext = 0x8785,
-		OpMulExt = 0x8786,
-		OpAddExt = 0x8787,
-		OpMaddExt = 0x8788,
-		OpFracExt = 0x8789,
-		OpMaxExt = 0x878A,
-		OpMinExt = 0x878B,
-		OpSetGeExt = 0x878C,
-		OpSetLtExt = 0x878D,
-		OpClampExt = 0x878E,
-		OpFloorExt = 0x878F,
-		OpRoundExt = 0x8790,
-		OpExpBase2Ext = 0x8791,
-		OpLogBase2Ext = 0x8792,
-		OpPowerExt = 0x8793,
-		OpRecipExt = 0x8794,
-		OpRecipSqrtExt = 0x8795,
-		OpSubExt = 0x8796,
-		OpCrossProductExt = 0x8797,
-		OpMultiplyMatrixExt = 0x8798,
-		OpMovExt = 0x8799,
 		OutputVertexExt = 0x879A,
 		OutputColor0Ext = 0x879B,
 		OutputColor1Ext = 0x879C,
@@ -2891,13 +2695,6 @@ namespace Evergine.Bindings.OpenGL
 		OutputTextureCoord30Ext = 0x87BB,
 		OutputTextureCoord31Ext = 0x87BC,
 		OutputFogExt = 0x87BD,
-		ScalarExt = 0x87BE,
-		VectorExt = 0x87BF,
-		MatrixExt = 0x87C0,
-		VariantExt = 0x87C1,
-		InvariantExt = 0x87C2,
-		LocalConstantExt = 0x87C3,
-		LocalExt = 0x87C4,
 		MaxVertexShaderInstructionsExt = 0x87C5,
 		MaxVertexShaderVariantsExt = 0x87C6,
 		MaxVertexShaderInvariantsExt = 0x87C7,
@@ -2914,26 +2711,6 @@ namespace Evergine.Bindings.OpenGL
 		VertexShaderLocalConstantsExt = 0x87D2,
 		VertexShaderLocalsExt = 0x87D3,
 		VertexShaderOptimizedExt = 0x87D4,
-		XExt = 0x87D5,
-		YExt = 0x87D6,
-		ZExt = 0x87D7,
-		WExt = 0x87D8,
-		NegativeXExt = 0x87D9,
-		NegativeYExt = 0x87DA,
-		NegativeZExt = 0x87DB,
-		NegativeWExt = 0x87DC,
-		ZeroExt = 0x87DD,
-		OneExt = 0x87DE,
-		NegativeOneExt = 0x87DF,
-		NormalizedRangeExt = 0x87E0,
-		FullRangeExt = 0x87E1,
-		CurrentVertexExt = 0x87E2,
-		MvpMatrixExt = 0x87E3,
-		VariantValueExt = 0x87E4,
-		VariantDatatypeExt = 0x87E5,
-		VariantArrayStrideExt = 0x87E6,
-		VariantArrayTypeExt = 0x87E7,
-		VariantArrayExt = 0x87E8,
 		VariantArrayPointerExt = 0x87E9,
 		InvariantValueExt = 0x87EA,
 		InvariantDatatypeExt = 0x87EB,
@@ -2960,19 +2737,8 @@ namespace Evergine.Bindings.OpenGL
 		ConstantBorderHp = 0x8151,
 		ReplicateBorderHp = 0x8153,
 		ConvolutionBorderColorHp = 0x8154,
-		ImageScaleXHp = 0x8155,
-		ImageScaleYHp = 0x8156,
-		ImageTranslateXHp = 0x8157,
-		ImageTranslateYHp = 0x8158,
-		ImageRotateAngleHp = 0x8159,
-		ImageRotateOriginXHp = 0x815A,
-		ImageRotateOriginYHp = 0x815B,
-		ImageMagFilterHp = 0x815C,
-		ImageMinFilterHp = 0x815D,
-		ImageCubicWeightHp = 0x815E,
 		CubicHp = 0x815F,
 		AverageHp = 0x8160,
-		ImageTransform2dHp = 0x8161,
 		PostImageTransformColorTableHp = 0x8162,
 		ProxyPostImageTransformColorTableHp = 0x8163,
 		OcclusionTestHp = 0x8165,
@@ -2984,7 +2750,6 @@ namespace Evergine.Bindings.OpenGL
 		RasterPositionUnclippedIbm = 0x19262,
 		AllStaticDataIbm = 103060,
 		StaticVertexArrayIbm = 103061,
-		MirroredRepeatIbm = 0x8370,
 		VertexArrayListIbm = 103070,
 		NormalArrayListIbm = 103071,
 		ColorArrayListIbm = 103072,
@@ -3011,18 +2776,12 @@ namespace Evergine.Bindings.OpenGL
 		AlphaMaxClampIngr = 0x8567,
 		InterlaceReadIngr = 0x8568,
 		ConservativeRasterizationIntel = 0x83FE,
-		TextureMemoryLayoutIntel = 0x83FF,
 		BlackholeRenderIntel = 0x83FC,
 		ParallelArraysIntel = 0x83F4,
 		VertexArrayParallelPointersIntel = 0x83F5,
 		NormalArrayParallelPointersIntel = 0x83F6,
 		ColorArrayParallelPointersIntel = 0x83F7,
 		TextureCoordArrayParallelPointersIntel = 0x83F8,
-		PerfquerySingleContextIntel = 0x00000000,
-		PerfqueryGlobalContextIntel = 0x00000001,
-		PerfqueryWaitIntel = 0x83FB,
-		PerfqueryFlushIntel = 0x83FA,
-		PerfqueryDonotFlushIntel = 0x83F9,
 		PerfqueryCounterEventIntel = 0x94F0,
 		PerfqueryCounterDurationNormIntel = 0x94F1,
 		PerfqueryCounterDurationRawIntel = 0x94F2,
@@ -3104,34 +2863,10 @@ namespace Evergine.Bindings.OpenGL
 		ResetNotificationStrategyKhr = 0x8256,
 		NoResetNotificationKhr = 0x8261,
 		ContextLostKhr = 0x0507,
-		CompressedRgbaAstc4x4Khr = 0x93B0,
-		CompressedRgbaAstc5x4Khr = 0x93B1,
-		CompressedRgbaAstc5x5Khr = 0x93B2,
-		CompressedRgbaAstc6x5Khr = 0x93B3,
-		CompressedRgbaAstc6x6Khr = 0x93B4,
-		CompressedRgbaAstc8x5Khr = 0x93B5,
-		CompressedRgbaAstc8x6Khr = 0x93B6,
-		CompressedRgbaAstc8x8Khr = 0x93B7,
-		CompressedRgbaAstc10x5Khr = 0x93B8,
-		CompressedRgbaAstc10x6Khr = 0x93B9,
-		CompressedRgbaAstc10x8Khr = 0x93BA,
-		CompressedRgbaAstc10x10Khr = 0x93BB,
-		CompressedRgbaAstc12x10Khr = 0x93BC,
-		CompressedRgbaAstc12x12Khr = 0x93BD,
-		CompressedSrgb8Alpha8Astc4x4Khr = 0x93D0,
-		CompressedSrgb8Alpha8Astc5x4Khr = 0x93D1,
-		CompressedSrgb8Alpha8Astc5x5Khr = 0x93D2,
-		CompressedSrgb8Alpha8Astc6x5Khr = 0x93D3,
-		CompressedSrgb8Alpha8Astc6x6Khr = 0x93D4,
-		CompressedSrgb8Alpha8Astc8x5Khr = 0x93D5,
-		CompressedSrgb8Alpha8Astc8x6Khr = 0x93D6,
-		CompressedSrgb8Alpha8Astc8x8Khr = 0x93D7,
-		CompressedSrgb8Alpha8Astc10x5Khr = 0x93D8,
-		CompressedSrgb8Alpha8Astc10x6Khr = 0x93D9,
-		CompressedSrgb8Alpha8Astc10x8Khr = 0x93DA,
-		CompressedSrgb8Alpha8Astc10x10Khr = 0x93DB,
-		CompressedSrgb8Alpha8Astc12x10Khr = 0x93DC,
-		CompressedSrgb8Alpha8Astc12x12Khr = 0x93DD,
+		SubgroupSizeKhr = 0x9532,
+		SubgroupSupportedStagesKhr = 0x9533,
+		SubgroupSupportedFeaturesKhr = 0x9534,
+		SubgroupQuadAllStagesKhr = 0x9535,
 		MaxShaderCompilerThreadsKhr = 0x91B0,
 		CompletionStatusKhr = 0x91B1,
 		Texture1dStackMesax = 0x8759,
@@ -3140,8 +2875,12 @@ namespace Evergine.Bindings.OpenGL
 		ProxyTexture2dStackMesax = 0x875C,
 		Texture1dStackBindingMesax = 0x875D,
 		Texture2dStackBindingMesax = 0x875E,
+		FramebufferFlipXMesa = 0x8BBC,
+		FramebufferFlipYMesa = 0x8BBB,
+		FramebufferSwapXyMesa = 0x8BBD,
 		PackInvertMesa = 0x8758,
 		ProgramBinaryFormatMesa = 0x875F,
+		ConstBwTilingMesa = 0x8BBE,
 		TileRasterOrderFixedMesa = 0x8BB8,
 		TileRasterOrderIncreasingXMesa = 0x8BB9,
 		TileRasterOrderIncreasingYMesa = 0x8BBA,
@@ -3211,26 +2950,6 @@ namespace Evergine.Bindings.OpenGL
 		ViewportPositionWScaleNv = 0x937C,
 		ViewportPositionWScaleXCoeffNv = 0x937D,
 		ViewportPositionWScaleYCoeffNv = 0x937E,
-		TerminateSequenceCommandNv = 0x0000,
-		NopCommandNv = 0x0001,
-		DrawElementsCommandNv = 0x0002,
-		DrawArraysCommandNv = 0x0003,
-		DrawElementsStripCommandNv = 0x0004,
-		DrawArraysStripCommandNv = 0x0005,
-		DrawElementsInstancedCommandNv = 0x0006,
-		DrawArraysInstancedCommandNv = 0x0007,
-		ElementAddressCommandNv = 0x0008,
-		AttributeAddressCommandNv = 0x0009,
-		UniformAddressCommandNv = 0x000A,
-		BlendColorCommandNv = 0x000B,
-		StencilRefCommandNv = 0x000C,
-		LineWidthCommandNv = 0x000D,
-		PolygonOffsetCommandNv = 0x000E,
-		AlphaRefCommandNv = 0x000F,
-		ViewportCommandNv = 0x0010,
-		ScissorCommandNv = 0x0011,
-		FrontFaceCommandNv = 0x0012,
-		ComputeProgramNv = 0x90FB,
 		ComputeProgramParameterBufferNv = 0x90FC,
 		QueryWaitNv = 0x8E13,
 		QueryNoWaitNv = 0x8E14,
@@ -3251,14 +2970,8 @@ namespace Evergine.Bindings.OpenGL
 		DepthStencilToBgraNv = 0x886F,
 		MaxDeep3dTextureWidthHeightNv = 0x90D0,
 		MaxDeep3dTextureDepthNv = 0x90D1,
-		Float32UnsignedInt248RevNv = 0x8DAD,
 		DepthBufferFloatModeNv = 0x8DAF,
 		DepthClampNv = 0x864F,
-		Eval2dNv = 0x86C0,
-		EvalTriangular2dNv = 0x86C1,
-		MapTessellationNv = 0x86C2,
-		MapAttribUOrderNv = 0x86C3,
-		MapAttribVOrderNv = 0x86C4,
 		EvalFractionalTessellationNv = 0x86C5,
 		EvalVertexAttrib0Nv = 0x86C6,
 		EvalVertexAttrib1Nv = 0x86C7,
@@ -3288,9 +3001,6 @@ namespace Evergine.Bindings.OpenGL
 		IntSamplerRenderbufferNv = 0x8E57,
 		UnsignedIntSamplerRenderbufferNv = 0x8E58,
 		MaxSampleMaskWordsNv = 0x8E59,
-		AllCompletedNv = 0x84F2,
-		FenceStatusNv = 0x84F3,
-		FenceConditionNv = 0x84F4,
 		FillRectangleNv = 0x933C,
 		FloatRNv = 0x8880,
 		FloatRgNv = 0x8881,
@@ -3331,11 +3041,8 @@ namespace Evergine.Bindings.OpenGL
 		MixedStencilSamplesSupportedNv = 0x9330,
 		CoverageModulationNv = 0x9332,
 		CoverageModulationTableSizeNv = 0x9333,
-		RenderbufferCoverageSamplesNv = 0x8CAB,
-		RenderbufferColorSamplesNv = 0x8E10,
 		MaxMultisampleCoverageModesNv = 0x8E11,
 		MultisampleCoverageModesNv = 0x8E12,
-		GeometryProgramNv = 0x8C26,
 		MaxProgramOutputVerticesNv = 0x8C27,
 		MaxProgramTotalOutputComponentsNv = 0x8C28,
 		MinProgramTexelOffsetNv = 0x8904,
@@ -3354,7 +3061,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxProgramTextureGatherOffsetNv = 0x8E5F,
 		MaxProgramSubroutineParametersNv = 0x8F44,
 		MaxProgramSubroutineNumNv = 0x8F45,
-		HalfFloatNv = 0x140B,
 		MultisamplesNv = 0x9371,
 		SupersampleScaleXNv = 0x9372,
 		SupersampleScaleYNv = 0x9373,
@@ -3365,6 +3071,7 @@ namespace Evergine.Bindings.OpenGL
 		RenderGpuMaskNv = 0x9558,
 		PerGpuStorageNv = 0x9548,
 		MulticastProgrammableSampleLocationNv = 0x9549,
+		UploadGpuMaskNvx = 0x954A,
 		AttachedMemoryObjectNv = 0x95A4,
 		AttachedMemoryOffsetNv = 0x95A5,
 		MemoryAttachableAlignmentNv = 0x95A6,
@@ -3423,9 +3130,6 @@ namespace Evergine.Bindings.OpenGL
 		AtomicCounterBufferReferencedByTaskShaderNv = 0x959F,
 		PixelCounterBitsNv = 0x8864,
 		CurrentOcclusionQueryIdNv = 0x8865,
-		PixelCountNv = 0x8866,
-		PixelCountAvailableNv = 0x8867,
-		UnsignedInt248Nv = 0x84FA,
 		MaxProgramParameterBufferBindingsNv = 0x8DA0,
 		MaxProgramParameterBufferSizeNv = 0x8DA1,
 		VertexProgramParameterBufferNv = 0x8DA2,
@@ -3449,62 +3153,16 @@ namespace Evergine.Bindings.OpenGL
 		PathCoverDepthFuncNv = 0x90BF,
 		MoveToResetsNv = 0x90B5,
 		MoveToContinuesNv = 0x90B6,
-		ClosePathNv = 0x00,
-		MoveToNv = 0x02,
-		RelativeMoveToNv = 0x03,
-		LineToNv = 0x04,
-		RelativeLineToNv = 0x05,
-		HorizontalLineToNv = 0x06,
-		RelativeHorizontalLineToNv = 0x07,
-		VerticalLineToNv = 0x08,
-		RelativeVerticalLineToNv = 0x09,
-		QuadraticCurveToNv = 0x0A,
-		RelativeQuadraticCurveToNv = 0x0B,
-		CubicCurveToNv = 0x0C,
-		RelativeCubicCurveToNv = 0x0D,
-		SmoothQuadraticCurveToNv = 0x0E,
-		RelativeSmoothQuadraticCurveToNv = 0x0F,
-		SmoothCubicCurveToNv = 0x10,
-		RelativeSmoothCubicCurveToNv = 0x11,
-		SmallCcwArcToNv = 0x12,
-		RelativeSmallCcwArcToNv = 0x13,
-		SmallCwArcToNv = 0x14,
-		RelativeSmallCwArcToNv = 0x15,
-		LargeCcwArcToNv = 0x16,
-		RelativeLargeCcwArcToNv = 0x17,
-		LargeCwArcToNv = 0x18,
-		RelativeLargeCwArcToNv = 0x19,
-		RestartPathNv = 0xF0,
-		DupFirstCubicCurveToNv = 0xF2,
-		DupLastCubicCurveToNv = 0xF4,
-		RectNv = 0xF6,
-		CircularCcwArcToNv = 0xF8,
-		CircularCwArcToNv = 0xFA,
-		CircularTangentArcToNv = 0xFC,
-		ArcToNv = 0xFE,
-		RelativeArcToNv = 0xFF,
-		RoundedRectNv = 0xE8,
-		RelativeRoundedRectNv = 0xE9,
-		RoundedRect2Nv = 0xEA,
-		RelativeRoundedRect2Nv = 0xEB,
-		RoundedRect4Nv = 0xEC,
-		RelativeRoundedRect4Nv = 0xED,
-		RoundedRect8Nv = 0xEE,
-		RelativeRoundedRect8Nv = 0xEF,
-		RelativeRectNv = 0xF7,
 		FontGlyphsAvailableNv = 0x9368,
 		FontTargetUnavailableNv = 0x9369,
 		FontUnavailableNv = 0x936A,
 		FontUnintelligibleNv = 0x936B,
-		ConicCurveToNv = 0x1A,
-		RelativeConicCurveToNv = 0x1B,
 		StandardFontFormatNv = 0x936C,
 		_2BytesNv = 0x1407,
 		_3BytesNv = 0x1408,
 		_4BytesNv = 0x1409,
 		EyeLinearNv = 0x2400,
 		ObjectLinearNv = 0x2401,
-		ConstantNv = 0x8576,
 		PathFogGenModeNv = 0x90AC,
 		PathGenColorFormatNv = 0x90B2,
 		PathProjectionNv = 0x1701,
@@ -3519,8 +3177,6 @@ namespace Evergine.Bindings.OpenGL
 		PathTransposeProjectionMatrixNv = 0x84E4,
 		FragmentInputNv = 0x936D,
 		SharedEdgeNv = 0xC0,
-		WritePixelDataRangeNv = 0x8878,
-		ReadPixelDataRangeNv = 0x8879,
 		WritePixelDataRangeLengthNv = 0x887A,
 		ReadPixelDataRangeLengthNv = 0x887B,
 		WritePixelDataRangePointerNv = 0x887C,
@@ -3543,35 +3199,10 @@ namespace Evergine.Bindings.OpenGL
 		QueryResourceRenderbufferNv = 0x9546,
 		QueryResourceBufferobjectNv = 0x9547,
 		RegisterCombinersNv = 0x8522,
-		VariableANv = 0x8523,
-		VariableBNv = 0x8524,
-		VariableCNv = 0x8525,
-		VariableDNv = 0x8526,
-		VariableENv = 0x8527,
-		VariableFNv = 0x8528,
-		VariableGNv = 0x8529,
 		ConstantColor0Nv = 0x852A,
 		ConstantColor1Nv = 0x852B,
-		Spare0Nv = 0x852E,
-		Spare1Nv = 0x852F,
-		DiscardNv = 0x8530,
 		ETimesFNv = 0x8531,
 		Spare0PlusSecondaryColorNv = 0x8532,
-		UnsignedIdentityNv = 0x8536,
-		UnsignedInvertNv = 0x8537,
-		ExpandNormalNv = 0x8538,
-		ExpandNegateNv = 0x8539,
-		HalfBiasNormalNv = 0x853A,
-		HalfBiasNegateNv = 0x853B,
-		SignedIdentityNv = 0x853C,
-		SignedNegateNv = 0x853D,
-		ScaleByTwoNv = 0x853E,
-		ScaleByFourNv = 0x853F,
-		ScaleByOneHalfNv = 0x8540,
-		BiasByNegativeOneHalfNv = 0x8541,
-		CombinerInputNv = 0x8542,
-		CombinerMappingNv = 0x8543,
-		CombinerComponentUsageNv = 0x8544,
 		CombinerAbDotProductNv = 0x8545,
 		CombinerCdDotProductNv = 0x8546,
 		CombinerMuxSumNv = 0x8547,
@@ -3583,14 +3214,6 @@ namespace Evergine.Bindings.OpenGL
 		MaxGeneralCombinersNv = 0x854D,
 		NumGeneralCombinersNv = 0x854E,
 		ColorSumClampNv = 0x854F,
-		Combiner0Nv = 0x8550,
-		Combiner1Nv = 0x8551,
-		Combiner2Nv = 0x8552,
-		Combiner3Nv = 0x8553,
-		Combiner4Nv = 0x8554,
-		Combiner5Nv = 0x8555,
-		Combiner6Nv = 0x8556,
-		Combiner7Nv = 0x8557,
 		PerStageConstantsNv = 0x8535,
 		RepresentativeFragmentTestNv = 0x937F,
 		PurgedContextResetNv = 0x92BB,
@@ -3632,25 +3255,15 @@ namespace Evergine.Bindings.OpenGL
 		ShadingRateSampleOrderPixelMajorNv = 0x95AF,
 		ShadingRateSampleOrderSampleMajorNv = 0x95B0,
 		MaxProgramPatchAttribsNv = 0x86D8,
-		TessControlProgramNv = 0x891E,
-		TessEvaluationProgramNv = 0x891F,
 		TessControlProgramParameterBufferNv = 0x8C74,
 		TessEvaluationProgramParameterBufferNv = 0x8C75,
 		EmbossLightNv = 0x855D,
 		EmbossConstantNv = 0x855E,
 		EmbossMapNv = 0x855F,
-		NormalMapNv = 0x8511,
-		ReflectionMapNv = 0x8512,
 		Combine4Nv = 0x8503,
-		Source3RgbNv = 0x8583,
-		Source3AlphaNv = 0x858B,
-		Operand3RgbNv = 0x8593,
-		Operand3AlphaNv = 0x859B,
 		TextureUnsignedRemapModeNv = 0x888F,
 		TextureCoverageSamplesNv = 0x9045,
 		TextureColorSamplesNv = 0x9046,
-		TextureRectangleNv = 0x84F5,
-		TextureBindingRectangleNv = 0x84F6,
 		MaxRectangleTextureSizeNv = 0x84F8,
 		OffsetTextureRectangleNv = 0x864C,
 		OffsetTextureRectangleScaleNv = 0x864D,
@@ -3838,7 +3451,6 @@ namespace Evergine.Bindings.OpenGL
 		CurrentMatrixNv = 0x8641,
 		VertexProgramPointSizeNv = 0x8642,
 		VertexProgramTwoSideNv = 0x8643,
-		ProgramParameterNv = 0x8644,
 		AttribArrayPointerNv = 0x8645,
 		ProgramTargetNv = 0x8646,
 		ProgramResidentNv = 0x8647,
@@ -3957,29 +3569,9 @@ namespace Evergine.Bindings.OpenGL
 		ResampleDecimateOml = 0x8989,
 		FormatSubsample2424Oml = 0x8982,
 		FormatSubsample244244Oml = 0x8983,
-		FramebufferAttachmentTextureNumViewsOvr = 0x9630,
-		FramebufferAttachmentTextureBaseViewIndexOvr = 0x9632,
 		MaxViewsOvr = 0x9631,
 		FramebufferIncompleteViewTargetsOvr = 0x9633,
 		NativeGraphicsHandlePgi = 0x1A202,
-		Color3BitPgi = 0x00010000,
-		Color4BitPgi = 0x00020000,
-		EdgeflagBitPgi = 0x00040000,
-		IndexBitPgi = 0x00080000,
-		MatAmbientBitPgi = 0x00100000,
-		MatAmbientAndDiffuseBitPgi = 0x00200000,
-		MatDiffuseBitPgi = 0x00400000,
-		MatEmissionBitPgi = 0x00800000,
-		MatColorIndexesBitPgi = 0x01000000,
-		MatShininessBitPgi = 0x02000000,
-		MatSpecularBitPgi = 0x04000000,
-		NormalBitPgi = 0x08000000,
-		Texcoord1BitPgi = 0x10000000,
-		Texcoord2BitPgi = 0x20000000,
-		Texcoord3BitPgi = 0x40000000,
-		Texcoord4BitPgi = 0x80000000,
-		Vertex23BitPgi = 0x00000004,
-		Vertex4BitPgi = 0x00000008,
 		ScreenCoordinatesRend = 0x8490,
 		InvertedScreenWRend = 0x8491,
 		RgbS3tc = 0x83A0,
@@ -3991,12 +3583,7 @@ namespace Evergine.Bindings.OpenGL
 		PixelGroupColorSgis = 0x8356,
 		TextureColorWritemaskSgis = 0x81EF,
 		CurrentRasterNormalSgix = 0x8406,
-		TextureDeformationBitSgix = 0x00000001,
-		GeometryDeformationBitSgix = 0x00000002,
 		MaxDeformationOrderSgix = 0x8197,
-		SpriteAxialSgix = 0x814C,
-		SpriteObjectAlignedSgix = 0x814D,
-		SpriteEyeAlignedSgix = 0x814E,
 		YcrcbSgix = 0x8318,
 		YcrcbaSgix = 0x8319,
 		UnpackConstantDataSunx = 0x81D5,
@@ -4007,9 +3594,6 @@ namespace Evergine.Bindings.OpenGL
 		QuadMeshSun = 0x8614,
 		TriangleMeshSun = 0x8615,
 		SliceAccumSun = 0x85CC,
-		RestartSun = 0x0001,
-		ReplaceMiddleSun = 0x0002,
-		ReplaceOldestSun = 0x0003,
 		TriangleListSun = 0x81D7,
 		ReplacementCodeSun = 0x81D8,
 		ReplacementCodeArraySun = 0x85C0,
@@ -4026,64 +3610,6 @@ namespace Evergine.Bindings.OpenGL
 		R1uiT2fC4fN3fV3fSun = 0x85CB,
 		PhongWin = 0x80EA,
 		FogSpecularTextureWin = 0x80EC,
-	}
-
-	public enum GetPointervPName : uint
-	{
-		DebugCallbackFunction = 0x8244,
-		DebugCallbackUserParam = 0x8245,
-		VertexArrayPointerExt = 0x808E,
-		NormalArrayPointerExt = 0x808F,
-		ColorArrayPointerExt = 0x8090,
-		IndexArrayPointerExt = 0x8091,
-		TextureCoordArrayPointerExt = 0x8092,
-		EdgeFlagArrayPointerExt = 0x8093,
-		InstrumentBufferPointerSgix = 0x8180,
-	}
-
-	public enum DrawElementsType : uint
-	{
-		UnsignedByte = 0x1401,
-		UnsignedShort = 0x1403,
-		UnsignedInt = 0x1405,
-	}
-
-	public enum IndexPointerType : uint
-	{
-		Double = 0x140A,
-		Float = 0x1406,
-		Int = 0x1404,
-		Short = 0x1402,
-	}
-
-	public enum NormalPointerType : uint
-	{
-		Byte = 0x1400,
-		Double = 0x140A,
-		Float = 0x1406,
-		Int = 0x1404,
-		Short = 0x1402,
-	}
-
-	public enum TexCoordPointerType : uint
-	{
-		Double = 0x140A,
-		Float = 0x1406,
-		Int = 0x1404,
-		Short = 0x1402,
-	}
-
-	public enum VertexPointerType : uint
-	{
-		Double = 0x140A,
-		Float = 0x1406,
-		Int = 0x1404,
-		Short = 0x1402,
-	}
-
-	public enum VertexAttribType : uint
-	{
-		UnsignedInt2101010Rev = 0x8368,
 	}
 
 	public enum TextureUnit : uint
@@ -4195,6 +3721,28 @@ namespace Evergine.Bindings.OpenGL
 		ClearTexture = 0x9365,
 	}
 
+	public enum PointParameterNameARB : uint
+	{
+		PointFadeThresholdSize = 0x8128,
+		PointSizeMinArb = 0x8126,
+		PointSizeMaxArb = 0x8127,
+		PointFadeThresholdSizeArb = 0x8128,
+		PointDistanceAttenuationArb = 0x8129,
+		PointSizeMinExt = 0x8126,
+		PointSizeMaxExt = 0x8127,
+		PointFadeThresholdSizeExt = 0x8128,
+		DistanceAttenuationExt = 0x8129,
+		PointSizeMinSgis = 0x8126,
+		PointSizeMaxSgis = 0x8127,
+		PointFadeThresholdSizeSgis = 0x8128,
+		DistanceAttenuationSgis = 0x8129,
+	}
+
+	public enum TextureCompareMode : uint
+	{
+		CompareRefToTexture = 0x884E,
+	}
+
 	public enum BlendEquationModeEXT : uint
 	{
 		FuncAdd = 0x8006,
@@ -4217,7 +3765,7 @@ namespace Evergine.Bindings.OpenGL
 		Double = 0x140A,
 	}
 
-	public enum VertexBufferObjectParameter : uint
+	public enum BufferPNameARB : uint
 	{
 		BufferSize = 0x8764,
 		BufferUsage = 0x8765,
@@ -4228,6 +3776,11 @@ namespace Evergine.Bindings.OpenGL
 		BufferMapOffset = 0x9121,
 		BufferImmutableStorage = 0x821F,
 		BufferStorageFlags = 0x8220,
+		BufferSizeArb = 0x8764,
+		BufferUsageArb = 0x8765,
+		BufferAccessArb = 0x88BB,
+		BufferMappedArb = 0x88BC,
+		BufferClientPointerSizeMesa = 0x9790,
 	}
 
 	public enum QueryParameterName : uint
@@ -4244,24 +3797,21 @@ namespace Evergine.Bindings.OpenGL
 		QueryTarget = 0x82EA,
 	}
 
-	public enum BufferTargetARB : uint
+	public enum CopyBufferSubDataTarget : uint
 	{
 		ArrayBuffer = 0x8892,
 		ElementArrayBuffer = 0x8893,
-		PixelPackBuffer = 0x88EB,
-		PixelUnpackBuffer = 0x88EC,
-		TransformFeedbackBuffer = 0x8C8E,
-		TextureBuffer = 0x8C2A,
-		CopyReadBuffer = 0x8F36,
-		CopyWriteBuffer = 0x8F37,
-		UniformBuffer = 0x8A11,
-		ParameterBuffer = 0x80EE,
 	}
 
 	public enum VertexAttribEnum : uint
 	{
 		VertexAttribArrayBufferBinding = 0x889F,
+		VertexAttribArrayEnabled = 0x8622,
+		VertexAttribArraySize = 0x8623,
+		VertexAttribArrayStride = 0x8624,
+		VertexAttribArrayType = 0x8625,
 		CurrentVertexAttrib = 0x8626,
+		VertexAttribArrayNormalized = 0x886A,
 	}
 
 	public enum BufferAccessARB : uint
@@ -4269,6 +3819,12 @@ namespace Evergine.Bindings.OpenGL
 		ReadOnly = 0x88B8,
 		WriteOnly = 0x88B9,
 		ReadWrite = 0x88BA,
+	}
+
+	public enum BufferPointerNameARB : uint
+	{
+		BufferMapPointer = 0x88BD,
+		BufferMapPointerArb = 0x88BD,
 	}
 
 	public enum BufferUsageARB : uint
@@ -4292,39 +3848,51 @@ namespace Evergine.Bindings.OpenGL
 		AnySamplesPassed = 0x8C2F,
 		TimeElapsed = 0x88BF,
 		AnySamplesPassedConservative = 0x8D6A,
+		VerticesSubmitted = 0x82EE,
+		PrimitivesSubmitted = 0x82EF,
+		VertexShaderInvocations = 0x82F0,
+		TransformFeedbackOverflow = 0x82EC,
+		TaskShaderInvocationsExt = 0x9753,
+		MeshShaderInvocationsExt = 0x9754,
+		MeshPrimitivesGeneratedExt = 0x9755,
 	}
 
-	public enum VertexArrayPName : uint
+	public enum BufferTargetARB : uint
 	{
-		VertexAttribArrayEnabled = 0x8622,
-		VertexAttribArraySize = 0x8623,
-		VertexAttribArrayStride = 0x8624,
-		VertexAttribArrayType = 0x8625,
-		VertexAttribArrayNormalized = 0x886A,
-		VertexAttribArrayInteger = 0x88FD,
-		VertexAttribArrayDivisor = 0x88FE,
-		VertexAttribArrayLong = 0x874E,
-		VertexAttribRelativeOffset = 0x82D5,
+		ParameterBuffer = 0x80EE,
+		ArrayBuffer = 0x8892,
+		ElementArrayBuffer = 0x8893,
+		PixelPackBuffer = 0x88EB,
+		PixelUnpackBuffer = 0x88EC,
+		UniformBuffer = 0x8A11,
+		TextureBuffer = 0x8C2A,
+		TransformFeedbackBuffer = 0x8C8E,
+		CopyReadBuffer = 0x8F36,
+		CopyWriteBuffer = 0x8F37,
+		DrawIndirectBuffer = 0x8F3F,
+		ShaderStorageBuffer = 0x90D2,
+		DispatchIndirectBuffer = 0x90EE,
+		QueryBuffer = 0x9192,
+		AtomicCounterBuffer = 0x92C0,
 	}
 
-	public enum ShaderType : uint
+	public enum VertexAttribPointerPropertyARB : uint
+	{
+		VertexAttribArrayPointer = 0x8645,
+		VertexAttribArrayPointerArb = 0x8645,
+	}
+
+	public enum PipelineParameterName : uint
 	{
 		FragmentShader = 0x8B30,
 		VertexShader = 0x8B31,
-		GeometryShader = 0x8DD9,
-		TessEvaluationShader = 0x8E87,
-		TessControlShader = 0x8E88,
-		ComputeShader = 0x91B9,
-		FragmentShaderArb = 0x8B30,
-		VertexShaderArb = 0x8B31,
+		ActiveProgram = 0x8259,
 	}
 
 	public enum ShaderParameterName : uint
 	{
 		ShaderType = 0x8B4F,
-		DeleteStatus = 0x8B80,
 		CompileStatus = 0x8B81,
-		InfoLogLength = 0x8B84,
 		ShaderSourceLength = 0x8B88,
 	}
 
@@ -4355,8 +3923,86 @@ namespace Evergine.Bindings.OpenGL
 		FloatMat3x4 = 0x8B68,
 		FloatMat4x2 = 0x8B69,
 		FloatMat4x3 = 0x8B6A,
+		Sampler1dArrayShadow = 0x8DC3,
+		Sampler2dArrayShadow = 0x8DC4,
+		SamplerCubeShadow = 0x8DC5,
+		UnsignedIntVec2 = 0x8DC6,
+		UnsignedIntVec3 = 0x8DC7,
+		UnsignedIntVec4 = 0x8DC8,
+		IntSampler1d = 0x8DC9,
+		IntSampler2d = 0x8DCA,
+		IntSampler3d = 0x8DCB,
+		IntSamplerCube = 0x8DCC,
+		IntSampler1dArray = 0x8DCE,
+		IntSampler2dArray = 0x8DCF,
+		UnsignedIntSampler1d = 0x8DD1,
+		UnsignedIntSampler2d = 0x8DD2,
+		UnsignedIntSampler3d = 0x8DD3,
+		UnsignedIntSamplerCube = 0x8DD4,
+		UnsignedIntSampler1dArray = 0x8DD6,
+		UnsignedIntSampler2dArray = 0x8DD7,
 		Sampler2dRect = 0x8B63,
 		Sampler2dRectShadow = 0x8B64,
+		SamplerBuffer = 0x8DC2,
+		IntSampler2dRect = 0x8DCD,
+		IntSamplerBuffer = 0x8DD0,
+		UnsignedIntSampler2dRect = 0x8DD5,
+		UnsignedIntSamplerBuffer = 0x8DD8,
+		Sampler2dMultisample = 0x9108,
+		IntSampler2dMultisample = 0x9109,
+		UnsignedIntSampler2dMultisample = 0x910A,
+		Sampler2dMultisampleArray = 0x910B,
+		IntSampler2dMultisampleArray = 0x910C,
+		UnsignedIntSampler2dMultisampleArray = 0x910D,
+		SamplerCubeMapArray = 0x900C,
+		SamplerCubeMapArrayShadow = 0x900D,
+		IntSamplerCubeMapArray = 0x900E,
+		UnsignedIntSamplerCubeMapArray = 0x900F,
+		DoubleVec2 = 0x8FFC,
+		DoubleVec3 = 0x8FFD,
+		DoubleVec4 = 0x8FFE,
+		DoubleMat2 = 0x8F46,
+		DoubleMat3 = 0x8F47,
+		DoubleMat4 = 0x8F48,
+		Image1d = 0x904C,
+		Image2d = 0x904D,
+		Image3d = 0x904E,
+		Image2dRect = 0x904F,
+		ImageCube = 0x9050,
+		ImageBuffer = 0x9051,
+		Image1dArray = 0x9052,
+		Image2dArray = 0x9053,
+		ImageCubeMapArray = 0x9054,
+		Image2dMultisample = 0x9055,
+		Image2dMultisampleArray = 0x9056,
+		IntImage1d = 0x9057,
+		IntImage2d = 0x9058,
+		IntImage3d = 0x9059,
+		IntImage2dRect = 0x905A,
+		IntImageCube = 0x905B,
+		IntImageBuffer = 0x905C,
+		IntImage1dArray = 0x905D,
+		IntImage2dArray = 0x905E,
+		IntImageCubeMapArray = 0x905F,
+		IntImage2dMultisample = 0x9060,
+		IntImage2dMultisampleArray = 0x9061,
+		UnsignedIntImage1d = 0x9062,
+		UnsignedIntImage2d = 0x9063,
+		UnsignedIntImage3d = 0x9064,
+		UnsignedIntImage2dRect = 0x9065,
+		UnsignedIntImageCube = 0x9066,
+		UnsignedIntImageBuffer = 0x9067,
+		UnsignedIntImage1dArray = 0x9068,
+		UnsignedIntImage2dArray = 0x9069,
+		UnsignedIntImageCubeMapArray = 0x906A,
+		UnsignedIntImage2dMultisample = 0x906B,
+		UnsignedIntImage2dMultisampleArray = 0x906C,
+		Int64Vec2Arb = 0x8FE9,
+		Int64Vec3Arb = 0x8FEA,
+		Int64Vec4Arb = 0x8FEB,
+		UnsignedInt64Vec2Arb = 0x8FF5,
+		UnsignedInt64Vec3Arb = 0x8FF6,
+		UnsignedInt64Vec4Arb = 0x8FF7,
 		FloatVec2Arb = 0x8B50,
 		FloatVec3Arb = 0x8B51,
 		FloatVec4Arb = 0x8B52,
@@ -4382,8 +4028,10 @@ namespace Evergine.Bindings.OpenGL
 
 	public enum ProgramPropertyARB : uint
 	{
+		DeleteStatus = 0x8B80,
 		LinkStatus = 0x8B82,
 		ValidateStatus = 0x8B83,
+		InfoLogLength = 0x8B84,
 		AttachedShaders = 0x8B85,
 		ActiveUniforms = 0x8B86,
 		ActiveUniformMaxLength = 0x8B87,
@@ -4408,11 +4056,33 @@ namespace Evergine.Bindings.OpenGL
 		UpperLeft = 0x8CA2,
 	}
 
-	public enum StencilFaceDirection : uint
+	public enum ShaderType : uint
 	{
-		Front = 0x0404,
-		Back = 0x0405,
-		FrontAndBack = 0x0408,
+		FragmentShader = 0x8B30,
+		FragmentShaderArb = 0x8B30,
+		VertexShader = 0x8B31,
+		VertexShaderArb = 0x8B31,
+		GeometryShader = 0x8DD9,
+		TessEvaluationShader = 0x8E87,
+		TessControlShader = 0x8E88,
+		ComputeShader = 0x91B9,
+	}
+
+	public enum VertexAttribPropertyARB : uint
+	{
+		VertexAttribBinding = 0x82D4,
+		VertexAttribRelativeOffset = 0x82D5,
+		VertexAttribArrayEnabled = 0x8622,
+		VertexAttribArraySize = 0x8623,
+		VertexAttribArrayStride = 0x8624,
+		VertexAttribArrayType = 0x8625,
+		CurrentVertexAttrib = 0x8626,
+		VertexAttribArrayLong = 0x874E,
+		VertexAttribArrayNormalized = 0x886A,
+		VertexAttribArrayBufferBinding = 0x889F,
+		VertexAttribArrayInteger = 0x88FD,
+		VertexAttribArrayIntegerExt = 0x88FD,
+		VertexAttribArrayDivisor = 0x88FE,
 	}
 
 	public enum VertexAttribPointerType : uint
@@ -4427,9 +4097,14 @@ namespace Evergine.Bindings.OpenGL
 		Double = 0x140A,
 		HalfFloat = 0x140B,
 		Fixed = 0x140C,
-		Int2101010Rev = 0x8D9F,
+		Int64Arb = 0x140E,
+		Int64Nv = 0x140E,
+		UnsignedInt64Arb = 0x140F,
+		UnsignedInt64Nv = 0x140F,
 		UnsignedInt2101010Rev = 0x8368,
+		UnsignedInt2101010RevExt = 0x8368,
 		UnsignedInt10f11f11fRev = 0x8C3B,
+		Int2101010Rev = 0x8D9F,
 	}
 
 	[Flags]
@@ -4445,12 +4120,57 @@ namespace Evergine.Bindings.OpenGL
 		ContextFlagNoErrorBitKhr = 0x00000008,
 	}
 
-	public enum TypeEnum : uint
+	public enum ClampColorTargetARB : uint
+	{
+		ClampReadColor = 0x891C,
+		ClampVertexColorArb = 0x891A,
+		ClampFragmentColorArb = 0x891B,
+		ClampReadColorArb = 0x891C,
+	}
+
+	public enum ClampColorModeARB : uint
+	{
+		FixedOnly = 0x891D,
+		FixedOnlyArb = 0x891D,
+	}
+
+	public enum TransformFeedbackPName : uint
+	{
+		TransformFeedbackBufferStart = 0x8C84,
+		TransformFeedbackBufferSize = 0x8C85,
+		TransformFeedbackBufferBinding = 0x8C8F,
+		TransformFeedbackActive = 0x8E24,
+		TransformFeedbackPaused = 0x8E23,
+	}
+
+	public enum TransformFeedbackBufferMode : uint
+	{
+		InterleavedAttribs = 0x8C8C,
+		SeparateAttribs = 0x8C8D,
+	}
+
+	public enum UniformType : uint
+	{
+		Sampler1dArray = 0x8DC0,
+		Sampler2dArray = 0x8DC1,
+		DoubleMat2x3 = 0x8F49,
+		DoubleMat2x4 = 0x8F4A,
+		DoubleMat3x2 = 0x8F4B,
+		DoubleMat3x4 = 0x8F4C,
+		DoubleMat4x2 = 0x8F4D,
+		DoubleMat4x3 = 0x8F4E,
+	}
+
+	public enum ConditionalRenderMode : uint
 	{
 		QueryWait = 0x8E13,
 		QueryNoWait = 0x8E14,
 		QueryByRegionWait = 0x8E15,
 		QueryByRegionNoWait = 0x8E16,
+		QueryWaitInverted = 0x8E17,
+		QueryNoWaitInverted = 0x8E18,
+		QueryByRegionWaitInverted = 0x8E19,
+		QueryByRegionNoWaitInverted = 0x8E1A,
 	}
 
 	public enum FramebufferAttachmentParameterName : uint
@@ -4463,11 +4183,22 @@ namespace Evergine.Bindings.OpenGL
 		FramebufferAttachmentAlphaSize = 0x8215,
 		FramebufferAttachmentDepthSize = 0x8216,
 		FramebufferAttachmentStencilSize = 0x8217,
+		FramebufferAttachmentObjectType = 0x8CD0,
 		FramebufferAttachmentObjectName = 0x8CD1,
 		FramebufferAttachmentTextureLevel = 0x8CD2,
 		FramebufferAttachmentTextureCubeMapFace = 0x8CD3,
 		FramebufferAttachmentTextureLayer = 0x8CD4,
 		FramebufferAttachmentLayered = 0x8DA7,
+		FramebufferAttachmentLayeredArb = 0x8DA7,
+		FramebufferAttachmentObjectTypeExt = 0x8CD0,
+		FramebufferAttachmentObjectNameExt = 0x8CD1,
+		FramebufferAttachmentTextureLevelExt = 0x8CD2,
+		FramebufferAttachmentTextureCubeMapFaceExt = 0x8CD3,
+		FramebufferAttachmentTexture3dZoffsetExt = 0x8CD4,
+		FramebufferAttachmentLayeredExt = 0x8DA7,
+		FramebufferAttachmentTextureLayerExt = 0x8CD4,
+		FramebufferAttachmentTextureNumViewsOvr = 0x9630,
+		FramebufferAttachmentTextureBaseViewIndexOvr = 0x9632,
 	}
 
 	public enum FramebufferStatus : uint
@@ -4486,41 +4217,46 @@ namespace Evergine.Bindings.OpenGL
 	public enum FramebufferAttachment : uint
 	{
 		DepthStencilAttachment = 0x821A,
-		MaxColorAttachments = 0x8CDF,
-		ColorAttachment0 = 0x8CE0,
-		ColorAttachment1 = 0x8CE1,
-		ColorAttachment2 = 0x8CE2,
-		ColorAttachment3 = 0x8CE3,
-		ColorAttachment4 = 0x8CE4,
-		ColorAttachment5 = 0x8CE5,
-		ColorAttachment6 = 0x8CE6,
-		ColorAttachment7 = 0x8CE7,
-		ColorAttachment8 = 0x8CE8,
-		ColorAttachment9 = 0x8CE9,
-		ColorAttachment10 = 0x8CEA,
-		ColorAttachment11 = 0x8CEB,
-		ColorAttachment12 = 0x8CEC,
-		ColorAttachment13 = 0x8CED,
-		ColorAttachment14 = 0x8CEE,
-		ColorAttachment15 = 0x8CEF,
-		ColorAttachment16 = 0x8CF0,
-		ColorAttachment17 = 0x8CF1,
-		ColorAttachment18 = 0x8CF2,
-		ColorAttachment19 = 0x8CF3,
-		ColorAttachment20 = 0x8CF4,
-		ColorAttachment21 = 0x8CF5,
-		ColorAttachment22 = 0x8CF6,
-		ColorAttachment23 = 0x8CF7,
-		ColorAttachment24 = 0x8CF8,
-		ColorAttachment25 = 0x8CF9,
-		ColorAttachment26 = 0x8CFA,
-		ColorAttachment27 = 0x8CFB,
-		ColorAttachment28 = 0x8CFC,
-		ColorAttachment29 = 0x8CFD,
-		ColorAttachment30 = 0x8CFE,
-		ColorAttachment31 = 0x8CFF,
+		StencilAttachment = 0x8D20,
+		ShadingRateAttachmentExt = 0x96D1,
+	}
+
+	public enum FramebufferTarget : uint
+	{
+		ReadFramebuffer = 0x8CA8,
+		DrawFramebuffer = 0x8CA9,
+	}
+
+	public enum RenderbufferParameterName : uint
+	{
+		RenderbufferSamples = 0x8CAB,
+		RenderbufferWidth = 0x8D42,
+		RenderbufferHeight = 0x8D43,
+		RenderbufferInternalFormat = 0x8D44,
+		RenderbufferRedSize = 0x8D50,
+		RenderbufferGreenSize = 0x8D51,
+		RenderbufferBlueSize = 0x8D52,
+		RenderbufferAlphaSize = 0x8D53,
+		RenderbufferDepthSize = 0x8D54,
+		RenderbufferStencilSize = 0x8D55,
+		RenderbufferStorageSamplesAmd = 0x91B2,
+		RenderbufferSamplesExt = 0x8CAB,
+		RenderbufferWidthExt = 0x8D42,
+		RenderbufferHeightExt = 0x8D43,
+		RenderbufferInternalFormatExt = 0x8D44,
+		RenderbufferRedSizeExt = 0x8D50,
+		RenderbufferGreenSizeExt = 0x8D51,
+		RenderbufferBlueSizeExt = 0x8D52,
+		RenderbufferAlphaSizeExt = 0x8D53,
+		RenderbufferDepthSizeExt = 0x8D54,
+		RenderbufferStencilSizeExt = 0x8D55,
+		RenderbufferCoverageSamplesNv = 0x8CAB,
+		RenderbufferColorSamplesNv = 0x8E10,
+	}
+
+	public enum InvalidateFramebufferAttachment : uint
+	{
 		DepthAttachment = 0x8D00,
-		MaxColorAttachmentsExt = 0x8CDF,
 		ColorAttachment0Ext = 0x8CE0,
 		ColorAttachment1Ext = 0x8CE1,
 		ColorAttachment2Ext = 0x8CE2,
@@ -4538,83 +4274,45 @@ namespace Evergine.Bindings.OpenGL
 		ColorAttachment14Ext = 0x8CEE,
 		ColorAttachment15Ext = 0x8CEF,
 		DepthAttachmentExt = 0x8D00,
-	}
-
-	public enum FramebufferTarget : uint
-	{
-		ReadFramebuffer = 0x8CA8,
-		DrawFramebuffer = 0x8CA9,
-		Framebuffer = 0x8D40,
-	}
-
-	public enum RenderbufferParameterName : uint
-	{
-		RenderbufferSamples = 0x8CAB,
-		RenderbufferWidth = 0x8D42,
-		RenderbufferHeight = 0x8D43,
-		RenderbufferInternalFormat = 0x8D44,
-		RenderbufferRedSize = 0x8D50,
-		RenderbufferGreenSize = 0x8D51,
-		RenderbufferBlueSize = 0x8D52,
-		RenderbufferAlphaSize = 0x8D53,
-		RenderbufferDepthSize = 0x8D54,
-		RenderbufferStencilSize = 0x8D55,
-	}
-
-	public enum RenderbufferTarget : uint
-	{
-		Renderbuffer = 0x8D41,
-	}
-
-	[Flags]
-	public enum BufferStorageMask : uint
-	{
-		None = 0,
-		MapReadBit = 0x0001,
-		MapWriteBit = 0x0002,
-		MapPersistentBit = 0x0040,
-		MapCoherentBit = 0x0080,
-		DynamicStorageBit = 0x0100,
-		ClientStorageBit = 0x0200,
-		SparseStorageBitArb = 0x0400,
-		LgpuSeparateStorageBitNvx = 0x0800,
-		PerGpuStorageBitNv = 0x0800,
+		StencilAttachmentExt = 0x8D20,
 	}
 
 	[Flags]
 	public enum MapBufferAccessMask : uint
 	{
 		None = 0,
+		MapReadBit = 0x0001,
+		MapWriteBit = 0x0002,
 		MapInvalidateRangeBit = 0x0004,
 		MapInvalidateBufferBit = 0x0008,
 		MapFlushExplicitBit = 0x0010,
 		MapUnsynchronizedBit = 0x0020,
+		MapPersistentBit = 0x0040,
+		MapCoherentBit = 0x0080,
+		MapClientPointerBitMesa = 0x4000,
 	}
 
-	public enum Buffer : uint
+	public enum RenderbufferTarget : uint
 	{
-		Color = 0x1800,
-		Depth = 0x1801,
-		Stencil = 0x1802,
-	}
-
-	public enum BlitFramebufferFilter : uint
-	{
-		Nearest = 0x2600,
-		Linear = 0x2601,
+		Renderbuffer = 0x8D41,
+		RenderbufferOes = 0x8D41,
 	}
 
 	public enum UniformPName : uint
 	{
 		UniformType = 0x8A37,
-		UniformSize = 0x8A38,
-		UniformNameLength = 0x8A39,
 		UniformBlockIndex = 0x8A3A,
 		UniformOffset = 0x8A3B,
 		UniformArrayStride = 0x8A3C,
 		UniformMatrixStride = 0x8A3D,
 		UniformIsRowMajor = 0x8A3E,
 		UniformAtomicCounterBufferIndex = 0x92DA,
+	}
+
+	public enum SubroutineParameterName : uint
+	{
+		UniformSize = 0x8A38,
+		UniformNameLength = 0x8A39,
 	}
 
 	public enum UniformBlockPName : uint
@@ -4632,22 +4330,361 @@ namespace Evergine.Bindings.OpenGL
 		UniformBlockReferencedByComputeShader = 0x90EC,
 	}
 
-	public enum CopyBufferSubDataTarget : uint
+	public enum SizedInternalFormat : uint
 	{
-		ArrayBuffer = 0x8892,
-		AtomicCounterBuffer = 0x92C0,
-		CopyReadBuffer = 0x8F36,
-		CopyWriteBuffer = 0x8F37,
-		DispatchIndirectBuffer = 0x90EE,
-		DrawIndirectBuffer = 0x8F3F,
-		ElementArrayBuffer = 0x8893,
-		PixelPackBuffer = 0x88EB,
-		PixelUnpackBuffer = 0x88EC,
-		QueryBuffer = 0x9192,
-		ShaderStorageBuffer = 0x90D2,
-		TextureBuffer = 0x8C2A,
-		TransformFeedbackBuffer = 0x8C8E,
-		UniformBuffer = 0x8A11,
+		R3G3B2 = 0x2A10,
+		Alpha4Ext = 0x803B,
+		Alpha8Ext = 0x803C,
+		Alpha8Oes = 0x803C,
+		Alpha12Ext = 0x803D,
+		Alpha16Ext = 0x803E,
+		Luminance4Ext = 0x803F,
+		Luminance8Ext = 0x8040,
+		Luminance8Oes = 0x8040,
+		Luminance12Ext = 0x8041,
+		Luminance16Ext = 0x8042,
+		Luminance4Alpha4Ext = 0x8043,
+		Luminance4Alpha4Oes = 0x8043,
+		Luminance6Alpha2Ext = 0x8044,
+		Luminance8Alpha8Ext = 0x8045,
+		Luminance8Alpha8Oes = 0x8045,
+		Luminance12Alpha4Ext = 0x8046,
+		Luminance12Alpha12Ext = 0x8047,
+		Luminance16Alpha16Ext = 0x8048,
+		Intensity4Ext = 0x804A,
+		Intensity8Ext = 0x804B,
+		Intensity12Ext = 0x804C,
+		Intensity16Ext = 0x804D,
+		Rgb2Ext = 0x804E,
+		Rgb4 = 0x804F,
+		Rgb4Ext = 0x804F,
+		Rgb5 = 0x8050,
+		Rgb5Ext = 0x8050,
+		Rgb8 = 0x8051,
+		Rgb8Ext = 0x8051,
+		Rgb8Oes = 0x8051,
+		Rgb10 = 0x8052,
+		Rgb10Ext = 0x8052,
+		Rgb12 = 0x8053,
+		Rgb12Ext = 0x8053,
+		Rgb16 = 0x8054,
+		Rgb16Ext = 0x8054,
+		Rgba2 = 0x8055,
+		Rgba2Ext = 0x8055,
+		Rgba4 = 0x8056,
+		Rgba4Ext = 0x8056,
+		Rgba4Oes = 0x8056,
+		Rgb5A1 = 0x8057,
+		Rgb5A1Ext = 0x8057,
+		Rgb5A1Oes = 0x8057,
+		Rgba8 = 0x8058,
+		Rgba8Ext = 0x8058,
+		Rgba8Oes = 0x8058,
+		Rgb10A2 = 0x8059,
+		Rgb10A2Ext = 0x8059,
+		Rgba12 = 0x805A,
+		Rgba12Ext = 0x805A,
+		Rgba16 = 0x805B,
+		Rgba16Ext = 0x805B,
+		DepthComponent16 = 0x81A5,
+		DepthComponent16Arb = 0x81A5,
+		DepthComponent16Oes = 0x81A5,
+		DepthComponent16Sgix = 0x81A5,
+		DepthComponent24 = 0x81A6,
+		DepthComponent24Arb = 0x81A6,
+		DepthComponent24Oes = 0x81A6,
+		DepthComponent24Sgix = 0x81A6,
+		DepthComponent32 = 0x81A7,
+		DepthComponent32Arb = 0x81A7,
+		DepthComponent32Oes = 0x81A7,
+		DepthComponent32Sgix = 0x81A7,
+		R8 = 0x8229,
+		R8Ext = 0x8229,
+		R16 = 0x822A,
+		R16Ext = 0x822A,
+		Rg8 = 0x822B,
+		Rg8Ext = 0x822B,
+		Rg16 = 0x822C,
+		Rg16Ext = 0x822C,
+		R16f = 0x822D,
+		R16fExt = 0x822D,
+		R32f = 0x822E,
+		R32fExt = 0x822E,
+		Rg16f = 0x822F,
+		Rg16fExt = 0x822F,
+		Rg32f = 0x8230,
+		Rg32fExt = 0x8230,
+		R8i = 0x8231,
+		R8ui = 0x8232,
+		R16i = 0x8233,
+		R16ui = 0x8234,
+		R32i = 0x8235,
+		R32ui = 0x8236,
+		Rg8i = 0x8237,
+		Rg8ui = 0x8238,
+		Rg16i = 0x8239,
+		Rg16ui = 0x823A,
+		Rg32i = 0x823B,
+		Rg32ui = 0x823C,
+		CompressedRgbS3tcDxt1Ext = 0x83F0,
+		CompressedRgbaS3tcDxt1Ext = 0x83F1,
+		CompressedRgbaS3tcDxt3Angle = 0x83F2,
+		CompressedRgbaS3tcDxt3Ext = 0x83F2,
+		CompressedRgbaS3tcDxt5Angle = 0x83F3,
+		CompressedRgbaS3tcDxt5Ext = 0x83F3,
+		CompressedRgbFxt13dfx = 0x86B0,
+		CompressedRgbaFxt13dfx = 0x86B1,
+		AtcRgbaInterpolatedAlphaAmd = 0x87EE,
+		_3dcXAmd = 0x87F9,
+		_3dcXyAmd = 0x87FA,
+		Rgba32f = 0x8814,
+		Rgba32fArb = 0x8814,
+		Rgba32fExt = 0x8814,
+		Rgb32f = 0x8815,
+		Rgb32fArb = 0x8815,
+		Rgb32fExt = 0x8815,
+		Rgba16f = 0x881A,
+		Rgba16fArb = 0x881A,
+		Rgba16fExt = 0x881A,
+		Rgb16f = 0x881B,
+		Rgb16fArb = 0x881B,
+		Rgb16fExt = 0x881B,
+		Etc1Srgb8Nv = 0x88EE,
+		Depth24Stencil8 = 0x88F0,
+		Depth24Stencil8Ext = 0x88F0,
+		Depth24Stencil8Oes = 0x88F0,
+		CompressedSrgbPvrtc2bppv1Ext = 0x8A54,
+		CompressedSrgbPvrtc4bppv1Ext = 0x8A55,
+		CompressedSrgbAlphaPvrtc2bppv1Ext = 0x8A56,
+		CompressedSrgbAlphaPvrtc4bppv1Ext = 0x8A57,
+		CompressedRgbPvrtc4bppv1Img = 0x8C00,
+		CompressedRgbPvrtc2bppv1Img = 0x8C01,
+		CompressedRgbaPvrtc4bppv1Img = 0x8C02,
+		CompressedRgbaPvrtc2bppv1Img = 0x8C03,
+		R11fG11fB10f = 0x8C3A,
+		R11fG11fB10fApple = 0x8C3A,
+		R11fG11fB10fExt = 0x8C3A,
+		Rgb9E5 = 0x8C3D,
+		Rgb9E5Apple = 0x8C3D,
+		Rgb9E5Ext = 0x8C3D,
+		Srgb8 = 0x8C41,
+		Srgb8Ext = 0x8C41,
+		Srgb8Nv = 0x8C41,
+		Srgb8Alpha8 = 0x8C43,
+		Srgb8Alpha8Ext = 0x8C43,
+		CompressedSrgbS3tcDxt1Ext = 0x8C4C,
+		CompressedSrgbS3tcDxt1Nv = 0x8C4C,
+		CompressedSrgbAlphaS3tcDxt1Ext = 0x8C4D,
+		CompressedSrgbAlphaS3tcDxt1Nv = 0x8C4D,
+		CompressedSrgbAlphaS3tcDxt3Ext = 0x8C4E,
+		CompressedSrgbAlphaS3tcDxt3Nv = 0x8C4E,
+		CompressedSrgbAlphaS3tcDxt5Ext = 0x8C4F,
+		CompressedSrgbAlphaS3tcDxt5Nv = 0x8C4F,
+		CompressedLuminanceLatc1Ext = 0x8C70,
+		CompressedSignedLuminanceLatc1Ext = 0x8C71,
+		CompressedLuminanceAlphaLatc2Ext = 0x8C72,
+		CompressedSignedLuminanceAlphaLatc2Ext = 0x8C73,
+		AtcRgbAmd = 0x8C92,
+		AtcRgbaExplicitAlphaAmd = 0x8C93,
+		DepthComponent32f = 0x8CAC,
+		Depth32fStencil8 = 0x8CAD,
+		StencilIndex1 = 0x8D46,
+		StencilIndex1Ext = 0x8D46,
+		StencilIndex1Oes = 0x8D46,
+		StencilIndex4 = 0x8D47,
+		StencilIndex4Ext = 0x8D47,
+		StencilIndex4Oes = 0x8D47,
+		StencilIndex8 = 0x8D48,
+		StencilIndex8Ext = 0x8D48,
+		StencilIndex8Oes = 0x8D48,
+		StencilIndex16 = 0x8D49,
+		StencilIndex16Ext = 0x8D49,
+		Rgb565Oes = 0x8D62,
+		Rgb565 = 0x8D62,
+		Etc1Rgb8Oes = 0x8D64,
+		Rgba32ui = 0x8D70,
+		Rgba32uiExt = 0x8D70,
+		Rgb32ui = 0x8D71,
+		Rgb32uiExt = 0x8D71,
+		Alpha32uiExt = 0x8D72,
+		Intensity32uiExt = 0x8D73,
+		Luminance32uiExt = 0x8D74,
+		LuminanceAlpha32uiExt = 0x8D75,
+		Rgba16ui = 0x8D76,
+		Rgba16uiExt = 0x8D76,
+		Rgb16ui = 0x8D77,
+		Rgb16uiExt = 0x8D77,
+		Alpha16uiExt = 0x8D78,
+		Intensity16uiExt = 0x8D79,
+		Luminance16uiExt = 0x8D7A,
+		LuminanceAlpha16uiExt = 0x8D7B,
+		Rgba8ui = 0x8D7C,
+		Rgba8uiExt = 0x8D7C,
+		Rgb8ui = 0x8D7D,
+		Rgb8uiExt = 0x8D7D,
+		Alpha8uiExt = 0x8D7E,
+		Intensity8uiExt = 0x8D7F,
+		Luminance8uiExt = 0x8D80,
+		LuminanceAlpha8uiExt = 0x8D81,
+		Rgba32i = 0x8D82,
+		Rgba32iExt = 0x8D82,
+		Rgb32i = 0x8D83,
+		Rgb32iExt = 0x8D83,
+		Alpha32iExt = 0x8D84,
+		Intensity32iExt = 0x8D85,
+		Luminance32iExt = 0x8D86,
+		LuminanceAlpha32iExt = 0x8D87,
+		Rgba16i = 0x8D88,
+		Rgba16iExt = 0x8D88,
+		Rgb16i = 0x8D89,
+		Rgb16iExt = 0x8D89,
+		Alpha16iExt = 0x8D8A,
+		Intensity16iExt = 0x8D8B,
+		Luminance16iExt = 0x8D8C,
+		LuminanceAlpha16iExt = 0x8D8D,
+		Rgba8i = 0x8D8E,
+		Rgba8iExt = 0x8D8E,
+		Rgb8i = 0x8D8F,
+		Rgb8iExt = 0x8D8F,
+		Alpha8iExt = 0x8D90,
+		Intensity8iExt = 0x8D91,
+		Luminance8iExt = 0x8D92,
+		LuminanceAlpha8iExt = 0x8D93,
+		DepthComponent32fNv = 0x8DAB,
+		Depth32fStencil8Nv = 0x8DAC,
+		CompressedRedRgtc1 = 0x8DBB,
+		CompressedRedRgtc1Ext = 0x8DBB,
+		CompressedSignedRedRgtc1 = 0x8DBC,
+		CompressedSignedRedRgtc1Ext = 0x8DBC,
+		CompressedRedGreenRgtc2Ext = 0x8DBD,
+		CompressedRgRgtc2 = 0x8DBD,
+		CompressedSignedRedGreenRgtc2Ext = 0x8DBE,
+		CompressedSignedRgRgtc2 = 0x8DBE,
+		CompressedRgbaBptcUnorm = 0x8E8C,
+		CompressedRgbaBptcUnormArb = 0x8E8C,
+		CompressedRgbaBptcUnormExt = 0x8E8C,
+		CompressedSrgbAlphaBptcUnorm = 0x8E8D,
+		CompressedSrgbAlphaBptcUnormArb = 0x8E8D,
+		CompressedSrgbAlphaBptcUnormExt = 0x8E8D,
+		CompressedRgbBptcSignedFloat = 0x8E8E,
+		CompressedRgbBptcSignedFloatArb = 0x8E8E,
+		CompressedRgbBptcSignedFloatExt = 0x8E8E,
+		CompressedRgbBptcUnsignedFloat = 0x8E8F,
+		CompressedRgbBptcUnsignedFloatArb = 0x8E8F,
+		CompressedRgbBptcUnsignedFloatExt = 0x8E8F,
+		R8Snorm = 0x8F94,
+		Rg8Snorm = 0x8F95,
+		Rgb8Snorm = 0x8F96,
+		Rgba8Snorm = 0x8F97,
+		R16Snorm = 0x8F98,
+		R16SnormExt = 0x8F98,
+		Rg16Snorm = 0x8F99,
+		Rg16SnormExt = 0x8F99,
+		Rgb16Snorm = 0x8F9A,
+		Rgb16SnormExt = 0x8F9A,
+		Rgba16Snorm = 0x8F9B,
+		Rgba16SnormExt = 0x8F9B,
+		Rgb10A2ui = 0x906F,
+		CompressedRgbaPvrtc2bppv2Img = 0x9137,
+		CompressedRgbaPvrtc4bppv2Img = 0x9138,
+		CompressedR11Eac = 0x9270,
+		CompressedR11EacOes = 0x9270,
+		CompressedSignedR11Eac = 0x9271,
+		CompressedSignedR11EacOes = 0x9271,
+		CompressedRg11Eac = 0x9272,
+		CompressedRg11EacOes = 0x9272,
+		CompressedSignedRg11Eac = 0x9273,
+		CompressedSignedRg11EacOes = 0x9273,
+		CompressedRgb8Etc2 = 0x9274,
+		CompressedRgb8Etc2Oes = 0x9274,
+		CompressedSrgb8Etc2 = 0x9275,
+		CompressedSrgb8Etc2Oes = 0x9275,
+		CompressedRgb8PunchthroughAlpha1Etc2 = 0x9276,
+		CompressedRgb8PunchthroughAlpha1Etc2Oes = 0x9276,
+		CompressedSrgb8PunchthroughAlpha1Etc2 = 0x9277,
+		CompressedSrgb8PunchthroughAlpha1Etc2Oes = 0x9277,
+		CompressedRgba8Etc2Eac = 0x9278,
+		CompressedRgba8Etc2EacOes = 0x9278,
+		CompressedSrgb8Alpha8Etc2Eac = 0x9279,
+		CompressedSrgb8Alpha8Etc2EacOes = 0x9279,
+		CompressedRgbaAstc4x4 = 0x93B0,
+		CompressedRgbaAstc4x4Khr = 0x93B0,
+		CompressedRgbaAstc5x4 = 0x93B1,
+		CompressedRgbaAstc5x4Khr = 0x93B1,
+		CompressedRgbaAstc5x5 = 0x93B2,
+		CompressedRgbaAstc5x5Khr = 0x93B2,
+		CompressedRgbaAstc6x5 = 0x93B3,
+		CompressedRgbaAstc6x5Khr = 0x93B3,
+		CompressedRgbaAstc6x6 = 0x93B4,
+		CompressedRgbaAstc6x6Khr = 0x93B4,
+		CompressedRgbaAstc8x5 = 0x93B5,
+		CompressedRgbaAstc8x5Khr = 0x93B5,
+		CompressedRgbaAstc8x6 = 0x93B6,
+		CompressedRgbaAstc8x6Khr = 0x93B6,
+		CompressedRgbaAstc8x8 = 0x93B7,
+		CompressedRgbaAstc8x8Khr = 0x93B7,
+		CompressedRgbaAstc10x5 = 0x93B8,
+		CompressedRgbaAstc10x5Khr = 0x93B8,
+		CompressedRgbaAstc10x6 = 0x93B9,
+		CompressedRgbaAstc10x6Khr = 0x93B9,
+		CompressedRgbaAstc10x8 = 0x93BA,
+		CompressedRgbaAstc10x8Khr = 0x93BA,
+		CompressedRgbaAstc10x10 = 0x93BB,
+		CompressedRgbaAstc10x10Khr = 0x93BB,
+		CompressedRgbaAstc12x10 = 0x93BC,
+		CompressedRgbaAstc12x10Khr = 0x93BC,
+		CompressedRgbaAstc12x12 = 0x93BD,
+		CompressedRgbaAstc12x12Khr = 0x93BD,
+		CompressedRgbaAstc3x3x3Oes = 0x93C0,
+		CompressedRgbaAstc4x3x3Oes = 0x93C1,
+		CompressedRgbaAstc4x4x3Oes = 0x93C2,
+		CompressedRgbaAstc4x4x4Oes = 0x93C3,
+		CompressedRgbaAstc5x4x4Oes = 0x93C4,
+		CompressedRgbaAstc5x5x4Oes = 0x93C5,
+		CompressedRgbaAstc5x5x5Oes = 0x93C6,
+		CompressedRgbaAstc6x5x5Oes = 0x93C7,
+		CompressedRgbaAstc6x6x5Oes = 0x93C8,
+		CompressedRgbaAstc6x6x6Oes = 0x93C9,
+		CompressedSrgb8Alpha8Astc4x4 = 0x93D0,
+		CompressedSrgb8Alpha8Astc4x4Khr = 0x93D0,
+		CompressedSrgb8Alpha8Astc5x4 = 0x93D1,
+		CompressedSrgb8Alpha8Astc5x4Khr = 0x93D1,
+		CompressedSrgb8Alpha8Astc5x5 = 0x93D2,
+		CompressedSrgb8Alpha8Astc5x5Khr = 0x93D2,
+		CompressedSrgb8Alpha8Astc6x5 = 0x93D3,
+		CompressedSrgb8Alpha8Astc6x5Khr = 0x93D3,
+		CompressedSrgb8Alpha8Astc6x6 = 0x93D4,
+		CompressedSrgb8Alpha8Astc6x6Khr = 0x93D4,
+		CompressedSrgb8Alpha8Astc8x5 = 0x93D5,
+		CompressedSrgb8Alpha8Astc8x5Khr = 0x93D5,
+		CompressedSrgb8Alpha8Astc8x6 = 0x93D6,
+		CompressedSrgb8Alpha8Astc8x6Khr = 0x93D6,
+		CompressedSrgb8Alpha8Astc8x8 = 0x93D7,
+		CompressedSrgb8Alpha8Astc8x8Khr = 0x93D7,
+		CompressedSrgb8Alpha8Astc10x5 = 0x93D8,
+		CompressedSrgb8Alpha8Astc10x5Khr = 0x93D8,
+		CompressedSrgb8Alpha8Astc10x6 = 0x93D9,
+		CompressedSrgb8Alpha8Astc10x6Khr = 0x93D9,
+		CompressedSrgb8Alpha8Astc10x8 = 0x93DA,
+		CompressedSrgb8Alpha8Astc10x8Khr = 0x93DA,
+		CompressedSrgb8Alpha8Astc10x10 = 0x93DB,
+		CompressedSrgb8Alpha8Astc10x10Khr = 0x93DB,
+		CompressedSrgb8Alpha8Astc12x10 = 0x93DC,
+		CompressedSrgb8Alpha8Astc12x10Khr = 0x93DC,
+		CompressedSrgb8Alpha8Astc12x12 = 0x93DD,
+		CompressedSrgb8Alpha8Astc12x12Khr = 0x93DD,
+		CompressedSrgb8Alpha8Astc3x3x3Oes = 0x93E0,
+		CompressedSrgb8Alpha8Astc4x3x3Oes = 0x93E1,
+		CompressedSrgb8Alpha8Astc4x4x3Oes = 0x93E2,
+		CompressedSrgb8Alpha8Astc4x4x4Oes = 0x93E3,
+		CompressedSrgb8Alpha8Astc5x4x4Oes = 0x93E4,
+		CompressedSrgb8Alpha8Astc5x5x4Oes = 0x93E5,
+		CompressedSrgb8Alpha8Astc5x5x5Oes = 0x93E6,
+		CompressedSrgb8Alpha8Astc6x5x5Oes = 0x93E7,
+		CompressedSrgb8Alpha8Astc6x6x5Oes = 0x93E8,
+		CompressedSrgb8Alpha8Astc6x6x6Oes = 0x93E9,
+		CompressedSrgbAlphaPvrtc2bppv2Img = 0x93F0,
+		CompressedSrgbAlphaPvrtc4bppv2Img = 0x93F1,
 	}
 
 	[Flags]
@@ -4692,18 +4729,11 @@ namespace Evergine.Bindings.OpenGL
 		SyncFlushCommandsBit = 0x00000001,
 	}
 
-	public enum SamplerParameterName : uint
+	public enum GetMultisamplePNameNV : uint
 	{
-		TextureWrapS = 0x2802,
-		TextureWrapT = 0x2803,
-		TextureWrapR = 0x8072,
-		TextureMinFilter = 0x2801,
-		TextureMagFilter = 0x2800,
-		TextureBorderColor = 0x1004,
-		TextureMinLod = 0x813A,
-		TextureMaxLod = 0x813B,
-		TextureCompareMode = 0x884C,
-		TextureCompareFunc = 0x884D,
+		SamplePosition = 0x8E50,
+		SampleLocationArb = 0x8E50,
+		ProgrammableSampleLocationArb = 0x9341,
 	}
 
 	public enum QueryCounterTarget : uint
@@ -4720,10 +4750,38 @@ namespace Evergine.Bindings.OpenGL
 		ActiveSubroutineUniformMaxLength = 0x8E49,
 	}
 
-	public enum SubroutineParameterName : uint
+	public enum ProgramResourceProperty : uint
 	{
 		NumCompatibleSubroutines = 0x8E4A,
 		CompatibleSubroutines = 0x8E4B,
+		Uniform = 0x92E1,
+		NameLength = 0x92F9,
+		Type = 0x92FA,
+		ArraySize = 0x92FB,
+		Offset = 0x92FC,
+		BlockIndex = 0x92FD,
+		ArrayStride = 0x92FE,
+		MatrixStride = 0x92FF,
+		IsRowMajor = 0x9300,
+		AtomicCounterBufferIndex = 0x9301,
+		BufferBinding = 0x9302,
+		BufferDataSize = 0x9303,
+		NumActiveVariables = 0x9304,
+		ActiveVariables = 0x9305,
+		ReferencedByVertexShader = 0x9306,
+		ReferencedByTessControlShader = 0x9307,
+		ReferencedByTessEvaluationShader = 0x9308,
+		ReferencedByGeometryShader = 0x9309,
+		ReferencedByFragmentShader = 0x930A,
+		ReferencedByComputeShader = 0x930B,
+		TopLevelArraySize = 0x930C,
+		TopLevelArrayStride = 0x930D,
+		Location = 0x930E,
+		LocationIndex = 0x930F,
+		IsPerPatch = 0x92E7,
+		LocationComponent = 0x934A,
+		TransformFeedbackBufferIndex = 0x934B,
+		TransformFeedbackBufferStride = 0x934C,
 	}
 
 	public enum PatchParameterName : uint
@@ -4748,6 +4806,12 @@ namespace Evergine.Bindings.OpenGL
 		HighInt = 0x8DF5,
 	}
 
+	public enum ProgramParameterPName : uint
+	{
+		ProgramBinaryRetrievableHint = 0x8257,
+		ProgramSeparable = 0x8258,
+	}
+
 	[Flags]
 	public enum UseProgramStageMask : uint
 	{
@@ -4759,6 +4823,8 @@ namespace Evergine.Bindings.OpenGL
 		TessEvaluationShaderBit = 0x00000010,
 		AllShaderBits = 0xFFFFFFFF,
 		ComputeShaderBit = 0x00000020,
+		MeshShaderBitExt = 0x00000040,
+		TaskShaderBitExt = 0x00000080,
 		VertexShaderBitExt = 0x00000001,
 		FragmentShaderBitExt = 0x00000002,
 		AllShaderBitsExt = 0xFFFFFFFF,
@@ -4766,20 +4832,15 @@ namespace Evergine.Bindings.OpenGL
 		TaskShaderBitNv = 0x00000080,
 	}
 
-	public enum ProgramParameterPName : uint
+	public enum ShaderBinaryFormat : uint
 	{
-		ProgramSeparable = 0x8258,
-	}
-
-	public enum PipelineParameterName : uint
-	{
-		ActiveProgram = 0x8259,
-	}
-
-	public enum TransformFeedbackPName : uint
-	{
-		TransformFeedbackActive = 0x8E24,
-		TransformFeedbackPaused = 0x8E23,
+		SgxBinaryImg = 0x8C0A,
+		MaliShaderBinaryArm = 0x8F60,
+		ShaderBinaryViv = 0x8FC4,
+		ShaderBinaryDmp = 0x9250,
+		GccsoShaderBinaryFj = 0x9260,
+		ShaderBinaryFormatSpirV = 0x9551,
+		ShaderBinaryHuawei = 0x9770,
 	}
 
 	public enum AtomicCounterBufferPName : uint
@@ -4855,36 +4916,8 @@ namespace Evergine.Bindings.OpenGL
 		DebugTypePopGroup = 0x826A,
 	}
 
-	public enum DebugSeverity : uint
-	{
-		DebugSeverityHigh = 0x9146,
-		DebugSeverityMedium = 0x9147,
-		DebugSeverityLow = 0x9148,
-		DebugSeverityNotification = 0x826B,
-	}
-
-	public enum ObjectIdentifier : uint
-	{
-		Buffer = 0x82E0,
-		Shader = 0x82E1,
-		Program = 0x82E2,
-		Query = 0x82E3,
-		ProgramPipeline = 0x82E4,
-		Sampler = 0x82E6,
-	}
-
-	public enum FramebufferParameterName : uint
-	{
-		FramebufferDefaultWidth = 0x9310,
-		FramebufferDefaultHeight = 0x9311,
-		FramebufferDefaultLayers = 0x9312,
-		FramebufferDefaultSamples = 0x9313,
-		FramebufferDefaultFixedSampleLocations = 0x9314,
-	}
-
 	public enum ProgramInterface : uint
 	{
-		Uniform = 0x92E1,
 		UniformBlock = 0x92E2,
 		ProgramInput = 0x92E3,
 		ProgramOutput = 0x92E4,
@@ -4916,19 +4949,57 @@ namespace Evergine.Bindings.OpenGL
 	public enum BufferStorageTarget : uint
 	{
 		ArrayBuffer = 0x8892,
-		AtomicCounterBuffer = 0x92C0,
-		CopyReadBuffer = 0x8F36,
-		CopyWriteBuffer = 0x8F37,
-		DispatchIndirectBuffer = 0x90EE,
-		DrawIndirectBuffer = 0x8F3F,
 		ElementArrayBuffer = 0x8893,
 		PixelPackBuffer = 0x88EB,
 		PixelUnpackBuffer = 0x88EC,
-		QueryBuffer = 0x9192,
-		ShaderStorageBuffer = 0x90D2,
+		UniformBuffer = 0x8A11,
 		TextureBuffer = 0x8C2A,
 		TransformFeedbackBuffer = 0x8C8E,
-		UniformBuffer = 0x8A11,
+		CopyReadBuffer = 0x8F36,
+		CopyWriteBuffer = 0x8F37,
+		DrawIndirectBuffer = 0x8F3F,
+		ShaderStorageBuffer = 0x90D2,
+		DispatchIndirectBuffer = 0x90EE,
+		QueryBuffer = 0x9192,
+		AtomicCounterBuffer = 0x92C0,
+	}
+
+	public enum FramebufferParameterName : uint
+	{
+		FramebufferDefaultWidth = 0x9310,
+		FramebufferDefaultHeight = 0x9311,
+		FramebufferDefaultLayers = 0x9312,
+		FramebufferDefaultSamples = 0x9313,
+		FramebufferDefaultFixedSampleLocations = 0x9314,
+	}
+
+	public enum VertexAttribType : uint
+	{
+		Byte = 0x1400,
+		UnsignedByte = 0x1401,
+		Short = 0x1402,
+		UnsignedShort = 0x1403,
+		Int = 0x1404,
+		UnsignedInt = 0x1405,
+		Float = 0x1406,
+		Double = 0x140A,
+		HalfFloat = 0x140B,
+		Fixed = 0x140C,
+		UnsignedInt2101010Rev = 0x8368,
+		UnsignedInt2101010RevExt = 0x8368,
+		UnsignedInt10f11f11fRev = 0x8C3B,
+		Int2101010Rev = 0x8D9F,
+	}
+
+	[Flags]
+	public enum BufferStorageMask : uint
+	{
+		None = 0,
+		DynamicStorageBit = 0x0100,
+		ClientStorageBit = 0x0200,
+		SparseStorageBitArb = 0x0400,
+		LgpuSeparateStorageBitNvx = 0x0800,
+		PerGpuStorageBitNv = 0x0800,
 	}
 
 	public enum ClipControlDepth : uint
@@ -4944,92 +5015,15 @@ namespace Evergine.Bindings.OpenGL
 		UnknownContextReset = 0x8255,
 	}
 
-	public enum VertexBufferObjectUsage : uint
+	public enum ColorTableTargetSGI : uint
 	{
-		StreamDraw = 0x88E0,
-		StreamRead = 0x88E1,
-		StreamCopy = 0x88E2,
-		StaticDraw = 0x88E4,
-		StaticRead = 0x88E5,
-		StaticCopy = 0x88E6,
-		DynamicDraw = 0x88E8,
-		DynamicRead = 0x88E9,
-		DynamicCopy = 0x88EA,
-	}
-
-	public enum ColorBuffer : uint
-	{
-		None = 0,
-		FrontLeft = 0x0400,
-		FrontRight = 0x0401,
-		BackLeft = 0x0402,
-		BackRight = 0x0403,
-		Front = 0x0404,
-		Back = 0x0405,
-		Left = 0x0406,
-		Right = 0x0407,
-		FrontAndBack = 0x0408,
-		ColorAttachment0 = 0x8CE0,
-		ColorAttachment1 = 0x8CE1,
-		ColorAttachment2 = 0x8CE2,
-		ColorAttachment3 = 0x8CE3,
-		ColorAttachment4 = 0x8CE4,
-		ColorAttachment5 = 0x8CE5,
-		ColorAttachment6 = 0x8CE6,
-		ColorAttachment7 = 0x8CE7,
-		ColorAttachment8 = 0x8CE8,
-		ColorAttachment9 = 0x8CE9,
-		ColorAttachment10 = 0x8CEA,
-		ColorAttachment11 = 0x8CEB,
-		ColorAttachment12 = 0x8CEC,
-		ColorAttachment13 = 0x8CED,
-		ColorAttachment14 = 0x8CEE,
-		ColorAttachment15 = 0x8CEF,
-		ColorAttachment16 = 0x8CF0,
-		ColorAttachment17 = 0x8CF1,
-		ColorAttachment18 = 0x8CF2,
-		ColorAttachment19 = 0x8CF3,
-		ColorAttachment20 = 0x8CF4,
-		ColorAttachment21 = 0x8CF5,
-		ColorAttachment22 = 0x8CF6,
-		ColorAttachment23 = 0x8CF7,
-		ColorAttachment24 = 0x8CF8,
-		ColorAttachment25 = 0x8CF9,
-		ColorAttachment26 = 0x8CFA,
-		ColorAttachment27 = 0x8CFB,
-		ColorAttachment28 = 0x8CFC,
-		ColorAttachment29 = 0x8CFD,
-		ColorAttachment30 = 0x8CFE,
-		ColorAttachment31 = 0x8CFF,
-	}
-
-	public enum GetFramebufferParameter : uint
-	{
-		FramebufferDefaultWidth = 0x9310,
-		FramebufferDefaultHeight = 0x9311,
-		FramebufferDefaultLayers = 0x9312,
-		FramebufferDefaultSamples = 0x9313,
-		FramebufferDefaultFixedSampleLocations = 0x9314,
-		Doublebuffer = 0x0C32,
-		ImplementationColorReadFormat = 0x8B9B,
-		ImplementationColorReadType = 0x8B9A,
-		Samples = 0x80A9,
-		SampleBuffers = 0x80A8,
-		Stereo = 0x0C33,
-	}
-
-	public enum MapQuery : uint
-	{
-		Coeff = 0x0A00,
-		Order = 0x0A01,
-		Domain = 0x0A02,
-	}
-
-	public enum ColorTableTarget : uint
-	{
-		ColorTable = 0x80D0,
-		PostConvolutionColorTable = 0x80D1,
-		PostColorMatrixColorTable = 0x80D2,
+		ProxyColorTable = 0x80D3,
+		ProxyPostConvolutionColorTable = 0x80D4,
+		ProxyPostColorMatrixColorTable = 0x80D5,
+		ProxyColorTableSgi = 0x80D3,
+		ProxyPostConvolutionColorTableSgi = 0x80D4,
+		ProxyPostColorMatrixColorTableSgi = 0x80D5,
+		ProxyTextureColorTableSgi = 0x80BD,
 	}
 
 	public enum ConvolutionTarget : uint
@@ -5038,24 +5032,52 @@ namespace Evergine.Bindings.OpenGL
 		Convolution2d = 0x8011,
 	}
 
-	public enum SeparableTargetEXT : uint
+	public enum SeparableTarget : uint
 	{
 		Separable2d = 0x8012,
-		Separable2dExt = 0x8012,
 	}
 
-	public enum HistogramTargetEXT : uint
+	public enum HistogramTarget : uint
 	{
 		Histogram = 0x8024,
-		HistogramExt = 0x8024,
 		ProxyHistogram = 0x8025,
-		ProxyHistogramExt = 0x8025,
 	}
 
-	public enum MinmaxTargetEXT : uint
+	public enum MinmaxTarget : uint
 	{
 		Minmax = 0x802E,
-		MinmaxExt = 0x802E,
+	}
+
+	public enum VertexArrayPName : uint
+	{
+		VertexAttribRelativeOffset = 0x82D5,
+		VertexAttribArrayEnabled = 0x8622,
+		VertexAttribArraySize = 0x8623,
+		VertexAttribArrayStride = 0x8624,
+		VertexAttribArrayType = 0x8625,
+		VertexAttribArrayLong = 0x874E,
+		VertexAttribArrayNormalized = 0x886A,
+		VertexAttribArrayInteger = 0x88FD,
+		VertexAttribArrayDivisor = 0x88FE,
+	}
+
+	public enum ColorTableTarget : uint
+	{
+		ColorTable = 0x80D0,
+		PostConvolutionColorTable = 0x80D1,
+		PostColorMatrixColorTable = 0x80D2,
+		ProxyColorTable = 0x80D3,
+		ProxyPostConvolutionColorTable = 0x80D4,
+		ProxyPostColorMatrixColorTable = 0x80D5,
+	}
+
+	[Flags]
+	public enum AttribMask : uint
+	{
+		None = 0,
+		MultisampleBit3dfx = 0x20000000,
+		MultisampleBitArb = 0x20000000,
+		MultisampleBitExt = 0x20000000,
 	}
 
 	[Flags]
@@ -5076,14 +5098,66 @@ namespace Evergine.Bindings.OpenGL
 		TextureStorageSparseBitAmd = 0x00000001,
 	}
 
-	public enum ConvolutionParameterEXT : uint
+	public enum ElementPointerTypeATI : uint
+	{
+		UnsignedByte = 0x1401,
+		UnsignedShort = 0x1403,
+		UnsignedInt = 0x1405,
+	}
+
+	public enum ObjectTypeAPPLE : uint
+	{
+		DrawPixelsApple = 0x8A0A,
+		FenceApple = 0x8A0B,
+	}
+
+	public enum VertexArrayPNameAPPLE : uint
+	{
+		StorageCachedApple = 0x85BE,
+		StorageSharedApple = 0x85BF,
+		StorageClientApple = 0x85B4,
+	}
+
+	public enum ProgramTarget : uint
+	{
+		FragmentProgramArb = 0x8804,
+		VertexProgramArb = 0x8620,
+		TextFragmentShaderAti = 0x8200,
+		ComputeProgramNv = 0x90FB,
+		GeometryProgramNv = 0x8C26,
+		TessControlProgramNv = 0x891E,
+		TessEvaluationProgramNv = 0x891F,
+	}
+
+	public enum ProgramFormat : uint
+	{
+		ProgramFormatAsciiArb = 0x8875,
+	}
+
+	public enum ProgramStringProperty : uint
+	{
+		ProgramStringArb = 0x8628,
+	}
+
+	public enum ConvolutionParameter : uint
 	{
 		ConvolutionBorderMode = 0x8013,
 		ConvolutionFilterScale = 0x8014,
 		ConvolutionFilterBias = 0x8015,
+		ConvolutionFormat = 0x8017,
+		ConvolutionWidth = 0x8018,
+		ConvolutionHeight = 0x8019,
+		MaxConvolutionWidth = 0x801A,
+		MaxConvolutionHeight = 0x801B,
+		ConvolutionBorderColor = 0x8154,
 		ConvolutionBorderModeExt = 0x8013,
 		ConvolutionFilterScaleExt = 0x8014,
 		ConvolutionFilterBiasExt = 0x8015,
+		ConvolutionFormatExt = 0x8017,
+		ConvolutionWidthExt = 0x8018,
+		ConvolutionHeightExt = 0x8019,
+		MaxConvolutionWidthExt = 0x801A,
+		MaxConvolutionHeightExt = 0x801B,
 	}
 
 	public enum ConvolutionBorderModeEXT : uint
@@ -5092,19 +5166,40 @@ namespace Evergine.Bindings.OpenGL
 		ReduceExt = 0x8016,
 	}
 
-	public enum GetConvolutionParameter : uint
+	public enum PixelTransferParameter : uint
 	{
-		ConvolutionFormat = 0x8017,
-		ConvolutionWidth = 0x8018,
-		ConvolutionHeight = 0x8019,
-		MaxConvolutionWidth = 0x801A,
-		MaxConvolutionHeight = 0x801B,
-		ConvolutionBorderColor = 0x8154,
-		ConvolutionFormatExt = 0x8017,
-		ConvolutionWidthExt = 0x8018,
-		ConvolutionHeightExt = 0x8019,
-		MaxConvolutionWidthExt = 0x801A,
-		MaxConvolutionHeightExt = 0x801B,
+		PostConvolutionRedScale = 0x801C,
+		PostConvolutionGreenScale = 0x801D,
+		PostConvolutionBlueScale = 0x801E,
+		PostConvolutionAlphaScale = 0x801F,
+		PostConvolutionRedBias = 0x8020,
+		PostConvolutionGreenBias = 0x8021,
+		PostConvolutionBlueBias = 0x8022,
+		PostConvolutionAlphaBias = 0x8023,
+		PostColorMatrixRedScale = 0x80B4,
+		PostColorMatrixGreenScale = 0x80B5,
+		PostColorMatrixBlueScale = 0x80B6,
+		PostColorMatrixAlphaScale = 0x80B7,
+		PostColorMatrixRedBias = 0x80B8,
+		PostColorMatrixGreenBias = 0x80B9,
+		PostColorMatrixBlueBias = 0x80BA,
+		PostColorMatrixAlphaBias = 0x80BB,
+		PostConvolutionRedScaleExt = 0x801C,
+		PostConvolutionGreenScaleExt = 0x801D,
+		PostConvolutionBlueScaleExt = 0x801E,
+		PostConvolutionAlphaScaleExt = 0x801F,
+		PostConvolutionRedBiasExt = 0x8020,
+		PostConvolutionGreenBiasExt = 0x8021,
+		PostConvolutionBlueBiasExt = 0x8022,
+		PostConvolutionAlphaBiasExt = 0x8023,
+		PostColorMatrixRedScaleSgi = 0x80B4,
+		PostColorMatrixGreenScaleSgi = 0x80B5,
+		PostColorMatrixBlueScaleSgi = 0x80B6,
+		PostColorMatrixAlphaScaleSgi = 0x80B7,
+		PostColorMatrixRedBiasSgi = 0x80B8,
+		PostColorMatrixGreenBiasSgi = 0x80B9,
+		PostColorMatrixBlueBiasSgi = 0x80BA,
+		PostColorMatrixAlphaBiasSgi = 0x80BB,
 	}
 
 	public enum GetHistogramParameterPNameEXT : uint
@@ -5135,31 +5230,10 @@ namespace Evergine.Bindings.OpenGL
 		MinmaxSinkExt = 0x8030,
 	}
 
-	public enum ColorTableTargetSGI : uint
-	{
-		ProxyColorTable = 0x80D3,
-		ProxyPostConvolutionColorTable = 0x80D4,
-		ProxyPostColorMatrixColorTable = 0x80D5,
-		ColorTableSgi = 0x80D0,
-		PostConvolutionColorTableSgi = 0x80D1,
-		PostColorMatrixColorTableSgi = 0x80D2,
-		ProxyColorTableSgi = 0x80D3,
-		ProxyPostConvolutionColorTableSgi = 0x80D4,
-		ProxyPostColorMatrixColorTableSgi = 0x80D5,
-		TextureColorTableSgi = 0x80BC,
-		ProxyTextureColorTableSgi = 0x80BD,
-	}
-
-	public enum ColorTableParameterPNameSGI : uint
+	public enum ColorTableParameterPName : uint
 	{
 		ColorTableScale = 0x80D6,
 		ColorTableBias = 0x80D7,
-		ColorTableScaleSgi = 0x80D6,
-		ColorTableBiasSgi = 0x80D7,
-	}
-
-	public enum GetColorTableParameterPNameSGI : uint
-	{
 		ColorTableFormat = 0x80D8,
 		ColorTableWidth = 0x80D9,
 		ColorTableRedSize = 0x80DA,
@@ -5168,6 +5242,8 @@ namespace Evergine.Bindings.OpenGL
 		ColorTableAlphaSize = 0x80DD,
 		ColorTableLuminanceSize = 0x80DE,
 		ColorTableIntensitySize = 0x80DF,
+		ColorTableScaleSgi = 0x80D6,
+		ColorTableBiasSgi = 0x80D7,
 		ColorTableFormatSgi = 0x80D8,
 		ColorTableWidthSgi = 0x80D9,
 		ColorTableRedSizeSgi = 0x80DA,
@@ -5178,40 +5254,206 @@ namespace Evergine.Bindings.OpenGL
 		ColorTableIntensitySizeSgi = 0x80DF,
 	}
 
-	public enum PointParameterNameSGIS : uint
+	public enum SeparableTargetEXT : uint
 	{
-		PointSizeMinArb = 0x8126,
-		PointSizeMaxArb = 0x8127,
-		PointFadeThresholdSizeArb = 0x8128,
-		PointDistanceAttenuationArb = 0x8129,
-		PointSizeMinExt = 0x8126,
-		PointSizeMaxExt = 0x8127,
-		PointFadeThresholdSizeExt = 0x8128,
-		DistanceAttenuationExt = 0x8129,
+		Separable2d = 0x8012,
+		Separable2dExt = 0x8012,
+	}
+
+	public enum HistogramTargetEXT : uint
+	{
+		Histogram = 0x8024,
+		HistogramExt = 0x8024,
+		ProxyHistogram = 0x8025,
+		ProxyHistogramExt = 0x8025,
+	}
+
+	public enum MinmaxTargetEXT : uint
+	{
+		Minmax = 0x802E,
+		MinmaxExt = 0x802E,
+	}
+
+	public enum MatrixIndexPointerTypeARB : uint
+	{
+		UnsignedByte = 0x1401,
+		UnsignedShort = 0x1403,
+		UnsignedInt = 0x1405,
+	}
+
+	public enum CombinerRegisterNV : uint
+	{
+		Texture0Arb = 0x84C0,
+		Texture1Arb = 0x84C1,
+		Spare0Nv = 0x852E,
+		Spare1Nv = 0x852F,
+		DiscardNv = 0x8530,
+	}
+
+	public enum MapTarget : uint
+	{
+		Map1Color4 = 0x0D90,
+		Map1Index = 0x0D91,
+		Map1Normal = 0x0D92,
+		Map1TextureCoord1 = 0x0D93,
+		Map1TextureCoord2 = 0x0D94,
+		Map1TextureCoord3 = 0x0D95,
+		Map1TextureCoord4 = 0x0D96,
+		Map1Vertex3 = 0x0D97,
+		Map1Vertex4 = 0x0D98,
+		Map2Color4 = 0x0DB0,
+		Map2Index = 0x0DB1,
+		Map2Normal = 0x0DB2,
+		Map2TextureCoord1 = 0x0DB3,
+		Map2TextureCoord2 = 0x0DB4,
+		Map2TextureCoord3 = 0x0DB5,
+		Map2TextureCoord4 = 0x0DB6,
+		Map2Vertex3 = 0x0DB7,
+		Map2Vertex4 = 0x0DB8,
+		GeometryDeformationSgix = 0x8194,
+		TextureDeformationSgix = 0x8195,
+	}
+
+	public enum MapQuery : uint
+	{
+		Coeff = 0x0A00,
+		Order = 0x0A01,
+		Domain = 0x0A02,
 	}
 
 	public enum PixelMap : uint
 	{
-		PixelMapAToA = 0x0C79,
-		PixelMapBToB = 0x0C78,
-		PixelMapGToG = 0x0C77,
-		PixelMapIToA = 0x0C75,
-		PixelMapIToB = 0x0C74,
-		PixelMapIToG = 0x0C73,
 		PixelMapIToI = 0x0C70,
-		PixelMapIToR = 0x0C72,
-		PixelMapRToR = 0x0C76,
 		PixelMapSToS = 0x0C71,
+		PixelMapIToR = 0x0C72,
+		PixelMapIToG = 0x0C73,
+		PixelMapIToB = 0x0C74,
+		PixelMapIToA = 0x0C75,
+		PixelMapRToR = 0x0C76,
+		PixelMapGToG = 0x0C77,
+		PixelMapBToB = 0x0C78,
+		PixelMapAToA = 0x0C79,
 	}
 
-	public enum FragmentOpATI : uint
+	public enum ContainerType : uint
+	{
+		ProgramObjectArb = 0x8B40,
+		ProgramObjectExt = 0x8B40,
+	}
+
+	public enum WeightPointerTypeARB : uint
+	{
+		Byte = 0x1400,
+		UnsignedByte = 0x1401,
+		Short = 0x1402,
+		UnsignedShort = 0x1403,
+		Int = 0x1404,
+		UnsignedInt = 0x1405,
+		Float = 0x1406,
+		Double = 0x140A,
+	}
+
+	public enum GetTexBumpParameterATI : uint
+	{
+		BumpRotMatrixAti = 0x8775,
+		BumpRotMatrixSizeAti = 0x8776,
+		BumpNumTexUnitsAti = 0x8777,
+		BumpTexUnitsAti = 0x8778,
+	}
+
+	public enum TexBumpParameterATI : uint
+	{
+		BumpRotMatrixAti = 0x8775,
+	}
+
+	public enum FragmentShaderRegATI : uint
+	{
+		Reg0Ati = 0x8921,
+		Reg1Ati = 0x8922,
+		Reg2Ati = 0x8923,
+		Reg3Ati = 0x8924,
+		Reg4Ati = 0x8925,
+		Reg5Ati = 0x8926,
+		Reg6Ati = 0x8927,
+		Reg7Ati = 0x8928,
+		Reg8Ati = 0x8929,
+		Reg9Ati = 0x892A,
+		Reg10Ati = 0x892B,
+		Reg11Ati = 0x892C,
+		Reg12Ati = 0x892D,
+		Reg13Ati = 0x892E,
+		Reg14Ati = 0x892F,
+		Reg15Ati = 0x8930,
+		Reg16Ati = 0x8931,
+		Reg17Ati = 0x8932,
+		Reg18Ati = 0x8933,
+		Reg19Ati = 0x8934,
+		Reg20Ati = 0x8935,
+		Reg21Ati = 0x8936,
+		Reg22Ati = 0x8937,
+		Reg23Ati = 0x8938,
+		Reg24Ati = 0x8939,
+		Reg25Ati = 0x893A,
+		Reg26Ati = 0x893B,
+		Reg27Ati = 0x893C,
+		Reg28Ati = 0x893D,
+		Reg29Ati = 0x893E,
+		Reg30Ati = 0x893F,
+		Reg31Ati = 0x8940,
+	}
+
+	public enum FragmentShaderConATI : uint
+	{
+		Con0Ati = 0x8941,
+		Con1Ati = 0x8942,
+		Con2Ati = 0x8943,
+		Con3Ati = 0x8944,
+		Con4Ati = 0x8945,
+		Con5Ati = 0x8946,
+		Con6Ati = 0x8947,
+		Con7Ati = 0x8948,
+		Con8Ati = 0x8949,
+		Con9Ati = 0x894A,
+		Con10Ati = 0x894B,
+		Con11Ati = 0x894C,
+		Con12Ati = 0x894D,
+		Con13Ati = 0x894E,
+		Con14Ati = 0x894F,
+		Con15Ati = 0x8950,
+		Con16Ati = 0x8951,
+		Con17Ati = 0x8952,
+		Con18Ati = 0x8953,
+		Con19Ati = 0x8954,
+		Con20Ati = 0x8955,
+		Con21Ati = 0x8956,
+		Con22Ati = 0x8957,
+		Con23Ati = 0x8958,
+		Con24Ati = 0x8959,
+		Con25Ati = 0x895A,
+		Con26Ati = 0x895B,
+		Con27Ati = 0x895C,
+		Con28Ati = 0x895D,
+		Con29Ati = 0x895E,
+		Con30Ati = 0x895F,
+		Con31Ati = 0x8960,
+	}
+
+	public enum FragmentOp1ATI : uint
 	{
 		MovAti = 0x8961,
+	}
+
+	public enum FragmentOp2ATI : uint
+	{
 		AddAti = 0x8963,
 		MulAti = 0x8964,
 		SubAti = 0x8965,
 		Dot3Ati = 0x8966,
 		Dot4Ati = 0x8967,
+	}
+
+	public enum FragmentOp3ATI : uint
+	{
 		MadAti = 0x8968,
 		LerpAti = 0x8969,
 		CndAti = 0x896A,
@@ -5219,21 +5461,141 @@ namespace Evergine.Bindings.OpenGL
 		Dot2AddAti = 0x896C,
 	}
 
+	public enum FragmentShaderGenericSourceATI : uint
+	{
+		SecondaryInterpolatorAti = 0x896D,
+	}
+
+	public enum SwizzleOpATI : uint
+	{
+		SwizzleStrAti = 0x8976,
+		SwizzleStqAti = 0x8977,
+		SwizzleStrDrAti = 0x8978,
+		SwizzleStqDqAti = 0x8979,
+	}
+
+	[Flags]
+	public enum FragmentShaderDestMaskATI : uint
+	{
+		None = 0,
+		RedBitAti = 0x00000001,
+		GreenBitAti = 0x00000002,
+		BlueBitAti = 0x00000004,
+	}
+
+	[Flags]
+	public enum FragmentShaderDestModMaskATI : uint
+	{
+		None = 0,
+		_2xBitAti = 0x00000001,
+		_4xBitAti = 0x00000002,
+		_8xBitAti = 0x00000004,
+		HalfBitAti = 0x00000008,
+		QuarterBitAti = 0x00000010,
+		EighthBitAti = 0x00000020,
+		SaturateBitAti = 0x00000040,
+	}
+
+	[Flags]
+	public enum FragmentShaderColorModMaskATI : uint
+	{
+		None = 0,
+		CompBitAti = 0x00000002,
+		NegateBitAti = 0x00000004,
+		BiasBitAti = 0x00000008,
+	}
+
+	public enum PNTrianglesPNameATI : uint
+	{
+		PnTrianglesPointModeAti = 0x87F2,
+		PnTrianglesNormalModeAti = 0x87F3,
+		PnTrianglesTesselationLevelAti = 0x87F4,
+	}
+
+	public enum ArrayObjectUsageATI : uint
+	{
+		StaticAti = 0x8760,
+		DynamicAti = 0x8761,
+	}
+
+	public enum PreserveModeATI : uint
+	{
+		PreserveAti = 0x8762,
+		DiscardAti = 0x8763,
+	}
+
+	public enum ArrayObjectPNameATI : uint
+	{
+		ObjectBufferSizeAti = 0x8764,
+		ObjectBufferUsageAti = 0x8765,
+	}
+
+	public enum ScalarType : uint
+	{
+		UnsignedByte = 0x1401,
+		UnsignedShort = 0x1403,
+		UnsignedInt = 0x1405,
+	}
+
+	public enum VertexStreamATI : uint
+	{
+		VertexStream0Ati = 0x876C,
+		VertexStream1Ati = 0x876D,
+		VertexStream2Ati = 0x876E,
+		VertexStream3Ati = 0x876F,
+		VertexStream4Ati = 0x8770,
+		VertexStream5Ati = 0x8771,
+		VertexStream6Ati = 0x8772,
+		VertexStream7Ati = 0x8773,
+	}
+
 	public enum ConvolutionTargetEXT : uint
 	{
+		Convolution1d = 0x8010,
 		Convolution1dExt = 0x8010,
+		Convolution2d = 0x8011,
 		Convolution2dExt = 0x8011,
+	}
+
+	public enum TangentPointerTypeEXT : uint
+	{
+		Byte = 0x1400,
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
+		DoubleExt = 0x140A,
+	}
+
+	public enum BinormalPointerTypeEXT : uint
+	{
+		Byte = 0x1400,
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
+		DoubleExt = 0x140A,
+	}
+
+	public enum CullParameterEXT : uint
+	{
+		CullVertexEyePositionExt = 0x81AB,
+		CullVertexObjectPositionExt = 0x81AC,
+	}
+
+	public enum MatrixMode : uint
+	{
+		Modelview = 0x1700,
+		Modelview0Ext = 0x1700,
+		Projection = 0x1701,
+		Texture = 0x1702,
 	}
 
 	public enum TextureEnvTarget : uint
 	{
 		TextureEnv = 0x2300,
-	}
-
-	public enum TextureEnvParameter : uint
-	{
-		TextureEnvColor = 0x2201,
-		TextureEnvMode = 0x2200,
+		TextureFilterControl = 0x8500,
+		PointSprite = 0x8861,
 	}
 
 	public enum TextureCoordName : uint
@@ -5242,17 +5604,53 @@ namespace Evergine.Bindings.OpenGL
 		T = 0x2001,
 		R = 0x2002,
 		Q = 0x2003,
+		TextureGenStrOes = 0x8D60,
 	}
 
 	public enum TextureGenParameter : uint
 	{
-		EyeLineSgis = 0x81F6,
+		TextureGenMode = 0x2500,
+		TextureGenModeOes = 0x2500,
+		ObjectPlane = 0x2501,
 		EyePlane = 0x2502,
 		EyePointSgis = 0x81F4,
-		ObjectLineSgis = 0x81F7,
-		ObjectPlane = 0x2501,
 		ObjectPointSgis = 0x81F5,
-		TextureGenMode = 0x2500,
+		EyeLineSgis = 0x81F6,
+		ObjectLineSgis = 0x81F7,
+	}
+
+	public enum ReadBufferMode : uint
+	{
+		None = 0,
+		NoneOes = 0,
+		FrontLeft = 0x0400,
+		FrontRight = 0x0401,
+		BackLeft = 0x0402,
+		BackRight = 0x0403,
+		Front = 0x0404,
+		Back = 0x0405,
+		Left = 0x0406,
+		Right = 0x0407,
+		Aux0 = 0x0409,
+		Aux1 = 0x040A,
+		Aux2 = 0x040B,
+		Aux3 = 0x040C,
+		ColorAttachment0 = 0x8CE0,
+		ColorAttachment1 = 0x8CE1,
+		ColorAttachment2 = 0x8CE2,
+		ColorAttachment3 = 0x8CE3,
+		ColorAttachment4 = 0x8CE4,
+		ColorAttachment5 = 0x8CE5,
+		ColorAttachment6 = 0x8CE6,
+		ColorAttachment7 = 0x8CE7,
+		ColorAttachment8 = 0x8CE8,
+		ColorAttachment9 = 0x8CE9,
+		ColorAttachment10 = 0x8CEA,
+		ColorAttachment11 = 0x8CEB,
+		ColorAttachment12 = 0x8CEC,
+		ColorAttachment13 = 0x8CED,
+		ColorAttachment14 = 0x8CEE,
+		ColorAttachment15 = 0x8CEF,
 	}
 
 	public enum FogCoordinatePointerType : uint
@@ -5261,15 +5659,73 @@ namespace Evergine.Bindings.OpenGL
 		Double = 0x140A,
 	}
 
+	public enum FogCoordSrc : uint
+	{
+		FogCoordinateExt = 0x8451,
+		FragmentDepthExt = 0x8452,
+	}
+
+	public enum ShadingRate : uint
+	{
+		ShadingRate1x1PixelsExt = 0x96A6,
+		ShadingRate1x2PixelsExt = 0x96A7,
+		ShadingRate2x1PixelsExt = 0x96A8,
+		ShadingRate2x2PixelsExt = 0x96A9,
+		ShadingRate1x4PixelsExt = 0x96AA,
+		ShadingRate4x1PixelsExt = 0x96AB,
+		ShadingRate4x2PixelsExt = 0x96AC,
+		ShadingRate2x4PixelsExt = 0x96AD,
+		ShadingRate4x4PixelsExt = 0x96AE,
+	}
+
+	public enum ShadingRateCombinerOp : uint
+	{
+		FragmentShadingRateCombinerOpKeepExt = 0x96D2,
+		FragmentShadingRateCombinerOpReplaceExt = 0x96D3,
+		FragmentShadingRateCombinerOpMinExt = 0x96D4,
+		FragmentShadingRateCombinerOpMaxExt = 0x96D5,
+		FragmentShadingRateCombinerOpMulExt = 0x96D6,
+	}
+
+	public enum IndexFunctionEXT : uint
+	{
+		Never = 0x0200,
+		Less = 0x0201,
+		Equal = 0x0202,
+		Lequal = 0x0203,
+		Greater = 0x0204,
+		Notequal = 0x0205,
+		Gequal = 0x0206,
+		Always = 0x0207,
+	}
+
+	public enum IndexMaterialParameterEXT : uint
+	{
+		IndexOffset = 0x0D13,
+	}
+
+	public enum LightTextureModeEXT : uint
+	{
+		FragmentMaterialExt = 0x8349,
+		FragmentNormalExt = 0x834A,
+		FragmentColorExt = 0x834C,
+	}
+
+	public enum LightTexturePNameEXT : uint
+	{
+		AttenuationExt = 0x834D,
+		ShadowAttenuationExt = 0x834E,
+	}
+
 	public enum MaterialParameter : uint
 	{
 		Ambient = 0x1200,
-		AmbientAndDiffuse = 0x1602,
-		ColorIndexes = 0x1603,
 		Diffuse = 0x1201,
+		Specular = 0x1202,
 		Emission = 0x1600,
 		Shininess = 0x1601,
-		Specular = 0x1202,
+		AmbientAndDiffuse = 0x1602,
+		ColorIndexes = 0x1603,
 	}
 
 	public enum MemoryObjectParameterName : uint
@@ -5308,6 +5764,29 @@ namespace Evergine.Bindings.OpenGL
 		_4pass3Sgis = 0x80A7,
 	}
 
+	public enum SamplePatternEXT : uint
+	{
+		_1passExt = 0x80A1,
+		_2pass0Ext = 0x80A2,
+		_2pass1Ext = 0x80A3,
+		_4pass0Ext = 0x80A4,
+		_4pass1Ext = 0x80A5,
+		_4pass2Ext = 0x80A6,
+		_4pass3Ext = 0x80A7,
+	}
+
+	public enum PixelTransformTargetEXT : uint
+	{
+		PixelTransform2dExt = 0x8330,
+	}
+
+	public enum PixelTransformPNameEXT : uint
+	{
+		PixelMagFilterExt = 0x8331,
+		PixelMinFilterExt = 0x8332,
+		PixelCubicWeightExt = 0x8333,
+	}
+
 	public enum TextureLayout : uint
 	{
 		LayoutGeneralExt = 0x958D,
@@ -5324,6 +5803,15 @@ namespace Evergine.Bindings.OpenGL
 	public enum SemaphoreParameterName : uint
 	{
 		D3d12FenceValueExt = 0x9595,
+		TimelineSemaphoreValueNv = 0x9595,
+		SemaphoreTypeNv = 0x95B3,
+		SemaphoreTypeBinaryNv = 0x95B4,
+		SemaphoreTypeTimelineNv = 0x95B5,
+	}
+
+	public enum LightModelParameter : uint
+	{
+		LightModelColorControlExt = 0x81F8,
 	}
 
 	public enum LightModelColorControl : uint
@@ -5332,24 +5820,170 @@ namespace Evergine.Bindings.OpenGL
 		SeparateSpecularColorExt = 0x81FA,
 	}
 
-	public enum TextureEnvMode : uint
+	public enum TextureNormalModeEXT : uint
 	{
-		ReplaceExt = 0x8062,
-		TextureEnvBiasSgix = 0x80BE,
+		PerturbExt = 0x85AE,
+	}
+
+	public enum VertexShaderOpEXT : uint
+	{
+		OpIndexExt = 0x8782,
+		OpNegateExt = 0x8783,
+		OpDot3Ext = 0x8784,
+		OpDot4Ext = 0x8785,
+		OpMulExt = 0x8786,
+		OpAddExt = 0x8787,
+		OpMaddExt = 0x8788,
+		OpFracExt = 0x8789,
+		OpMaxExt = 0x878A,
+		OpMinExt = 0x878B,
+		OpSetGeExt = 0x878C,
+		OpSetLtExt = 0x878D,
+		OpClampExt = 0x878E,
+		OpFloorExt = 0x878F,
+		OpRoundExt = 0x8790,
+		OpExpBase2Ext = 0x8791,
+		OpLogBase2Ext = 0x8792,
+		OpPowerExt = 0x8793,
+		OpRecipExt = 0x8794,
+		OpRecipSqrtExt = 0x8795,
+		OpSubExt = 0x8796,
+		OpCrossProductExt = 0x8797,
+		OpMultiplyMatrixExt = 0x8798,
+		OpMovExt = 0x8799,
+	}
+
+	public enum DataTypeEXT : uint
+	{
+		ScalarExt = 0x87BE,
+		VectorExt = 0x87BF,
+		MatrixExt = 0x87C0,
+	}
+
+	public enum VertexShaderStorageTypeEXT : uint
+	{
+		VariantExt = 0x87C1,
+		InvariantExt = 0x87C2,
+		LocalConstantExt = 0x87C3,
+		LocalExt = 0x87C4,
+	}
+
+	public enum VertexShaderCoordOutEXT : uint
+	{
+		XExt = 0x87D5,
+		YExt = 0x87D6,
+		ZExt = 0x87D7,
+		WExt = 0x87D8,
+		NegativeXExt = 0x87D9,
+		NegativeYExt = 0x87DA,
+		NegativeZExt = 0x87DB,
+		NegativeWExt = 0x87DC,
+		ZeroExt = 0x87DD,
+		OneExt = 0x87DE,
+		NegativeOneExt = 0x87DF,
+	}
+
+	public enum ParameterRangeEXT : uint
+	{
+		NormalizedRangeExt = 0x87E0,
+		FullRangeExt = 0x87E1,
+	}
+
+	public enum VertexShaderParameterEXT : uint
+	{
+		CurrentVertexExt = 0x87E2,
+		MvpMatrixExt = 0x87E3,
+	}
+
+	public enum GetVariantValueEXT : uint
+	{
+		VariantValueExt = 0x87E4,
+		VariantDatatypeExt = 0x87E5,
+		VariantArrayStrideExt = 0x87E6,
+		VariantArrayTypeExt = 0x87E7,
+	}
+
+	public enum VariantCapEXT : uint
+	{
+		VariantArrayExt = 0x87E8,
+	}
+
+	public enum VertexShaderWriteMaskEXT : uint
+	{
+		False = 0,
+		True = 1,
+	}
+
+	public enum LightName : uint
+	{
+		Light0 = 0x4000,
+		Light1 = 0x4001,
+		Light2 = 0x4002,
+		Light3 = 0x4003,
+		Light4 = 0x4004,
+		Light5 = 0x4005,
+		Light6 = 0x4006,
+		Light7 = 0x4007,
+		FragmentLight0Sgix = 0x840C,
+		FragmentLight1Sgix = 0x840D,
+		FragmentLight2Sgix = 0x840E,
+		FragmentLight3Sgix = 0x840F,
+		FragmentLight4Sgix = 0x8410,
+		FragmentLight5Sgix = 0x8411,
+		FragmentLight6Sgix = 0x8412,
+		FragmentLight7Sgix = 0x8413,
 	}
 
 	public enum LightParameter : uint
 	{
 		Ambient = 0x1200,
-		ConstantAttenuation = 0x1207,
 		Diffuse = 0x1201,
-		LinearAttenuation = 0x1208,
-		Position = 0x1203,
-		QuadraticAttenuation = 0x1209,
 		Specular = 0x1202,
-		SpotCutoff = 0x1206,
+		Position = 0x1203,
 		SpotDirection = 0x1204,
 		SpotExponent = 0x1205,
+		SpotCutoff = 0x1206,
+		ConstantAttenuation = 0x1207,
+		LinearAttenuation = 0x1208,
+		QuadraticAttenuation = 0x1209,
+	}
+
+	public enum VertexShaderTextureUnitParameter : uint
+	{
+		CurrentTextureCoords = 0x0B03,
+		TextureMatrix = 0x0BA8,
+	}
+
+	public enum VertexWeightPointerTypeEXT : uint
+	{
+		Float = 0x1406,
+	}
+
+	public enum ImageTransformPNameHP : uint
+	{
+		ImageScaleXHp = 0x8155,
+		ImageScaleYHp = 0x8156,
+		ImageTranslateXHp = 0x8157,
+		ImageTranslateYHp = 0x8158,
+		ImageRotateAngleHp = 0x8159,
+		ImageRotateOriginXHp = 0x815A,
+		ImageRotateOriginYHp = 0x815B,
+		ImageMagFilterHp = 0x815C,
+		ImageMinFilterHp = 0x815D,
+		ImageCubicWeightHp = 0x815E,
+	}
+
+	public enum ImageTransformTargetHP : uint
+	{
+		ImageTransform2dHp = 0x8161,
+	}
+
+	public enum SecondaryColorPointerTypeIBM : uint
+	{
+		Short = 0x1402,
+		Int = 0x1404,
+		Float = 0x1406,
+		Double = 0x140A,
 	}
 
 	public enum FogPointerTypeIBM : uint
@@ -5363,6 +5997,97 @@ namespace Evergine.Bindings.OpenGL
 		LayoutDefaultIntel = 0,
 		LayoutLinearIntel = 1,
 		LayoutLinearCpuCachedIntel = 2,
+	}
+
+	[Flags]
+	public enum PerformanceQueryCapsMaskINTEL : uint
+	{
+		PerfquerySingleContextIntel = 0x00000000,
+		PerfqueryGlobalContextIntel = 0x00000001,
+	}
+
+	public enum PerfQueryDataFlags : uint
+	{
+		PerfqueryWaitIntel = 0x83FB,
+		PerfqueryFlushIntel = 0x83FA,
+		PerfqueryDonotFlushIntel = 0x83F9,
+	}
+
+	[Flags]
+	public enum SubgroupSupportedFeatures : uint
+	{
+		None = 0,
+		SubgroupFeatureBasicBitKhr = 0x00000001,
+		SubgroupFeatureVoteBitKhr = 0x00000002,
+		SubgroupFeatureArithmeticBitKhr = 0x00000004,
+		SubgroupFeatureBallotBitKhr = 0x00000008,
+		SubgroupFeatureShuffleBitKhr = 0x00000010,
+		SubgroupFeatureShuffleRelativeBitKhr = 0x00000020,
+		SubgroupFeatureClusteredBitKhr = 0x00000040,
+		SubgroupFeatureQuadBitKhr = 0x00000080,
+		SubgroupFeaturePartitionedBitNv = 0x00000100,
+	}
+
+	public enum CommandOpcodesNV : uint
+	{
+		TerminateSequenceCommandNv = 0x0000,
+		NopCommandNv = 0x0001,
+		DrawElementsCommandNv = 0x0002,
+		DrawArraysCommandNv = 0x0003,
+		DrawElementsStripCommandNv = 0x0004,
+		DrawArraysStripCommandNv = 0x0005,
+		DrawElementsInstancedCommandNv = 0x0006,
+		DrawArraysInstancedCommandNv = 0x0007,
+		ElementAddressCommandNv = 0x0008,
+		AttributeAddressCommandNv = 0x0009,
+		UniformAddressCommandNv = 0x000A,
+		BlendColorCommandNv = 0x000B,
+		StencilRefCommandNv = 0x000C,
+		LineWidthCommandNv = 0x000D,
+		PolygonOffsetCommandNv = 0x000E,
+		AlphaRefCommandNv = 0x000F,
+		ViewportCommandNv = 0x0010,
+		ScissorCommandNv = 0x0011,
+		FrontFaceCommandNv = 0x0012,
+	}
+
+	public enum EvalTargetNV : uint
+	{
+		Eval2dNv = 0x86C0,
+		EvalTriangular2dNv = 0x86C1,
+	}
+
+	public enum MapParameterNV : uint
+	{
+		MapTessellationNv = 0x86C2,
+	}
+
+	public enum MapAttribParameterNV : uint
+	{
+		MapAttribUOrderNv = 0x86C3,
+		MapAttribVOrderNv = 0x86C4,
+	}
+
+	public enum EvalMapsModeNV : uint
+	{
+		FillNv = 0x1B02,
+	}
+
+	public enum FenceConditionNV : uint
+	{
+		AllCompletedNv = 0x84F2,
+	}
+
+	public enum FenceParameterNameNV : uint
+	{
+		FenceStatusNv = 0x84F3,
+		FenceConditionNv = 0x84F4,
+	}
+
+	public enum OcclusionQueryParameterNameNV : uint
+	{
+		PixelCountNv = 0x8866,
+		PixelCountAvailableNv = 0x8867,
 	}
 
 	public enum PathStringFormat : uint
@@ -5391,11 +6116,10 @@ namespace Evergine.Bindings.OpenGL
 		PathTerminalDashCapNv = 0x907D,
 		PathDashOffsetNv = 0x907E,
 		PathClientLengthNv = 0x907F,
+		PathFillModeNv = 0x9080,
 		PathFillMaskNv = 0x9081,
-		PathFillCoverModeNv = 0x9082,
 		PathStrokeCoverModeNv = 0x9083,
 		PathStrokeMaskNv = 0x9084,
-		PathObjectBoundingBoxNv = 0x908A,
 		PathCommandCountNv = 0x909D,
 		PathCoordCountNv = 0x909E,
 		PathDashArrayCountNv = 0x909F,
@@ -5405,18 +6129,16 @@ namespace Evergine.Bindings.OpenGL
 		PathDashOffsetResetNv = 0x90B4,
 	}
 
-	public enum PathFillMode : uint
-	{
-		PathFillModeNv = 0x9080,
-		CountUpNv = 0x9088,
-		CountDownNv = 0x9089,
-	}
-
 	public enum PathCoverMode : uint
 	{
+		PathFillCoverModeNv = 0x9082,
 		ConvexHullNv = 0x908B,
 		BoundingBoxNv = 0x908D,
-		BoundingBoxOfBoundingBoxesNv = 0x909C,
+	}
+
+	public enum PathGenMode : uint
+	{
+		PathObjectBoundingBoxNv = 0x908A,
 	}
 
 	public enum PathTransformType : uint
@@ -5437,6 +6159,11 @@ namespace Evergine.Bindings.OpenGL
 		Utf16Nv = 0x909B,
 	}
 
+	public enum InstancedPathCoverMode : uint
+	{
+		BoundingBoxOfBoundingBoxesNv = 0x909C,
+	}
+
 	public enum PathHandleMissingGlyphs : uint
 	{
 		SkipMissingGlyphNv = 0x90A9,
@@ -5450,14 +6177,67 @@ namespace Evergine.Bindings.OpenGL
 		FirstToRestNv = 0x90AF,
 	}
 
+	public enum PathCoordType : uint
+	{
+		ClosePathNv = 0x00,
+		MoveToNv = 0x02,
+		RelativeMoveToNv = 0x03,
+		LineToNv = 0x04,
+		RelativeLineToNv = 0x05,
+		HorizontalLineToNv = 0x06,
+		RelativeHorizontalLineToNv = 0x07,
+		VerticalLineToNv = 0x08,
+		RelativeVerticalLineToNv = 0x09,
+		QuadraticCurveToNv = 0x0A,
+		RelativeQuadraticCurveToNv = 0x0B,
+		CubicCurveToNv = 0x0C,
+		RelativeCubicCurveToNv = 0x0D,
+		SmoothQuadraticCurveToNv = 0x0E,
+		RelativeSmoothQuadraticCurveToNv = 0x0F,
+		SmoothCubicCurveToNv = 0x10,
+		RelativeSmoothCubicCurveToNv = 0x11,
+		SmallCcwArcToNv = 0x12,
+		RelativeSmallCcwArcToNv = 0x13,
+		SmallCwArcToNv = 0x14,
+		RelativeSmallCwArcToNv = 0x15,
+		LargeCcwArcToNv = 0x16,
+		RelativeLargeCcwArcToNv = 0x17,
+		LargeCwArcToNv = 0x18,
+		RelativeLargeCwArcToNv = 0x19,
+		RestartPathNv = 0xF0,
+		DupFirstCubicCurveToNv = 0xF2,
+		DupLastCubicCurveToNv = 0xF4,
+		RectNv = 0xF6,
+		CircularCcwArcToNv = 0xF8,
+		CircularCwArcToNv = 0xFA,
+		CircularTangentArcToNv = 0xFC,
+		ArcToNv = 0xFE,
+		RelativeArcToNv = 0xFF,
+		RoundedRectNv = 0xE8,
+		RelativeRoundedRectNv = 0xE9,
+		RoundedRect2Nv = 0xEA,
+		RelativeRoundedRect2Nv = 0xEB,
+		RoundedRect4Nv = 0xEC,
+		RelativeRoundedRect4Nv = 0xED,
+		RoundedRect8Nv = 0xEE,
+		RelativeRoundedRect8Nv = 0xEF,
+		RelativeRectNv = 0xF7,
+		ConicCurveToNv = 0x1A,
+		RelativeConicCurveToNv = 0x1B,
+	}
+
+	[Flags]
 	public enum PathFontStyle : uint
 	{
+		None = 0,
 		BoldBitNv = 0x01,
 		ItalicBitNv = 0x02,
 	}
 
+	[Flags]
 	public enum PathMetricMask : uint
 	{
+		None = 0,
 		GlyphWidthBitNv = 0x01,
 		GlyphHeightBitNv = 0x02,
 		GlyphHorizontalBearingXBitNv = 0x04,
@@ -5485,35 +6265,165 @@ namespace Evergine.Bindings.OpenGL
 
 	public enum PathColor : uint
 	{
-		PrimaryColor = 0x8577,
 		PrimaryColorNv = 0x852C,
 		SecondaryColorNv = 0x852D,
 	}
 
-	public enum PathGenMode : uint
+	public enum PathColorFormat : uint
 	{
 		None = 0,
-		EyeLinear = 0x2400,
-		ObjectLinear = 0x2401,
-		PathObjectBoundingBoxNv = 0x908A,
-		Constant = 0x8576,
+		Alpha = 0x1906,
+		Rgb = 0x1907,
+		Rgba = 0x1908,
+		Luminance = 0x1909,
+		LuminanceAlpha = 0x190A,
+		Intensity = 0x8049,
+	}
+
+	public enum PixelDataRangeTargetNV : uint
+	{
+		WritePixelDataRangeNv = 0x8878,
+		ReadPixelDataRangeNv = 0x8879,
+	}
+
+	public enum CombinerVariableNV : uint
+	{
+		VariableANv = 0x8523,
+		VariableBNv = 0x8524,
+		VariableCNv = 0x8525,
+		VariableDNv = 0x8526,
+		VariableENv = 0x8527,
+		VariableFNv = 0x8528,
+		VariableGNv = 0x8529,
+	}
+
+	public enum CombinerMappingNV : uint
+	{
+		UnsignedIdentityNv = 0x8536,
+		UnsignedInvertNv = 0x8537,
+		ExpandNormalNv = 0x8538,
+		ExpandNegateNv = 0x8539,
+		HalfBiasNormalNv = 0x853A,
+		HalfBiasNegateNv = 0x853B,
+		SignedIdentityNv = 0x853C,
+		SignedNegateNv = 0x853D,
+	}
+
+	public enum CombinerScaleNV : uint
+	{
+		ScaleByTwoNv = 0x853E,
+		ScaleByFourNv = 0x853F,
+		ScaleByOneHalfNv = 0x8540,
+	}
+
+	public enum CombinerBiasNV : uint
+	{
+		BiasByNegativeOneHalfNv = 0x8541,
+	}
+
+	public enum CombinerParameterNV : uint
+	{
+		CombinerInputNv = 0x8542,
+		CombinerMappingNv = 0x8543,
+		CombinerComponentUsageNv = 0x8544,
+	}
+
+	public enum CombinerStageNV : uint
+	{
+		Combiner0Nv = 0x8550,
+		Combiner1Nv = 0x8551,
+		Combiner2Nv = 0x8552,
+		Combiner3Nv = 0x8553,
+		Combiner4Nv = 0x8554,
+		Combiner5Nv = 0x8555,
+		Combiner6Nv = 0x8556,
+		Combiner7Nv = 0x8557,
+	}
+
+	public enum CombinerPortionNV : uint
+	{
+		Alpha = 0x1906,
+		Rgb = 0x1907,
+	}
+
+	public enum CombinerComponentUsageNV : uint
+	{
+		Blue = 0x1905,
+		Alpha = 0x1906,
+		Rgb = 0x1907,
+	}
+
+	public enum TransformFeedbackTokenNV : uint
+	{
+	}
+
+	public enum VertexAttribEnumNV : uint
+	{
+		ProgramParameterNv = 0x8644,
 	}
 
 	public enum FogPName : uint
 	{
-		FogMode = 0x0B65,
+		FogIndex = 0x0B61,
 		FogDensity = 0x0B62,
 		FogStart = 0x0B63,
 		FogEnd = 0x0B64,
-		FogIndex = 0x0B61,
+		FogMode = 0x0B65,
 		FogCoordSrc = 0x8450,
 	}
 
 	public enum GetMapQuery : uint
 	{
 		Coeff = 0x0A00,
-		Domain = 0x0A02,
 		Order = 0x0A01,
+		Domain = 0x0A02,
+	}
+
+	public enum HintTargetPGI : uint
+	{
+		VertexDataHintPgi = 0x1A22A,
+		VertexConsistentHintPgi = 0x1A22B,
+		MaterialSideHintPgi = 0x1A22C,
+		MaxVertexHintPgi = 0x1A22D,
+	}
+
+	[Flags]
+	public enum VertexHintsMaskPGI : uint
+	{
+		None = 0,
+		Color3BitPgi = 0x00010000,
+		Color4BitPgi = 0x00020000,
+		EdgeflagBitPgi = 0x00040000,
+		IndexBitPgi = 0x00080000,
+		MatAmbientBitPgi = 0x00100000,
+		MatAmbientAndDiffuseBitPgi = 0x00200000,
+		MatDiffuseBitPgi = 0x00400000,
+		MatEmissionBitPgi = 0x00800000,
+		MatColorIndexesBitPgi = 0x01000000,
+		MatShininessBitPgi = 0x02000000,
+		MatSpecularBitPgi = 0x04000000,
+		NormalBitPgi = 0x08000000,
+		Texcoord1BitPgi = 0x10000000,
+		Texcoord2BitPgi = 0x20000000,
+		Texcoord3BitPgi = 0x40000000,
+		Texcoord4BitPgi = 0x80000000,
+		Vertex23BitPgi = 0x00000004,
+		Vertex4BitPgi = 0x00000008,
+	}
+
+	public enum TextureMagFilter : uint
+	{
+		LinearDetailSgis = 0x8097,
+		LinearDetailAlphaSgis = 0x8098,
+		LinearDetailColorSgis = 0x8099,
+		LinearSharpenSgis = 0x80AD,
+		LinearSharpenAlphaSgis = 0x80AE,
+		LinearSharpenColorSgis = 0x80AF,
+	}
+
+	public enum FogMode : uint
+	{
+		FogFuncSgis = 0x812A,
 	}
 
 	public enum PixelTexGenParameterNameSGIS : uint
@@ -5530,14 +6440,40 @@ namespace Evergine.Bindings.OpenGL
 		ObjectDistanceToLineSgis = 0x81F3,
 	}
 
-	public enum TextureFilterFuncSGIS : uint
+	public enum TextureFilterSGIS : uint
 	{
 		Filter4Sgis = 0x8146,
 	}
 
-	public enum FogParameter : uint
+	public enum LightEnvParameterSGIX : uint
 	{
-		FogOffsetValueSgix = 0x8199,
+		LightEnvModeSgix = 0x8407,
+	}
+
+	public enum FragmentLightNameSGIX : uint
+	{
+		FragmentLight0Sgix = 0x840C,
+		FragmentLight1Sgix = 0x840D,
+		FragmentLight2Sgix = 0x840E,
+		FragmentLight3Sgix = 0x840F,
+		FragmentLight4Sgix = 0x8410,
+		FragmentLight5Sgix = 0x8411,
+		FragmentLight6Sgix = 0x8412,
+		FragmentLight7Sgix = 0x8413,
+	}
+
+	public enum FragmentLightParameterSGIX : uint
+	{
+		Ambient = 0x1200,
+		Diffuse = 0x1201,
+		Specular = 0x1202,
+		Position = 0x1203,
+		SpotDirection = 0x1204,
+		SpotExponent = 0x1205,
+		SpotCutoff = 0x1206,
+		ConstantAttenuation = 0x1207,
+		LinearAttenuation = 0x1208,
+		QuadraticAttenuation = 0x1209,
 	}
 
 	public enum FragmentLightModelParameterSGIX : uint
@@ -5548,14 +6484,17 @@ namespace Evergine.Bindings.OpenGL
 		FragmentLightModelNormalInterpolationSgix = 0x840B,
 	}
 
-	public enum LightEnvParameterSGIX : uint
-	{
-		LightEnvModeSgix = 0x8407,
-	}
-
 	public enum ListParameterName : uint
 	{
 		ListPrioritySgix = 0x8182,
+	}
+
+	[Flags]
+	public enum FfdMaskSGIX : uint
+	{
+		None = 0,
+		TextureDeformationBitSgix = 0x00000001,
+		GeometryDeformationBitSgix = 0x00000002,
 	}
 
 	public enum FfdTargetSGIX : uint
@@ -5571,10 +6510,36 @@ namespace Evergine.Bindings.OpenGL
 		ResampleDecimateSgix = 0x8430,
 	}
 
+	public enum SpriteModeSGIX : uint
+	{
+		SpriteAxialSgix = 0x814C,
+		SpriteObjectAlignedSgix = 0x814D,
+		SpriteEyeAlignedSgix = 0x814E,
+	}
+
+	public enum SpriteParameterNameSGIX : uint
+	{
+		SpriteModeSgix = 0x8149,
+	}
+
 	public enum PixelStoreSubsampleRate : uint
 	{
 		PixelSubsample4444Sgix = 0x85A2,
 		PixelSubsample2424Sgix = 0x85A3,
 		PixelSubsample4242Sgix = 0x85A4,
+	}
+
+	public enum TriangleListSUN : uint
+	{
+		RestartSun = 0x0001,
+		ReplaceMiddleSun = 0x0002,
+		ReplaceOldestSun = 0x0003,
+	}
+
+	public enum ReplacementCodeTypeSUN : uint
+	{
+		UnsignedByte = 0x1401,
+		UnsignedShort = 0x1403,
+		UnsignedInt = 0x1405,
 	}
 }

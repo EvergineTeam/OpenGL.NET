@@ -40,28 +40,43 @@ namespace OpenGLGen
 
 			spec.HeaderComment = registry.Element("comment")?.Value;
 
-			// 1. Build enum-to-group and group-to-enums mappings from <groups>
-			var groupsElem = registry.Element("groups");
-			if (groupsElem != null)
+			// 1. Build enum-to-group and group-to-enums mappings from the group="..." attribute
+			// on individual <enum> elements. The <groups> block that used to carry this
+			// information was removed from gl.xml; group="..." can carry several
+			// comma-separated group names per enum, mirroring an enum belonging to multiple
+			// groups under the old <groups> structure.
+			foreach (var enumsBlock in registry.Elements("enums"))
 			{
-				foreach (var group in groupsElem.Elements("group"))
+				foreach (var e in enumsBlock.Elements("enum"))
 				{
-					string groupName = group.Attribute("name").Value;
-					var enumNames = new List<string>();
-
-					foreach (var e in group.Elements("enum"))
+					string groupAttr = e.Attribute("group")?.Value;
+					if (string.IsNullOrEmpty(groupAttr))
 					{
-						string enumName = e.Attribute("name").Value;
-						enumNames.Add(enumName);
+						continue;
+					}
 
-						// First group wins (an enum can appear in multiple groups)
-						if (!spec.EnumToGroupMap.ContainsKey(enumName))
+					string enumName = e.Attribute("name").Value;
+					var groupNames = groupAttr.Split(',');
+
+					foreach (var groupName in groupNames)
+					{
+						if (!spec.GroupToEnumsMap.TryGetValue(groupName, out var enumNames))
 						{
-							spec.EnumToGroupMap[enumName] = groupName;
+							enumNames = new List<string>();
+							spec.GroupToEnumsMap[groupName] = enumNames;
+						}
+
+						if (!enumNames.Contains(enumName))
+						{
+							enumNames.Add(enumName);
 						}
 					}
 
-					spec.GroupToEnumsMap[groupName] = enumNames;
+					// First group wins (an enum can appear in multiple groups)
+					if (!spec.EnumToGroupMap.ContainsKey(enumName))
+					{
+						spec.EnumToGroupMap[enumName] = groupNames[0];
+					}
 				}
 			}
 
