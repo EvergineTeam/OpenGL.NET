@@ -20,7 +20,7 @@ on:
 
 jobs:
   ci:
-    uses: EvergineTeam/evergine-standards/.github/workflows/binding-common-ci.yml@main
+    uses: EvergineTeam/Evergine.Bindings/.github/workflows/binding-common-ci.yml@v1
     with:
       generator-project: "OpenGLGen/OpenGLGen/OpenGLGen.csproj"  # Path to your generator .csproj
       generator-name: "OpenGL"                # Name of your generator executable

@@ -17,7 +17,7 @@ on:
 jobs:
   publish:
     if: github.event_name != 'schedule' || github.ref_name == github.event.repository.default_branch
-    uses: EvergineTeam/evergine-standards/.github/workflows/binding-simple-cd.yml@main
+    uses: EvergineTeam/Evergine.Bindings/.github/workflows/binding-simple-cd.yml@v1
     with:
       generator-project: "OpenGLGen/OpenGLGen/OpenGLGen.csproj"  # Path to your generator .csproj
       generator-name: "OpenGL"                # Name of your generator executable
