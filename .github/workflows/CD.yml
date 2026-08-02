@@ -1,6 +1,6 @@
-# Binding Simple CD - Template
+# Binding from XML CD - Template
 
-# This template is for pure .NET bindings (no XML update) to publish NuGets to Nuget.org.
+# This template is for pure .NET bindings with XML update to publish NuGets to Nuget.org.
 # Copy this file to your repository as `.github/workflows/CD.yml` and customize the inputs below.
 
 name: CD
@@ -13,12 +13,16 @@ on:
         required: false
         type: boolean
         default: false
+  schedule:
+    - cron: '30 1 1 * *' # Monthly update on day 1 at 01:30
 
 jobs:
-  publish:
+  cd:
     if: github.event_name != 'schedule' || github.ref_name == github.event.repository.default_branch
-    uses: EvergineTeam/Evergine.Bindings/.github/workflows/binding-simple-cd.yml@v1
+    uses: EvergineTeam/Evergine.Bindings/.github/workflows/binding-xml-cd.yml@v1
     with:
+      xml-url: "https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/main/xml/gl.xml"
+      xml-path: "KhronosRegistry/gl.xml"
       generator-project: "OpenGLGen/OpenGLGen/OpenGLGen.csproj"  # Path to your generator .csproj
       generator-name: "OpenGL"                # Name of your generator executable
       binding-project: "OpenGLGen/Evergine.Bindings.OpenGL/Evergine.Bindings.OpenGL.csproj" # Path to your binding .csproj
