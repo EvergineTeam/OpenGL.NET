@@ -1,0 +1,25 @@
+# Measures what a pull request does to the public API surface, and merges the
+# binding updater's work when nothing anyone depends on has moved.
+#
+# The gate is the API delta rather than the size of the diff, because the two are
+# uncorrelated here: the generator is a multiplier. A 41-line change to
+# OpenGLSpecification.cs once produced 12,368 insertions and renamed public types.
+#
+# This package ships no native libraries, so there is no header-to-binary
+# coherence to check -- the managed surface is the whole contract.
+
+name: API Gate
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  api:
+    uses: EvergineTeam/Evergine.Bindings/.github/workflows/binding-api-gate.yml@v1
+    with:
+      binding-project: "OpenGLGen/Evergine.Bindings.OpenGL/Evergine.Bindings.OpenGL.csproj"
+      auto-merge: true
+      app-client-id: ${{ vars.APP_CLIENT_ID }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
