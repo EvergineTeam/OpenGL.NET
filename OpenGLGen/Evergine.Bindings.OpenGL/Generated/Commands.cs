@@ -9492,9 +9492,9 @@ namespace Evergine.Bindings.OpenGL
 		public static void glAddClientPointerRangeMESA(void* addr, nint size) => p_glAddClientPointerRangeMESA(addr, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
-		private delegate IntPtr glReleaseClientPointerRangeMESA_t(nint* size);
+		private delegate IntPtr glReleaseClientPointerRangeMESA_t(uint flags, nint* size);
 		private static glReleaseClientPointerRangeMESA_t p_glReleaseClientPointerRangeMESA;
-		public static IntPtr glReleaseClientPointerRangeMESA(nint* size) => p_glReleaseClientPointerRangeMESA(size);
+		public static IntPtr glReleaseClientPointerRangeMESA(uint flags, nint* size) => p_glReleaseClientPointerRangeMESA(flags, size);
 
 		[UnmanagedFunctionPointer(CallConv)]
 		private delegate void glResizeBuffersMESA_t();

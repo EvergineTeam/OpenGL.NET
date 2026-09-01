@@ -319,6 +319,8 @@ namespace Evergine.Bindings.OpenGL
 		VertexBindingStride = 0x82D8,
 		MaxVertexAttribRelativeOffset = 0x82D9,
 		MaxVertexAttribBindings = 0x82DA,
+		ClipOrigin = 0x935C,
+		ClipDepthMode = 0x935D,
 		TextureBindingCubeMapArb = 0x8514,
 		MaxCubeMapTextureSizeArb = 0x851C,
 		TextureBindingRectangleArb = 0x84F6,
@@ -1573,8 +1575,6 @@ namespace Evergine.Bindings.OpenGL
 		TextureBufferBinding = 0x8C2A,
 		QueryBufferBinding = 0x9193,
 		ContextLost = 0x0507,
-		ClipOrigin = 0x935C,
-		ClipDepthMode = 0x935D,
 		MaxCullDistances = 0x82F9,
 		MaxCombinedClipAndCullDistances = 0x82FA,
 		TextureTarget = 0x1006,
@@ -3838,6 +3838,15 @@ namespace Evergine.Bindings.OpenGL
 		DynamicDraw = 0x88E8,
 		DynamicRead = 0x88E9,
 		DynamicCopy = 0x88EA,
+		ClientPointerStreamDrawMesa = 0x9791,
+		ClientPointerStreamReadMesa = 0x9792,
+		ClientPointerStreamCopyMesa = 0x9793,
+		ClientPointerStaticDrawMesa = 0x9794,
+		ClientPointerStaticReadMesa = 0x9795,
+		ClientPointerStaticCopyMesa = 0x9796,
+		ClientPointerDynamicDrawMesa = 0x9797,
+		ClientPointerDynamicReadMesa = 0x9798,
+		ClientPointerDynamicCopyMesa = 0x9799,
 	}
 
 	public enum QueryTarget : uint
@@ -6026,6 +6035,13 @@ namespace Evergine.Bindings.OpenGL
 		SubgroupFeatureClusteredBitKhr = 0x00000040,
 		SubgroupFeatureQuadBitKhr = 0x00000080,
 		SubgroupFeaturePartitionedBitNv = 0x00000100,
+	}
+
+	[Flags]
+	public enum ClientPointerFlagsMESA : uint
+	{
+		None = 0,
+		ClientPointerReleaseAllMesa = 0x00000001,
 	}
 
 	public enum CommandOpcodesNV : uint

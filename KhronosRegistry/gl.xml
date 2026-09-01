@@ -194,7 +194,7 @@ typedef unsigned int GLhandleARB;
         <enum value="0x0040" name="GL_MAP_PERSISTENT_BIT_EXT" group="MapBufferAccessMask,BufferStorageMask"/>
         <enum value="0x0080" name="GL_MAP_COHERENT_BIT" group="MapBufferAccessMask,BufferStorageMask"/>
         <enum value="0x0080" name="GL_MAP_COHERENT_BIT_EXT" group="MapBufferAccessMask,BufferStorageMask"/>
-        <enum value="0x4000" name="GL_MAP_CLIENT_POINTER_BIT_MESA" group="MapBufferAccessMask"/>
+        <enum value="0x4000" name="GL_MAP_CLIENT_POINTER_BIT_MESA" group="MapBufferAccessMask,BufferStorageMask"/>
     </enums>
 
     <enums namespace="GL" group="MemoryBarrierMask" type="bitmask">
@@ -419,6 +419,10 @@ typedef unsigned int GLhandleARB;
     <enums namespace="GL" group="FfdMaskSGIX" type="bitmask">
         <enum value="0x00000001" name="GL_TEXTURE_DEFORMATION_BIT_SGIX" group="FfdMaskSGIX"/>
         <enum value="0x00000002" name="GL_GEOMETRY_DEFORMATION_BIT_SGIX" group="FfdMaskSGIX"/>
+    </enums>
+
+    <enums namespace="GL" group="ClientPointerFlagsMESA" type="bitmask">
+        <enum value="0x00000001" name="GL_CLIENT_POINTER_RELEASE_ALL_MESA" group="ClientPointerFlagsMESA"/>
     </enums>
 
 
@@ -6594,10 +6598,10 @@ typedef unsigned int GLhandleARB;
         <enum value="0x9359" name="GL_VIEWPORT_SWIZZLE_Y_NV"/>
         <enum value="0x935A" name="GL_VIEWPORT_SWIZZLE_Z_NV"/>
         <enum value="0x935B" name="GL_VIEWPORT_SWIZZLE_W_NV"/>
-        <enum value="0x935C" name="GL_CLIP_ORIGIN"/>
-        <enum value="0x935C" name="GL_CLIP_ORIGIN_EXT" alias="GL_CLIP_ORIGIN"/>
-        <enum value="0x935D" name="GL_CLIP_DEPTH_MODE"/>
-        <enum value="0x935D" name="GL_CLIP_DEPTH_MODE_EXT" alias="GL_CLIP_DEPTH_MODE"/>
+        <enum value="0x935C" name="GL_CLIP_ORIGIN" group="GetPName"/>
+        <enum value="0x935C" name="GL_CLIP_ORIGIN_EXT" alias="GL_CLIP_ORIGIN"  group="GetPName"/>
+        <enum value="0x935D" name="GL_CLIP_DEPTH_MODE" group="GetPName"/>
+        <enum value="0x935D" name="GL_CLIP_DEPTH_MODE_EXT" alias="GL_CLIP_DEPTH_MODE"  group="GetPName"/>
         <enum value="0x935E" name="GL_NEGATIVE_ONE_TO_ONE" group="ClipControlDepth"/>
         <enum value="0x935E" name="GL_NEGATIVE_ONE_TO_ONE_EXT" alias="GL_NEGATIVE_ONE_TO_ONE"/>
         <enum value="0x935F" name="GL_ZERO_TO_ONE" group="ClipControlDepth"/>
@@ -7116,6 +7120,15 @@ typedef unsigned int GLhandleARB;
 
     <enums namespace="GL" start="0x9790" end="0x979F" vendor="MESA">
         <enum value="0x9790" name="GL_BUFFER_CLIENT_POINTER_SIZE_MESA" group="BufferPNameARB"/>
+        <enum value="0x9791" name="GL_CLIENT_POINTER_STREAM_DRAW_MESA" group="BufferUsageARB"/>
+        <enum value="0x9792" name="GL_CLIENT_POINTER_STREAM_READ_MESA" group="BufferUsageARB"/>
+        <enum value="0x9793" name="GL_CLIENT_POINTER_STREAM_COPY_MESA" group="BufferUsageARB"/>
+        <enum value="0x9794" name="GL_CLIENT_POINTER_STATIC_DRAW_MESA" group="BufferUsageARB"/>
+        <enum value="0x9795" name="GL_CLIENT_POINTER_STATIC_READ_MESA" group="BufferUsageARB"/>
+        <enum value="0x9796" name="GL_CLIENT_POINTER_STATIC_COPY_MESA" group="BufferUsageARB"/>
+        <enum value="0x9797" name="GL_CLIENT_POINTER_DYNAMIC_DRAW_MESA" group="BufferUsageARB"/>
+        <enum value="0x9798" name="GL_CLIENT_POINTER_DYNAMIC_READ_MESA" group="BufferUsageARB"/>
+        <enum value="0x9799" name="GL_CLIENT_POINTER_DYNAMIC_COPY_MESA" group="BufferUsageARB"/>
     </enums>
 
 <!-- Enums reservable for future use. To reserve a new range, allocate one
@@ -22482,6 +22495,7 @@ typedef unsigned int GLhandleARB;
         </command>
         <command>
             <proto>void* <name>glReleaseClientPointerRangeMESA</name></proto>
+            <param group="ClientPointerFlagsMESA"><ptype>GLbitfield</ptype> <name>flags</name></param>
             <param><ptype>GLsizeiptr</ptype> *<name>size</name></param>
         </command>
         <command>
@@ -43670,6 +43684,16 @@ typedef unsigned int GLhandleARB;
             <require>
                 <enum name="GL_MAP_CLIENT_POINTER_BIT_MESA"/>
                 <enum name="GL_BUFFER_CLIENT_POINTER_SIZE_MESA"/>
+                <enum name="GL_CLIENT_POINTER_RELEASE_ALL_MESA"/>
+                <enum name="GL_CLIENT_POINTER_STREAM_DRAW_MESA"/>
+                <enum name="GL_CLIENT_POINTER_STREAM_READ_MESA"/>
+                <enum name="GL_CLIENT_POINTER_STREAM_COPY_MESA"/>
+                <enum name="GL_CLIENT_POINTER_STATIC_DRAW_MESA"/>
+                <enum name="GL_CLIENT_POINTER_STATIC_READ_MESA"/>
+                <enum name="GL_CLIENT_POINTER_STATIC_COPY_MESA"/>
+                <enum name="GL_CLIENT_POINTER_DYNAMIC_DRAW_MESA"/>
+                <enum name="GL_CLIENT_POINTER_DYNAMIC_READ_MESA"/>
+                <enum name="GL_CLIENT_POINTER_DYNAMIC_COPY_MESA"/>
                 <command name="glAddClientPointerRangeMESA"/>
                 <command name="glReleaseClientPointerRangeMESA"/>
             </require>
